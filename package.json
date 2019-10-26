@@ -6,8 +6,7 @@
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",
-    "ui": "umi ui",
-    "deploy": "cross-env ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION=site npm run site && npm run gh-pages",
+    "deploy": "npm run site && npm run gh-pages",
     "docker-hub:build": "docker build  -f Dockerfile.hub -t  ant-design-pro ./",
     "docker-prod:build": "docker-compose -f ./docker/docker-compose.yml build",
     "docker-prod:dev": "docker-compose -f ./docker/docker-compose.yml up",
@@ -32,9 +31,11 @@
     "site": "npm run fetch:blocks && npm run build && npm run functions:build",
     "start": "umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",
+    "start:no-ui": "cross-env UMI_UI=none umi dev",
     "test": "umi test",
     "test:all": "node ./tests/run-tests.js",
-    "test:component": "umi test ./src/components"
+    "test:component": "umi test ./src/components",
+    "ui": "umi ui"
   },
   "husky": {
     "hooks": {
@@ -69,8 +70,8 @@
     "qs": "^6.9.0",
     "react": "^16.8.6",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-document-title": "^2.0.3",
     "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
     "redux": "^4.0.1",
     "slash2": "^2.0.0",
     "umi": "^2.9.6",
@@ -88,8 +89,8 @@
     "@types/lodash": "^4.14.144",
     "@types/qs": "^6.5.3",
     "@types/react": "^16.8.19",
-    "@types/react-document-title": "^2.0.3",
     "@types/react-dom": "^16.8.4",
+    "@types/react-helmet": "^5.0.13",
     "@umijs/fabric": "^1.2.0",
     "chalk": "^2.4.2",
     "check-prettier": "^1.0.3",
