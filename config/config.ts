@@ -120,6 +120,31 @@ export default {
           authority: ['admin', 'user'],
           routes: [
             {
+              path: '/orderTaker',
+              icon: 'form',
+              name: 'orderTaker',
+              routes: [
+                {
+                  name: 'selectOrderTakers',
+                  icon: 'smile',
+                  path: '/orderTaker/selectOrderTakers',
+                  component: './orderTaker/selectOrderTakers',
+                },
+                {
+                  name: 'selectOrderApportion',
+                  icon: 'smile',
+                  path: '/orderTaker/selectOrderApportion',
+                  component: './orderTaker/selectOrderApportion',
+                },
+                {
+                  name: 'selectDriving',
+                  icon: 'smile',
+                  path: '/orderTaker/selectDriving',
+                  component: './orderTaker/selectDriving',
+                },
+              ],
+            },
+            {
               path: '/dashboard',
               name: 'dashboard',
               icon: 'dashboard',
@@ -400,4 +425,5 @@ export default {
     },
   },
   */
+  history: 'hash',
 } as IConfig;

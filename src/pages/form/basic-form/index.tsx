@@ -12,18 +12,16 @@ import {
 } from 'antd';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import React, { Component } from 'react';
-
 import { Dispatch } from 'redux';
 import { FormComponentProps } from 'antd/es/form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect } from 'dva';
 import styles from './style.less';
-
+import FormRegister from './FormRegister';
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
-
 interface BasicFormProps extends FormComponentProps {
   submitting: boolean;
   dispatch: Dispatch<any>;
@@ -48,29 +46,50 @@ class BasicForm extends Component<BasicFormProps> {
     const {
       form: { getFieldDecorator, getFieldValue },
     } = this.props;
-
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
+        xs: {
+          span: 24,
+        },
+        sm: {
+          span: 7,
+        },
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 10 },
+        xs: {
+          span: 24,
+        },
+        sm: {
+          span: 12,
+        },
+        md: {
+          span: 10,
+        },
       },
     };
-
     const submitFormLayout = {
       wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 10,
+          offset: 7,
+        },
       },
     };
     return (
       <PageHeaderWrapper content={<FormattedMessage id="formandbasic-form.basic.description" />}>
+        <FormRegister />
         <Card bordered={false}>
-          <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
+          <Form
+            onSubmit={this.handleSubmit}
+            hideRequiredMark
+            style={{
+              marginTop: 8,
+            }}
+          >
             <FormItem
               {...formItemLayout}
               label={<FormattedMessage id="formandbasic-form.title.label" />}
@@ -79,12 +98,16 @@ class BasicForm extends Component<BasicFormProps> {
                 rules: [
                   {
                     required: true,
-                    message: formatMessage({ id: 'formandbasic-form.title.required' }),
+                    message: formatMessage({
+                      id: 'formandbasic-form.title.required',
+                    }),
                   },
                 ],
               })(
                 <Input
-                  placeholder={formatMessage({ id: 'formandbasic-form.title.placeholder' })}
+                  placeholder={formatMessage({
+                    id: 'formandbasic-form.title.placeholder',
+                  })}
                 />,
               )}
             </FormItem>
@@ -96,15 +119,23 @@ class BasicForm extends Component<BasicFormProps> {
                 rules: [
                   {
                     required: true,
-                    message: formatMessage({ id: 'formandbasic-form.date.required' }),
+                    message: formatMessage({
+                      id: 'formandbasic-form.date.required',
+                    }),
                   },
                 ],
               })(
                 <RangePicker
-                  style={{ width: '100%' }}
+                  style={{
+                    width: '100%',
+                  }}
                   placeholder={[
-                    formatMessage({ id: 'formandbasic-form.placeholder.start' }),
-                    formatMessage({ id: 'formandbasic-form.placeholder.end' }),
+                    formatMessage({
+                      id: 'formandbasic-form.placeholder.start',
+                    }),
+                    formatMessage({
+                      id: 'formandbasic-form.placeholder.end',
+                    }),
                   ]}
                 />,
               )}
@@ -117,13 +148,19 @@ class BasicForm extends Component<BasicFormProps> {
                 rules: [
                   {
                     required: true,
-                    message: formatMessage({ id: 'formandbasic-form.goal.required' }),
+                    message: formatMessage({
+                      id: 'formandbasic-form.goal.required',
+                    }),
                   },
                 ],
               })(
                 <TextArea
-                  style={{ minHeight: 32 }}
-                  placeholder={formatMessage({ id: 'formandbasic-form.goal.placeholder' })}
+                  style={{
+                    minHeight: 32,
+                  }}
+                  placeholder={formatMessage({
+                    id: 'formandbasic-form.goal.placeholder',
+                  })}
                   rows={4}
                 />,
               )}
@@ -136,13 +173,19 @@ class BasicForm extends Component<BasicFormProps> {
                 rules: [
                   {
                     required: true,
-                    message: formatMessage({ id: 'formandbasic-form.standard.required' }),
+                    message: formatMessage({
+                      id: 'formandbasic-form.standard.required',
+                    }),
                   },
                 ],
               })(
                 <TextArea
-                  style={{ minHeight: 32 }}
-                  placeholder={formatMessage({ id: 'formandbasic-form.standard.placeholder' })}
+                  style={{
+                    minHeight: 32,
+                  }}
+                  placeholder={formatMessage({
+                    id: 'formandbasic-form.standard.placeholder',
+                  })}
                   rows={4}
                 />,
               )}
@@ -155,7 +198,12 @@ class BasicForm extends Component<BasicFormProps> {
                   <em className={styles.optional}>
                     <FormattedMessage id="formandbasic-form.form.optional" />
                     <Tooltip title={<FormattedMessage id="formandbasic-form.label.tooltip" />}>
-                      <Icon type="info-circle-o" style={{ marginRight: 4 }} />
+                      <Icon
+                        type="info-circle-o"
+                        style={{
+                          marginRight: 4,
+                        }}
+                      />
                     </Tooltip>
                   </em>
                 </span>
@@ -163,7 +211,9 @@ class BasicForm extends Component<BasicFormProps> {
             >
               {getFieldDecorator('client')(
                 <Input
-                  placeholder={formatMessage({ id: 'formandbasic-form.client.placeholder' })}
+                  placeholder={formatMessage({
+                    id: 'formandbasic-form.client.placeholder',
+                  })}
                 />,
               )}
             </FormItem>
@@ -180,7 +230,9 @@ class BasicForm extends Component<BasicFormProps> {
             >
               {getFieldDecorator('invites')(
                 <Input
-                  placeholder={formatMessage({ id: 'formandbasic-form.invites.placeholder' })}
+                  placeholder={formatMessage({
+                    id: 'formandbasic-form.invites.placeholder',
+                  })}
                 />,
               )}
             </FormItem>
@@ -197,7 +249,9 @@ class BasicForm extends Component<BasicFormProps> {
             >
               {getFieldDecorator('weight')(
                 <InputNumber
-                  placeholder={formatMessage({ id: 'formandbasic-form.weight.placeholder' })}
+                  placeholder={formatMessage({
+                    id: 'formandbasic-form.weight.placeholder',
+                  })}
                   min={0}
                   max={100}
                 />,
@@ -225,7 +279,11 @@ class BasicForm extends Component<BasicFormProps> {
                     </Radio>
                   </Radio.Group>,
                 )}
-                <FormItem style={{ marginBottom: 0 }}>
+                <FormItem
+                  style={{
+                    marginBottom: 0,
+                  }}
+                >
                   {getFieldDecorator('publicUsers')(
                     <Select
                       mode="multiple"
@@ -251,11 +309,20 @@ class BasicForm extends Component<BasicFormProps> {
                 </FormItem>
               </div>
             </FormItem>
-            <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
+            <FormItem
+              {...submitFormLayout}
+              style={{
+                marginTop: 32,
+              }}
+            >
               <Button type="primary" htmlType="submit" loading={submitting}>
                 <FormattedMessage id="formandbasic-form.form.submit" />
               </Button>
-              <Button style={{ marginLeft: 8 }}>
+              <Button
+                style={{
+                  marginLeft: 8,
+                }}
+              >
                 <FormattedMessage id="formandbasic-form.form.save" />
               </Button>
             </FormItem>
