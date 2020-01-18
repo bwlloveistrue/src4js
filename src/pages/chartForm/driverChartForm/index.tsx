@@ -9,7 +9,7 @@ import { connect } from 'dva';
 @connect(({ loading }: { loading: { effects: { [key: string]: boolean } } }) => ({
   submitting: loading.effects['formAndadvancedForm/submitAdvancedForm'],
 }))
-class SelectDriving extends Component {
+class DriverChartForm extends Component {
   
 
   componentDidMount() {
@@ -30,4 +30,4 @@ class SelectDriving extends Component {
   }
 }
 
-export default Form.create()(SelectDriving);
+export default Form.create()(DriverChartForm);

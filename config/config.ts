@@ -137,11 +137,174 @@ export default {
                   component: './orderTaker/selectOrderApportion',
                 },
                 {
-                  name: 'selectDriving',
+                  name: 'selectOrderReceipt',
                   icon: 'smile',
-                  path: '/orderTaker/selectDriving',
-                  component: './orderTaker/selectDriving',
+                  path: '/orderTaker/selectOrderReceipt',
+                  component: './orderTaker/selectOrderReceipt',
                 },
+              ],
+            },
+            {
+              path: '/truckCenter',
+              icon: 'form',
+              name: 'truckCenter',
+              routes: [
+                {
+                  name: 'selectTruck',
+                  icon: 'smile',
+                  path: '/truckCenter/selectTruck',
+                  component: './truckCenter/selectTruck',
+                },
+                {
+                  name: 'addTruck',
+                  icon: 'smile',
+                  path: '/truckCenter/addTruck',
+                  component: './truckCenter/addTruck',
+                }
+              ],
+            },
+            {
+              path: '/hrmCenter',
+              icon: 'form',
+              name: 'hrmCenter',
+              routes: [
+                {
+                  name: 'addClient',
+                  icon: 'smile',
+                  path: '/hrmCenter/addClient',
+                  component: './hrmCenter/addClient',
+                },
+                {
+                  name: 'addDriver',
+                  icon: 'smile',
+                  path: '/hrmCenter/addDriver',
+                  component: './hrmCenter/addDriver',
+                },
+                {
+                  name: 'selectClient',
+                  icon: 'smile',
+                  path: '/hrmCenter/selectClient',
+                  component: './hrmCenter/selectClient',
+                },
+                {
+                  name: 'selectDriver',
+                  icon: 'smile',
+                  path: '/hrmCenter/selectDriver',
+                  component: './hrmCenter/selectDriver',
+                },
+              ],
+            },
+            {
+              path: '/assetCenter',
+              icon: 'form',
+              name: 'assetCenter',
+              routes: [
+                {
+                  name: 'selectAsset',
+                  icon: 'smile',
+                  path: '/assetCenter/selectAsset',
+                  component: './assetCenter/selectAsset',
+                },
+                {
+                  name: 'assetChartForm',
+                  icon: 'smile',
+                  path: '/assetCenter/assetChartForm',
+                  component: './assetCenter/assetChartForm',
+                },
+              ],
+            },
+            {
+              path: '/fee',
+              icon: 'form',
+              name: 'fee',
+              routes: [
+                {
+                  name: 'selectFee',
+                  icon: 'smile',
+                  path: '/fee/selectFee',
+                  component: './fee/selectFee',
+                },
+                {
+                  name: 'feeChartForm',
+                  icon: 'smile',
+                  path: '/fee/feeChartForm',
+                  component: './fee/feeChartForm',
+                },
+              ],
+            },
+            {
+              path: '/chartForm',
+              icon: 'form',
+              name: 'chartForm',
+              routes: [
+                {
+                  name: 'driverChartForm',
+                  icon: 'smile',
+                  path: '/chartForm/driverChartForm',
+                  component: './chartForm/driverChartForm',
+                },
+                {
+                  name: 'clientChartForm',
+                  icon: 'smile',
+                  path: '/chartForm/clientChartForm',
+                  component: './chartForm/clientChartForm',
+                },
+              ],
+            },
+            {
+              path: '/setting',
+              icon: 'form',
+              name: 'setting',
+              routes: [
+                {
+                  name: 'selectGoodsType',
+                  icon: 'smile',
+                  path: '/setting/selectGoodsType',
+                  component: './setting/selectGoodsType',
+                },
+                {
+                  name: 'selectFeeType',
+                  icon: 'smile',
+                  path: '/setting/selectFeeType',
+                  component: './setting/selectFeeType',
+                },
+                {
+                  name: 'selectCommercial',
+                  icon: 'smile',
+                  path: '/setting/selectCommercial',
+                  component: './setting/selectCommercial',
+                },
+                {
+                  name: 'selectCompulsory',
+                  icon: 'smile',
+                  path: '/setting/selectCompulsory',
+                  component: './setting/selectCompulsory',
+                }
+              ],
+            },
+            {
+              path: '/userCenter',
+              icon: 'form',
+              name: 'userCenter',
+              routes: [
+                {
+                  name: 'signUp',
+                  icon: 'smile',
+                  path: '/userCenter/signUp',
+                  component: './userCenter/signUp',
+                },
+                {
+                  name: 'selectUser',
+                  icon: 'smile',
+                  path: '/userCenter/selectUser',
+                  component: './userCenter/selectUser',
+                },
+                {
+                  name: 'userDetail',
+                  icon: 'smile',
+                  path: '/userCenter/userDetail',
+                  component: './userCenter/userDetail',
+                }
               ],
             },
             {
