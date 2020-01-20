@@ -125,6 +125,12 @@ export default {
               name: 'orderTaker',
               routes: [
                 {
+                  name: 'orderTakerTab',
+                  icon: 'smile',
+                  path: '/orderTaker/orderTakerTab',
+                  component: './orderTaker/orderTakerTab',
+                },
+                {
                   name: 'selectOrderTakers',
                   icon: 'smile',
                   path: '/orderTaker/selectOrderTakers',
@@ -160,7 +166,7 @@ export default {
                   icon: 'smile',
                   path: '/truckCenter/addTruck',
                   component: './truckCenter/addTruck',
-                }
+                },
               ],
             },
             {
@@ -279,7 +285,7 @@ export default {
                   icon: 'smile',
                   path: '/setting/selectCompulsory',
                   component: './setting/selectCompulsory',
-                }
+                },
               ],
             },
             {
@@ -304,7 +310,7 @@ export default {
                   icon: 'smile',
                   path: '/userCenter/userDetail',
                   component: './userCenter/userDetail',
-                }
+                },
               ],
             },
             {

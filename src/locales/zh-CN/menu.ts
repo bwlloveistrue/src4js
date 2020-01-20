@@ -49,6 +49,7 @@ export default {
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
   'menu.orderTaker': '订单中心',
+  'menu.orderTaker.orderTakerTab': '订单汇总',
   'menu.orderTaker.selectOrderTakers': '订单录入',
   'menu.orderTaker.selectOrderApportion': '订单分配',
   'menu.orderTaker.selectOrderReceipt': '订单回执',
