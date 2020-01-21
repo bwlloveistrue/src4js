@@ -1,11 +1,11 @@
 import { AnyAction, Reducer } from 'redux';
 import { EffectsCommandMap } from 'dva';
-import { addFakeList, queryFakeList, removeFakeList, updateFakeList } from './service';
+import { addRule, queryRule, removeRule, updateRule } from './service';
 
-import { BasicListItemDataType } from './data.d';
+import { TableListData } from './data.d';
 
 export interface StateType {
-  list: BasicListItemDataType[];
+  data: TableListData;
 }
 
 export type Effect = (
@@ -18,12 +18,12 @@ export interface ModelType {
   state: StateType;
   effects: {
     fetch: Effect;
-    appendFetch: Effect;
-    submit: Effect;
+    add: Effect;
+    remove: Effect;
+    update: Effect;
   };
   reducers: {
-    queryList: Reducer<StateType>;
-    appendList: Reducer<StateType>;
+    save: Reducer<StateType>;
   };
 }
 
@@ -31,50 +31,51 @@ const Model: ModelType = {
   namespace: 'selectOrderTakers',
 
   state: {
-    list: [],
+    data: {
+      list: [],
+      pagination: {},
+    },
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryFakeList, payload);
+      const response = yield call(queryRule, payload);
       yield put({
-        type: 'queryList',
-        payload: Array.isArray(response) ? response : [],
-      });
-    },
-    *appendFetch({ payload }, { call, put }) {
-      const response = yield call(queryFakeList, payload);
-      yield put({
-        type: 'appendList',
-        payload: Array.isArray(response) ? response : [],
-      });
-    },
-    *submit({ payload }, { call, put }) {
-      let callback;
-      if (payload.id) {
-        callback = Object.keys(payload).length === 1 ? removeFakeList : updateFakeList;
-      } else {
-        callback = addFakeList;
-      }
-      const response = yield call(callback, payload); // post
-      yield put({
-        type: 'queryList',
+        type: 'save',
         payload: response,
       });
+    },
+    *add({ payload, callback }, { call, put }) {
+      const response = yield call(addRule, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+      if (callback) callback();
+    },
+    *remove({ payload, callback }, { call, put }) {
+      const response = yield call(removeRule, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+      if (callback) callback();
+    },
+    *update({ payload, callback }, { call, put }) {
+      const response = yield call(updateRule, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+      if (callback) callback();
     },
   },
 
   reducers: {
-    queryList(state, action) {
+    save(state, action) {
       return {
         ...state,
-        list: action.payload,
-      };
-    },
-    appendList(state = { list: [] }, action) {
-      return {
-        ...state,
-        list: state.list.concat(action.payload),
+        data: action.payload,
       };
     },
   },

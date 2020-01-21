@@ -1,4 +1,6 @@
 import { Form, Card, Col, Row } from 'antd';
+import { Dispatch, Action } from 'redux';
+import { FormComponentProps } from 'antd/es/form';
 import { GridContent } from '@ant-design/pro-layout';
 import React, { Component } from 'react';
 import { connect } from 'dva';
@@ -6,6 +8,7 @@ import SelectOrderApportion from '../selectOrderApportion';
 import SelectOrderReceipt from '../selectOrderReceipt';
 import SelectOrderTakers from '../selectOrderTakers';
 import styles from './orderTakerTab.less';
+import { StateType } from '../selectOrderTakers/model';
 
 const operationTabList = [
   {
@@ -34,12 +37,43 @@ const operationTabList = [
   },
 ];
 
+// interface SelectOrderTakersProps extends FormComponentProps {
+//   dispatch: Dispatch<
+//     Action<
+//       | 'listAndtableList/add'
+//       | 'listAndtableList/fetch'
+//       | 'listAndtableList/remove'
+//       | 'listAndtableList/update'
+//     >
+//   >;
+//   loading: boolean;
+//   listAndtableList: StateType;
+// }
+
+interface OrderTakerTabProps extends FormComponentProps {
+  dispatch: Dispatch<
+    Action<
+      | 'selectOrderTakers/add'
+      | 'selectOrderTakers/fetch'
+      | 'selectOrderTakers/remove'
+      | 'selectOrderTakers/update'
+    >
+  >;
+  loading: boolean;
+  from: string;
+  selectOrderTakers: StateType;
+}
+
+interface OrderTakerTabStates {
+  tabKey: string;
+}
+
 @connect(({ loading }: { loading: { effects: { [key: string]: boolean } } }) => ({
   submitting: loading.effects['formAndadvancedForm/submitAdvancedForm'],
 }))
-class SelectDriving extends Component {
-  state = {
-    tabKey: 'selectOrderApportion',
+class OrderTakerTab extends Component<OrderTakerTabProps, OrderTakerTabStates> {
+  state: OrderTakerTabStates = {
+    tabKey: 'selectOrderTakers',
   };
 
   componentDidMount() {}
@@ -53,13 +87,20 @@ class SelectDriving extends Component {
   };
 
   renderChildrenByTabKey = (tabKey: string) => {
-    if (tabKey === 'projects') {
-      return <SelectOrderTakers />;
+    const toProps = { ...this.props, from: 'fromTab' };
+    if (tabKey === 'selectOrderTakers') {
+      // const selectOrderTakersProps:SelectOrderTakersProps={
+      //   dispatch: this.props.dispatch,
+      //   loading: false,
+      //   form: this.props.form,
+      //   listAndtableList:this.props.listAndtableList
+      // }
+      return <SelectOrderTakers {...toProps} />;
     }
-    if (tabKey === 'applications') {
+    if (tabKey === 'selectOrderApportion') {
       return <SelectOrderApportion />;
     }
-    if (tabKey === 'articles') {
+    if (tabKey === 'selectOrderReceipt') {
       return <SelectOrderReceipt />;
     }
     return null;
@@ -87,4 +128,4 @@ class SelectDriving extends Component {
   }
 }
 
-export default Form.create()(SelectDriving);
+export default Form.create()(OrderTakerTab);

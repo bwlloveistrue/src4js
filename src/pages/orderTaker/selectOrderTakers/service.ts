@@ -1,53 +1,37 @@
 import request from '@/utils/request';
-import { BasicListItemDataType } from './data.d';
+import { TableListParams } from './data.d';
 
-interface ParamsType extends Partial<BasicListItemDataType> {
-  count?: number;
-}
-
-export async function queryFakeList(params: ParamsType) {
-  return request('/api/fake_list', {
+export async function queryRule(params: TableListParams) {
+  return request('/api/rule', {
     params,
   });
 }
 
-export async function removeFakeList(params: ParamsType) {
-  const { count = 5, ...restParams } = params;
-  return request('/api/fake_list', {
+export async function removeRule(params: TableListParams) {
+  return request('/api/rule', {
     method: 'POST',
-    params: {
-      count,
-    },
     data: {
-      ...restParams,
+      ...params,
       method: 'delete',
     },
   });
 }
 
-export async function addFakeList(params: ParamsType) {
-  const { count = 5, ...restParams } = params;
-  return request('/api/fake_list', {
+export async function addRule(params: TableListParams) {
+  return request('/api/rule', {
     method: 'POST',
-    params: {
-      count,
-    },
     data: {
-      ...restParams,
+      ...params,
       method: 'post',
     },
   });
 }
 
-export async function updateFakeList(params: ParamsType) {
-  const { count = 5, ...restParams } = params;
-  return request('/api/fake_list', {
+export async function updateRule(params: TableListParams) {
+  return request('/api/rule', {
     method: 'POST',
-    params: {
-      count,
-    },
     data: {
-      ...restParams,
+      ...params,
       method: 'update',
     },
   });

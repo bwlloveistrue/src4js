@@ -1,6 +1,3 @@
-import {
-  Form
-} from 'antd';
 import React, { Component } from 'react';
 
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
@@ -9,25 +6,16 @@ import { connect } from 'dva';
 @connect(({ loading }: { loading: { effects: { [key: string]: boolean } } }) => ({
   submitting: loading.effects['formAndadvancedForm/submitAdvancedForm'],
 }))
-class SelectDriving extends Component {
-  
+class SelectOrderApportion extends Component {
+  componentDidMount() {}
 
-  componentDidMount() {
-    
-  }
-
-  componentWillUnmount() {
-    
-  }
+  componentWillUnmount() {}
 
   render() {
-    
     return (
-      <PageHeaderWrapper content="高级表单常见于一次性输入和提交大批量数据的场景。">
-          
-      </PageHeaderWrapper>
+      <PageHeaderWrapper content="高级表单常见于一次性输入和提交大批量数据的场景。"></PageHeaderWrapper>
     );
   }
 }
 
-export default Form.create()(SelectDriving);
+export default SelectOrderApportion;
