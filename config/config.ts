@@ -526,7 +526,7 @@ export default {
             },
             {
               path: '/',
-              redirect: '/dashboard/analysis',
+              redirect: '/orderTaker/orderTakerTab',
               authority: ['admin', 'user'],
             },
             {

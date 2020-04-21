@@ -1,0 +1,86 @@
+.wea-new-scroll > .baron > .track > .bar {
+  visibility: hidden;
+}
+
+.wea-new-scroll:hover > .baron > .track > .bar {
+  visibility: visible;
+}
+
+.clipper {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.clipper._h {
+  width: normal;
+}
+.scroller {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+}
+.firefox-width {
+  width: unset !important;
+  padding-right: unset !important;
+  min-width: unset !important;
+}
+.scroller._h {
+  overflow: auto;
+}
+
+/* And scrollbar */
+
+.track {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  z-index: 10;
+}
+.track._h {
+  top: auto;
+  width: auto;
+  height: 0;
+  left: 2px;
+}
+.firefox-track {
+  display: none !important;
+}
+
+.baron > .track {
+  display: block;
+}
+.bar {
+  position: absolute;
+  right: 0;
+  width: 8px;
+  border-radius: 10px;
+  background: #ccc;
+}
+.bar._h {
+  bottom: 0;
+  right: auto;
+  width: auto;
+  height: 10px;
+}
+
+/* hide default chrome scrollbar */
+.scroller::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.wea-new-scroll .returnToTop {
+  position: fixed;
+  right: 45px;
+  bottom: 60px;
+  background: #fff;
+  border: 1px solid silver;
+  -webkit-box-shadow: 0 2px 4px 0 silver;
+          box-shadow: 0 2px 4px 0 silver;
+  padding: 5px 8px;
+  cursor: pointer;
+}

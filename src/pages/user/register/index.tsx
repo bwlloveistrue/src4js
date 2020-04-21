@@ -91,6 +91,10 @@ class Register extends Component<RegisterProps, RegisterState> {
 
   interval: number | undefined = undefined;
 
+  componentDidMount() {
+    console.log('styles',styles.success)
+  }
+
   componentDidUpdate() {
     const { userAndregister, form } = this.props;
     const account = form.getFieldValue('mail');
