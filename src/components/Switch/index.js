@@ -1,6 +1,7 @@
 import React from "react";
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import NewCheckbox from '../NewCheckbox/index'
 moment.locale('zh-cn');
 
 import { Row, Col, Switch, Tag, DatePicker, Tabs, Icon, Form, Input, TimePicker,Button,Checkbox,Select ,InputNumber,Upload  } from 'antd';
@@ -106,9 +107,9 @@ renderComs: (form,c,callback,initialValue) => {
                                 initialValue: initialValue?initialValue == '1'?true:false:false,
                                 rules: c.rules || [],
                     })(
-                        <Checkbox
+                        <NewCheckbox
                         {...c.otherParams}
-                        onChange={(v,args)=>onChange(v.target.checked,args,callback)}
+                        onChange={(e)=>onChange(e.target.checked,'',callback)}
                         />,
                     )}
                 </div>
@@ -357,7 +358,7 @@ renderComs: (form,c,callback,initialValue) => {
                         size="default"
                         placeholder={c.placeholder}
                         {...c.otherParams}
-                        onChange={(v)=>onChange(v.target.value,'',callback)}
+                        onChange={(v)=>onChange(v,'',callback)}
                         />,
                     )}
                 </div>
