@@ -2,6 +2,7 @@ import React from "react";
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import NewCheckbox from '../NewCheckbox/index'
+import NewSelect from '../NewSelect/index'
 moment.locale('zh-cn');
 
 import { Row, Col, Switch, Tag, DatePicker, Tabs, Icon, Form, Input, TimePicker,Button,Checkbox,Select ,InputNumber,Upload  } from 'antd';
@@ -103,13 +104,12 @@ renderComs: (form,c,callback,initialValue) => {
                      </div>
                     :
                     getFieldDecorator(`${c.domkey[0]}`, {
-                                valuePropName:'checked',
-                                initialValue: initialValue?initialValue == '1'?true:false:false,
+                                initialValue: initialValue,
                                 rules: c.rules || [],
                     })(
                         <NewCheckbox
+                        onChange={(v)=>onChange(v,'',callback)}
                         {...c.otherParams}
-                        onChange={(e)=>onChange(e.target.checked,'',callback)}
                         />,
                     )}
                 </div>
@@ -149,23 +149,20 @@ renderComs: (form,c,callback,initialValue) => {
                     :
                     getFieldDecorator(`${c.domkey[0]}`, {
                         rules: c.rules || [],
-                        valuePropName:'defaultValue',
-                        initialValue:initialValue?initialValue:[]
+                        initialValue:initialValue
                     })(
-                        <Select
-                        allowClear = {true}
-                        mode="multiple"
-                        dropdownMatchSelectWidth={true}
-                        placeholder={c.placeholder}
-                        {...c.otherParams}
-                        // onSelect={(value,_option)=>this.onSelectChange(c.domkey[0],value,_option)}
-                        onSelect={(value,_option)=>onChange(value,_option,callback)}
-                        onDeselect={(value,_option)=>onSelectDelChange(c.domkey[0],value,_option,callback)}
+                        <NewSelect
+                            allowClear = {true}
+                            mode="multiple"
+                            dropdownMatchSelectWidth={true}
+                            placeholder={c.placeholder}
+                            {...c.otherParams}
+                            onChange={(v,_option)=>onChange(v,_option,callback)}
+                            // onSelect={(value,_option)=>onChange(value,_option,callback)}
+                            // onDeselect={(value,_option)=>onSelectDelChange(c.domkey[0],value,_option,callback)}
+                            options = {c.options}
                         >
-                        {c.options.map(op=>{
-                            return <Option key={op.key} value={op.key}>{op.showname}</Option>
-                        })}
-                        </Select>,
+                        </NewSelect>,
                     )}
 
                 </div>

@@ -98,7 +98,7 @@ export default {
     editdatas : [
       {
         key: '0',
-        goodsType: '0',
+        goodsType: '1120',
         startPlace: '上海',
         endPlace: '苏州',
         invoiceFlg: 1,

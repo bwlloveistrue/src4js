@@ -232,6 +232,8 @@ class SelectOrderTakers extends Component {
     });
     const values = this.selectForm.getFieldsValue();
     const orderTakerInfo = this.orderTakerRef.getEditTable()
+    console.log('save  values====',values)
+    console.log('save  orderTakerInfo====',orderTakerInfo)
     this.orderTakerRef.validateFields((errors, values) => {
       if(errors){
         console.log(errors)
@@ -313,121 +315,6 @@ class SelectOrderTakers extends Component {
     const { from,loading,selectOrderTakers } = this.props;
     const { showSearchAd, timeSag,selectedRows,visible  } = this.state;
     const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectOrderTakers;
-    let editdatas = [
-      {
-        key: '0',
-        goodsType: '0',
-        startPlace: '上海',
-        endPlace: '苏州',
-        invoiceFlg: 1,
-        price: 10,
-        realCarry: 50,
-      }
-    ]
-    let editcolumns = [
-      {
-        title: '货物类型',
-        dataIndex: 'goodsType',
-        width: '20%',
-        editable: true,
-        cell:{
-          domkey: ['goodsType'],
-          formItemType: 'SELECT',
-          options: [
-            {
-              disabled: false,
-              key: '0',
-              selected: true,
-              showname: '货物类型1',
-              visible: true,
-            },
-            {
-              disabled: false,
-              key: '1120',
-              selected: false,
-              showname: '货物类型2',
-              visible: true,
-            },
-            {
-              disabled: false,
-              key: '1121',
-              selected: false,
-              showname: '货物类型3',
-              visible: true,
-            },
-            {
-              disabled: false,
-              key: '1122',
-              selected: false,
-              showname: '货物类型4',
-              visible: true,
-            },
-          ],
-          conditionType: 'SELECT',
-          rules: [{ required: true, message: '请填写货物类型' }],
-        }
-      },
-      {
-        title: '始发地',
-        dataIndex: 'startPlace',
-        width: '20%',
-        editable: true,
-        cell:{
-          domkey: ['startPlace'],
-          conditionType: "INPUT",
-          formItemType: "INPUT",
-          rules: [{ required: true, message: '请填写始发地' }],
-        }
-      },
-      {
-        title: '目的地',
-        dataIndex: 'endPlace',
-        width: '20%',
-        editable: true,
-        cell:{
-          domkey: ['endPlace'],
-          conditionType: "INPUT",
-          formItemType: "INPUT",
-          rules: [{ required: true, message: '请填写目的地' }],
-        }
-      },
-      {
-        title: '票据',
-        dataIndex: 'invoiceFlg',
-        width: '10%',
-        editable: true,
-        cell:{
-          domkey: ['invoiceFlg'],
-          conditionType: "CHECKBOX",
-          formItemType: "CHECKBOX",
-        }
-      },
-      {
-        title: '单价',
-        dataIndex: 'price',
-        width: '15%',
-        editable: true,
-        cell:{
-          domkey: ['price'],
-          conditionType: "INPUTNUMBER",
-          formItemType: "INPUTNUMBER",
-          rules: [{ type:'number',required: true, message: '请填写单价' }],
-        }
-      },
-      {
-        title: '重量',
-        dataIndex: 'realCarry',
-        width: '15%',
-        editable: true,
-        cell:{
-          domkey: ['realCarry'],
-          conditionType: "INPUTNUMBER",
-          formItemType: "INPUTNUMBER",
-          rules: [{ type:'number',required: true, message: '请填写重量' }],
-        }
-      }
-      
-    ]
     const topTab = [
       {
         groupid: 'all',

@@ -165,6 +165,7 @@ class EditableTable extends React.Component {
     const { datas, columns} = this.state;
     const components = {
       body: {
+        // row: ()=> {return <EditableFormRow />},
         row: EditableFormRow,
         cell: EditableCell,
       },
@@ -183,7 +184,7 @@ class EditableTable extends React.Component {
           handleSave: this.handleSave,
           fieldconfig:col.cell,
           setformlist:this.setFormList
-        }),
+        })
       };
     });
     return (
