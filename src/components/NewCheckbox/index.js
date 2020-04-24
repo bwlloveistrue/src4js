@@ -22,9 +22,10 @@ class NewCheckbox extends React.Component {
 
     onChange = (e)=>{
         const _v = e.target.checked;
-        this.setState({newV:_v == true?1:0})
+        let v = _v == true?1:0
+        this.setState({newV:v})
         const {onChange} = this.props
-        onChange&&onChange(_v)
+        onChange&&onChange(v)
     }
 
     render(){

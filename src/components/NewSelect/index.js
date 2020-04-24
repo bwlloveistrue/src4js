@@ -1,5 +1,6 @@
 import React from "react";
 import { Select } from 'antd';
+import { select } from "d3-selection";
 const { Option } = Select;
 
 class NewSelect extends React.Component {
@@ -16,15 +17,16 @@ class NewSelect extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
+        let _v = nextProps.value;
+        const v = (typeof _v == 'object'?_v.join(','):typeof _v == 'string'?_v:_v)
         const {newV} = this.state;
-        if(nextProps.value != newV){
-            this.setState({newV:nextProps.value})
+        if(v != newV){
+            this.setState({newV:v})
         }
     }
 
     onChange = (v)=>{
         v = (typeof v == 'object'?v.join(','):typeof v == 'string'?v:v)
-        console.log('v==',v)
         this.setState({newV:v})
         const {onChange} = this.props
         onChange&&onChange(v)
@@ -33,22 +35,19 @@ class NewSelect extends React.Component {
     render(){
         const {newV} = this.state;
         const {options,mode,...restProps} = this.props
-        console.log('restProps==',restProps)
         let selectV;
         if(mode == 'multiple'){
-            console.log('newV==',newV)
             selectV = newV?newV.split(','):[]
         }else{
             selectV = newV
         }
-        console.log('selectV',selectV)
         return (
             <Select
                 {...restProps}
                 mode={mode}
                 value={selectV}
-                // onChange={(v)=>this.onChange(v)}
-                onBlur={(v1,v2,v3)=>{this.onChange(v)}}
+                onChange={(v)=>this.onChange(v)}
+                // onBlur={(v)=>{this.onChange(v)}}
                 >
                 {options.map(op=>{
                     return <Option key={op.key} value={op.key}>{op.showname}</Option>
