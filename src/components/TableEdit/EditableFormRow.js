@@ -4,11 +4,11 @@ import { Form } from 'antd';
 class EditableFormRow extends React.Component {
 
   componentDidMount() {
-    console.log('row:',this.props)
+    // console.log('row:',this.props)
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('row nextProps:',nextProps)
+    // console.log('row nextProps:',nextProps)
   }
 
   render(){

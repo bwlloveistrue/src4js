@@ -1,11 +1,11 @@
 import React from "react";
 import { Checkbox } from 'antd';
 
-class NewCheckbox extends React.Component {
+class NewCheckboxGroup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          newV:this.props.value || 0
+          newV:this.props.value || ''
         };
       }
 
@@ -20,9 +20,8 @@ class NewCheckbox extends React.Component {
         }
     }
 
-    onChange = (e)=>{
-        const _v = e.target.checked;
-        let v = _v == true?1:0
+    onChange = (checkedV)=>{
+        let v = checkedV.join(',')
         this.setState({newV:v})
         const {onChange} = this.props
         onChange&&onChange(v)
@@ -30,16 +29,16 @@ class NewCheckbox extends React.Component {
 
     render(){
         const {newV} = this.state;
-        let checkedStatus = ( newV === 1 || newV === "1")?true:false
+        let selectV = newV?newV.split(','):[]
         return (
-            <Checkbox
-                defaultChecked={checkedStatus}
+            <Checkbox.Group 
+                defaultValue={selectV}
                 {...this.props}
                 onChange={(e)=>this.onChange(e)}
                 >
-            </Checkbox>
+            </Checkbox.Group >
         );
     }
 }
 
-export default NewCheckbox
+export default NewCheckboxGroup

@@ -12,6 +12,7 @@ import NewTable from '@/components/NewTable';
 import NewDialog from '@/components/NewDialog';
 import TableEdit from '@/components/TableEdit';
 import NewScroll from '@/components/NewScroll';
+import EditForm from '@/components/EditForm';
 
 const FormItem = Form.Item;
 
@@ -374,6 +375,8 @@ class selectOrderApportion extends Component {
                 data={data}
                 columns={this.customColumns()}
                 onSelectRow={this.handleSelectRows}
+                showRowSelect = {true}
+                showTotalList = {true}
                 onChange={this.handleStandardTableChange}
                 scroll={{ y: 500 }}
               />}
@@ -381,7 +384,7 @@ class selectOrderApportion extends Component {
           <NewDialog
           ref='orderTakers_dialog'
           visible={visible}
-          title={'订单录入'}
+          title={'订单分配'}
           icon="icon-coms-meeting"
           iconBgcolor="#f14a2d"
           className="meetingDialog"
@@ -400,7 +403,9 @@ class selectOrderApportion extends Component {
             >
               <NewScroll height={'600px'}>
                 {orderTakerInfoColumns.length>0&&<TableEdit ref={(orderTakerRef)=>{this.orderTakerRef = orderTakerRef}} datas={orderTakerInfoDetail} columns={orderTakerInfoColumns} onChange={(_key,datas)=>this.editChange(_key,datas)}/>}
+                <EditForm />
               </NewScroll>
+              
             </NewForm>
           </NewDialog>
         </PageTop>

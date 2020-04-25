@@ -3,6 +3,8 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import NewCheckbox from '../NewCheckbox/index'
 import NewSelect from '../NewSelect/index'
+import NewDatePicker from '../NewDatePicker/index'
+import NewCheckboxGroup from '../NewCheckboxGroup/index'
 moment.locale('zh-cn');
 
 import { Row, Col, Switch, Tag, DatePicker, Tabs, Icon, Form, Input, TimePicker,Button,Checkbox,Select ,InputNumber,Upload  } from 'antd';
@@ -121,10 +123,10 @@ renderComs: (form,c,callback,initialValue) => {
                                 initialValue: initialValue?initialValue:[],
                                 rules: c.rules || [],
                     })(
-                        <Checkbox.Group
-                        option={c.options}
+                        <NewCheckboxGroup
+                        options={c.options}
                         {...c.otherParams}
-                        onChange={(v,args)=>onChange(v.target.checked,args,callback)}
+                        onChange={(v)=>onChange(v,'',callback)}
                         />,
                     )}
                 </div>
@@ -168,7 +170,6 @@ renderComs: (form,c,callback,initialValue) => {
                 </div>
             )
         } else if (type === types.DATEPICKER){
-            initialValue = c.viewAttr==1?initialValue:initialValue?moment(initialValue):moment()
             return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
                     {c.viewAttr==1?
                         <div className="wea-form-item-wrapper" style={{display: 'table'}}>
@@ -181,14 +182,15 @@ renderComs: (form,c,callback,initialValue) => {
                             rules: c.rules || [],
                             initialValue:initialValue
                         })(
-                            <DatePicker
+                            <NewDatePicker
                             allowClear={true}
                             placeholder={c.placeholder}
                             size={'default'}
                             showTime={true}
                             showToday={true}
+                            format={c.format ||'YYYY-MM-DD'}
                             {...c.otherParams}
-                            onChange={(v,dateString)=>onChange(v,dateString,callback)}
+                            onChange={(v)=>onChange(v,'',callback)}
                             />
                         )
                     }

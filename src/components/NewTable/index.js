@@ -40,6 +40,11 @@ function initTotalList(columns) {
 
 class NewTable extends Component {
 
+  static defaultProps = { 
+    showRowSelect: false,
+    showTotalList: false,
+  }
+
   constructor(props) {
     super(props);
     const { columns } = props;
@@ -89,7 +94,7 @@ class NewTable extends Component {
 
   render() {
     const { selectedRowKeys, needTotalList } = this.state;
-    const { data, rowKey, size, ...rest } = this.props;
+    const { data, rowKey, size,showRowSelect,showTotalList, ...rest } = this.props;
     const { list = [], pagination = false } = data || {};
 
     const paginationProps = pagination
@@ -114,7 +119,7 @@ class NewTable extends Component {
 
     return (
       <div className={styles.standardTable}>
-        <div className={styles.tableAlert}>
+        {showTotalList&&<div className={styles.tableAlert}>
           <Alert
             message={
               <Fragment>
@@ -138,10 +143,10 @@ class NewTable extends Component {
             type="info"
             showIcon
           />
-        </div>
+        </div>}
         <Table
           rowKey={rowKey || 'key'}
-          rowSelection={rowSelection}
+          rowSelection={showRowSelect&&rowSelection}
           dataSource={list}
           pagination={paginationProps}
           onChange={this.handleTableChange}

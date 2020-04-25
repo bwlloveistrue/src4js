@@ -376,6 +376,8 @@ class SelectOrderTakers extends Component {
                 loading={loading}
                 data={data}
                 columns={this.customColumns()}
+                showRowSelect = {true}
+                showTotalList = {true}
                 onSelectRow={this.handleSelectRows}
                 onChange={this.handleStandardTableChange}
                 scroll={{ y: 500 }}
@@ -399,6 +401,7 @@ class SelectOrderTakers extends Component {
                 this.selectForm = form;
               }}
               datas = {infoFields}
+              col = {6}
             >
               <NewScroll height={'600px'}>
                 {orderTakerInfoColumns.length>0&&<TableEdit ref={(orderTakerRef)=>{this.orderTakerRef = orderTakerRef}} datas={orderTakerInfoDetail} columns={orderTakerInfoColumns} onChange={(_key,datas)=>this.editChange(_key,datas)}/>}

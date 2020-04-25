@@ -383,8 +383,6 @@ export default {
         key: 'startPlace+',
         sorter: true,
         width: '15%',
-        // align: 'right',
-        // needTotal: true,
       },
       {
         title: '目的地',
@@ -398,6 +396,7 @@ export default {
         key: 'price',
         sorter: true,
         width: '5%',
+        needTotal: true,
       },
       {
         title: '重量',
@@ -405,6 +404,7 @@ export default {
         key: 'realCarry',
         sorter: true,
         width: '5%',
+        needTotal: true,
       },
       {
         title: '出发日期',

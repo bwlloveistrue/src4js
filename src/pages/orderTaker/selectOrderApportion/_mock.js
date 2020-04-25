@@ -443,7 +443,7 @@ export default {
             conditionType: 'SELECT',
             rules: [{ required: true, message: '请填写客户' }],
             label: '货物类型',
-            domkey: ['client_1'],
+            domkey: ['client_2'],
             values:['0']
           },
           {
@@ -452,7 +452,7 @@ export default {
             colSpan: 1,
             fieldcol: 11,
             viewAttr: 1,
-            domkey: ['startPlace_1'],
+            domkey: ['startPlace_2'],
             conditionType: "INPUT",
             formItemType: "INPUT",
             rules: [{ required: true, message: '请填写始发地' }],
