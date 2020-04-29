@@ -4,6 +4,7 @@ import WindowFunc from "./window";
 const tools = {
   isEqual,
   WindowFunc,
+  gethashcode:gethashcode,
   isBelowIE9() {
     return (
       navigator.appName == "Microsoft Internet Explorer" &&
@@ -64,6 +65,23 @@ const tools = {
       }
     }
   },
+}
+
+function randomWord(randomFlag, range) {
+  var str = "",
+      arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  for (var i = 0; i < range; i++) {
+      var pos = Math.round(Math.random() * (arr.length - 1));
+      str += arr[pos];
+  }
+  return str;
+}
+//获取hashcode
+function gethashcode() {
+  //定义一个时间戳，计算与1970年相差的毫秒数  用来获得唯一时间
+  var timestamp = (new Date()).valueOf();
+  var myRandom=randomWord(false,6);
+  return myRandom;
 }
 
 export default tools;

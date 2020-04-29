@@ -36,6 +36,7 @@ class NewSelect extends React.Component {
         const {newV} = this.state;
         const {options,mode,...restProps} = this.props
         let selectV;
+        console.log('newV==',newV)
         if(mode == 'multiple'){
             selectV = newV?newV.split(','):[]
         }else{

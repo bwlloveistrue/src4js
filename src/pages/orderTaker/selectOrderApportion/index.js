@@ -13,6 +13,7 @@ import NewDialog from '@/components/NewDialog';
 import TableEdit from '@/components/TableEdit';
 import NewScroll from '@/components/NewScroll';
 import EditForm from '@/components/EditForm';
+import $ from 'jquery'
 
 const FormItem = Form.Item;
 
@@ -35,6 +36,9 @@ class selectOrderApportion extends Component {
       selectedRows: [],
       visible:false,
       selectedKey:'',
+      dialogHeight:700,
+      editFormHeight:0,
+
     }
   }
 
@@ -52,7 +56,17 @@ class selectOrderApportion extends Component {
   componentDidMount() {
     this.getCondition();
     this.getTableInfo();
+    
   }
+
+  componentWillReceiveProps(nextProps){
+    const { dialogHeight } = this.state
+    const baseInfoHeight =  $(this.refs.formDivRef).height()
+    const editFormHeight = dialogHeight - baseInfoHeight;
+    this.setState({editFormHeight:editFormHeight})
+  }
+
+
 
   componentWillUnmount() {}
 
@@ -311,8 +325,8 @@ class selectOrderApportion extends Component {
 
   render() {
     const { from,loading,selectOrderApportion } = this.props;
-    const { showSearchAd, timeSag,selectedRows,visible  } = this.state;
-    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectOrderApportion;
+    const { showSearchAd, timeSag,selectedRows,visible,dialogHeight,editFormHeight  } = this.state;
+    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail,initFormFields,initDatas} = selectOrderApportion;
     const topTab = [
       {
         groupid: 'all',
@@ -389,11 +403,12 @@ class selectOrderApportion extends Component {
           iconBgcolor="#f14a2d"
           className="meetingDialog"
           buttons={this.getButton()}
-          style={{width: 'calc(100% - 200px)', height: '700px'}}
+          style={{width: 'calc(100% - 200px)', height: dialogHeight}}
           onCancel={() => this.onlyClose()}
           scalable={true}
           // onScale={() => this.onScale()}
           >
+          <div ref={'formDivRef'}>
             <NewForm 
               ref={(form) => {
                 this.selectForm = form;
@@ -401,12 +416,14 @@ class selectOrderApportion extends Component {
               datas = {infoFields}
               col = {6}
             >
-              <NewScroll height={'600px'}>
-                {orderTakerInfoColumns.length>0&&<TableEdit ref={(orderTakerRef)=>{this.orderTakerRef = orderTakerRef}} datas={orderTakerInfoDetail} columns={orderTakerInfoColumns} onChange={(_key,datas)=>this.editChange(_key,datas)}/>}
-                <EditForm />
+            </NewForm>
+            </div>
+              <NewScroll height={editFormHeight}>
+                {/* {orderTakerInfoColumns.length>0&&<TableEdit ref={(orderTakerRef)=>{this.orderTakerRef = orderTakerRef}} datas={orderTakerInfoDetail} columns={orderTakerInfoColumns} onChange={(_key,datas)=>this.editChange(_key,datas)}/>} */}
+                <EditForm initFormFields={initFormFields} initDatas={initDatas}/>
               </NewScroll>
               
-            </NewForm>
+            
           </NewDialog>
         </PageTop>
       </div>

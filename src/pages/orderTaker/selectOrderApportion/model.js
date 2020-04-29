@@ -22,6 +22,8 @@ const Model = {
     infoFields:[],//车辆录入主题
     orderTakerInfoColumns:[],//车辆录入分配列表列
     orderTakerInfoDetail:[],//车辆录入分配
+    initFormFields:[],//车辆录入分配列表列
+    initDatas:[],//车辆录入分配
   },
 
   effects: {
@@ -107,6 +109,8 @@ const Model = {
         infoFields: {data:action.payload.data},
         orderTakerInfoColumns:action.payload.editcolumns,
         orderTakerInfoDetail:action.payload.editdatas,
+        initFormFields:action.payload.initFormFields,//车辆录入分配列表列
+        initDatas:action.payload.initDatas,//车辆录入分配
       };
     },
   },
