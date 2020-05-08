@@ -49,12 +49,13 @@ const Model = {
         payload: response,
       });
     },
-    *getorderTakersDispatch({ payload }, { call, put }) {
+    *getorderTakersDispatch({ payload,callback }, { call, put }) {
       const response = yield call(getorderTakersDispatchInfo, payload);
       yield put({
         type: 'getOrderTakersInfoFields',
         payload: response,
       });
+      if (callback) callback();
     },
     *add({ payload, callback }, { call, put }) {
       const response = yield call(addOrderTaker, payload);

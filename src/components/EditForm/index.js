@@ -3,13 +3,14 @@ import Switch from "../Switch";
 import NewCheckbox from "../NewCheckbox/index";
 import InitForm from "./initForm";
 import Tools from "../Tools/index";
+import { select } from 'd3-selection';
 
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedFormKey:'',
-      formRefKeys:[],
+      selectedFormKey:[],
+      formRefKeys:{},
     };
   }
 
@@ -24,18 +25,34 @@ class EditForm extends React.Component {
 
   updateFormRefKeys = (props)=>{
     const { initFormFields ,initDatas } = props
-    const formRefKeys = [];
+    const formRefKeys = {};
     initDatas&&initDatas.forEach((datas)=>{
-      formRefKeys.push(Tools.gethashcode())
+      const hashcode = Tools.gethashcode();
+      formRefKeys[hashcode] = hashcode;
+      // formRefKeys.push(Tools.gethashcode())
     })
     this.setState({formRefKeys,formRefKeys})
   }
 
   handleAdd = ()=>{
     const { formRefKeys } = this.state;
-    let [...formRefKeysTemp] = formRefKeys;
-    formRefKeysTemp.push(Tools.gethashcode());
+    let formRefKeysTemp = {...formRefKeys};
+    
+    const hashcode = Tools.gethashcode();
+    formRefKeysTemp[hashcode] = hashcode;
     this.setState({formRefKeys:formRefKeysTemp})
+    this.props.resetHeight&&this.props.resetHeight();
+  }
+
+  setSelectedFormKey = (v,type)=>{
+    const {selectedFormKey} = this.state
+    let [...selectedFormKeyTemp] = selectedFormKey;
+    if(type=='1'){
+      selectedFormKeyTemp.push(v)
+    }else{
+      delete selectedFormKeyTemp[v]
+    }
+    console.log(selectedFormKeyTemp)
   }
 
   render(){
@@ -85,17 +102,17 @@ class EditForm extends React.Component {
           </Col>
         </Row>
         {
-          formRefKeys.map((_k,index)=>{
+          Object.keys(formRefKeys).map((_k,index)=>{
             return (
               <Row className={'editFormRow'} key={_k}>
                 <Col span={1} style={{...checkBoxStyle}}>
                 <NewCheckbox
-                  onChange={(v)=>console.log(v)}
+                  onChange={(v)=>this.setSelectedFormKey(_k,v)}
                 />
                 </Col>
                 <Col span={23} ref={'formCellRef'} className={'editFormCell'}>
                     <InitForm datas={initFormFields} initDatas={initDatas[index]} ref={(form=>{
-                      _k = form;
+                      formRefKeys[_k] = form;
                     })}/>
                 </Col>
               </Row>

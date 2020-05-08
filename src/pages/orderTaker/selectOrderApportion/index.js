@@ -17,7 +17,7 @@ import $ from 'jquery'
 
 const FormItem = Form.Item;
 
-@connect(({ selectOrderApportion,loading }) => ({
+@connect(({ selectOrderApportion, loading }) => ({
   selectOrderApportion,
   loading: loading.effects['selectOrderApportion/getTableInfo'],
 }))
@@ -27,27 +27,27 @@ class selectOrderApportion extends Component {
     selectedRows: [],
   }
 
-  constructor(){
+  constructor() {
     super();
     //设置sate,添加name与age属性
-    this.state={
+    this.state = {
       showSearchAd: false,
       timeSag: 0,
       selectedRows: [],
-      visible:false,
-      selectedKey:'',
-      dialogHeight:700,
-      editFormHeight:0,
+      visible: false,
+      selectedKey: '',
+      dialogHeight: 700,
+      editFormHeight: 0,
 
     }
   }
 
   static defaultProps = {
-    
+
   };
 
   static defaultStates = {
-    
+
   }
 
 
@@ -56,19 +56,19 @@ class selectOrderApportion extends Component {
   componentDidMount() {
     this.getCondition();
     this.getTableInfo();
-    
+
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const { dialogHeight } = this.state
-    const baseInfoHeight =  $(this.refs.formDivRef).height()
+    const baseInfoHeight = $(this.refs.formDivRef).height()
     const editFormHeight = dialogHeight - baseInfoHeight;
-    this.setState({editFormHeight:editFormHeight})
+    this.setState({ editFormHeight: editFormHeight })
   }
 
 
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   getCondition = () => {
     const { dispatch } = this.props;
@@ -78,7 +78,7 @@ class selectOrderApportion extends Component {
   };
 
   getTableInfo = () => {
-    const { dispatch,form } = this.props;
+    const { dispatch, form } = this.props;
     const values = form.getFieldsValue();
     dispatch({
       type: 'selectOrderApportion/getTableInfo',
@@ -93,53 +93,54 @@ class selectOrderApportion extends Component {
 
   getTabButtonsAd() {
     const { form } = this.props;
-    let btns=[
+    let btns = [
       <Button type='primary' onClick={() => {
         this.getTableInfo();
       }}>{'搜索'}</Button>,
       <Button type="ghost" onClick={() => this.resetFormFields()}>{'重置'}</Button>,
-      <Button type="ghost" onClick={() => this.setState({showSearchAd:false})}>{'取消'}</Button>,
+      <Button type="ghost" onClick={() => this.setState({ showSearchAd: false })}>{'取消'}</Button>,
     ]
     return btns;
   }
 
-  resetFormFields = ()=>{
+  resetFormFields = () => {
     const { form } = this.props;
     form.resetFormFields();
   }
 
   getBtns = () => {
-    const {selectedRows} = this.state;
+    const { selectedRows } = this.state;
     let btns = [
       (<Button type='primary' key={'new'} onClick={this.onAdd}>{'新增'}</Button>)
     ];
-    
-    btns.push(<Button type='primary' disabled={selectedRows.length > 0?false:true} key={'delete'} onClick={()=>this.onDelete()}>{'删除'}</Button>)
+
+    btns.push(<Button type='primary' disabled={selectedRows.length > 0 ? false : true} key={'delete'} onClick={() => this.onDelete()}>{'删除'}</Button>)
     btns.push(<Button type='primary' key={'exportExcel'} onClick={() => console.log('jiefeng')}>{'导出EXCEL'}</Button>)
     return btns;
   }
 
-  onAdd = ()=>{
+  onAdd = () => {
     const { dispatch } = this.props;
     dispatch({
       type: 'selectOrderApportion/getOrderTakersFields',
       payload: {},
     });
-    this.setState({visible:true,selectedKey:''})
+    this.setState({ visible: true, selectedKey: '' })
   }
 
-  onDispatch = (key='')=>{
+  onDispatch = (key = '') => {
     const { dispatch } = this.props;
     dispatch({
       type: 'selectOrderApportion/getorderTakersDispatch',
       payload: {
         id: key
       },
+
     });
-    this.setState({visible:true,selectedKey:key})
+    this.setState({ visible: true, selectedKey: key })
   }
 
-  onDelete = ()=>{
+  onDelete = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state
     dispatch({
@@ -148,64 +149,64 @@ class selectOrderApportion extends Component {
         id: selectedRows
       },
     });
-    this.setState({selectedRows:[]})
+    this.setState({ selectedRows: [] })
   }
 
   getFields = () => {
-    const { form,col,selectOrderApportion } = this.props;
+    const { form, col, selectOrderApportion } = this.props;
     const { condition } = selectOrderApportion
-    const { getFieldDecorator } = form&&form;
+    const { getFieldDecorator } = form && form;
     let group = [];
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 11 },
     };
-    condition&&condition.data&&condition.data.map((c, index) => {
-        let items = [];
-        c.items.map((fields) => {
-          items.push({
-            com: (
-              <FormItem {...formItemLayout} label={`${fields.label}`}>
-                {Switch.renderComs(form,fields)}
-              </FormItem>
-            ),
-            colSpan: 2,
-            hide: false,
-            key: fields.domkey[0],
-          });
+    condition && condition.data && condition.data.map((c, index) => {
+      let items = [];
+      c.items.map((fields) => {
+        items.push({
+          com: (
+            <FormItem {...formItemLayout} label={`${fields.label}`}>
+              {Switch.renderComs(form, fields)}
+            </FormItem>
+          ),
+          colSpan: 2,
+          hide: false,
+          key: fields.domkey[0],
         });
-        group.push(
-          <SearchGroup
-            col={col}
-            needTigger={true}
-            title={c.title}
-            showGroup={c.defaultshow}
-            items={items}
-            key={index}
-          />,
-        );
       });
-      
+      group.push(
+        <SearchGroup
+          col={col}
+          needTigger={true}
+          title={c.title}
+          showGroup={c.defaultshow}
+          items={items}
+          key={index}
+        />,
+      );
+    });
+
     return group;
   };
 
-  handleSelectRows = (keys,rows) => {
+  handleSelectRows = (keys, rows) => {
     this.setState({
       selectedRows: keys,
     });
   };
 
   getValue = (obj) =>
-  Object.keys(obj)
-    .map(key => obj[key])
-    .join(',');
+    Object.keys(obj)
+      .map(key => obj[key])
+      .join(',');
 
   handleStandardTableChange = (
     pagination,
     filtersArg,
     sorter,
   ) => {
-    const { dispatch,form } = this.props;
+    const { dispatch, form } = this.props;
     const values = form.getFieldsValue();
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
       const newObj = { ...obj };
@@ -228,85 +229,86 @@ class selectOrderApportion extends Component {
     });
   };
 
-  getButton = ()=>{
-    let buttonsCreate =[
+  getButton = () => {
+    let buttonsCreate = [
       <Button key="doEdit" type="primary" disabled={false} onClick={this.onSave}>{'保存'}</Button>,
     ]
 
     return buttonsCreate;
   }
 
-  onSave = ()=>{
+  onSave = () => {
     const { dispatch } = this.props;
     const { selectedKey } = this.state;
     this.selectForm.validateFields((errors, values) => {
-      if(errors){
+      if (errors) {
         console.log(errors)
       }
     });
     const values = this.selectForm.getFieldsValue();
     const orderTakerInfo = this.orderTakerRef.getEditTable()
     this.orderTakerRef.validateFields((errors, values) => {
-      if(errors){
+      if (errors) {
         console.log(errors)
       }
     });
-    const type = selectedKey == ''?'selectOrderApportion/add':'selectOrderApportion/update';
-    
+    const type = selectedKey == '' ? 'selectOrderApportion/add' : 'selectOrderApportion/update';
+
     dispatch({
       type: type,
       payload: {
-        orderTakerInfo:JSON.stringify(orderTakerInfo),
-        mainInfo:JSON.stringify(values)},
-      
+        orderTakerInfo: JSON.stringify(orderTakerInfo),
+        mainInfo: JSON.stringify(values)
+      },
+
     });
   }
 
   onlyClose = () => {
-    this.setState({visible:false});
+    this.setState({ visible: false });
   }
 
-  editChange = (_key, datas)=>{
+  editChange = (_key, datas) => {
     // console.log('_key',_key)
     // console.log('datas',datas)
   }
 
-  customColumns = ()=>{
+  customColumns = () => {
     const { selectOrderApportion } = this.props;
-    const {columns} = selectOrderApportion;
+    const { columns } = selectOrderApportion;
     let [...newColumns] = columns;
     newColumns.push({
       dataIndex: "operate",
       key: "operate",
       title: "操作",
-      width:'5%',
-      render:(text, record) => {
+      width: '5%',
+      render: (text, record) => {
         return (
-          <Button key="doEdit" type="primary" disabled={false} onClick={()=>this.onDispatch(record.key)}>{'分配'}</Button>
+          <Button key="doEdit" type="primary" disabled={false} onClick={() => this.onDispatch(record.key)}>{'分配'}</Button>
         )
       }
-        
+
     })
     return newColumns;
   }
 
-  customListInfo = () =>{
+  customListInfo = () => {
     const { selectOrderApportion } = this.props;
-    const {data} = selectOrderApportion;
-    
+    const { data } = selectOrderApportion;
+
     return columns;
   }
 
-  tabChange = (_tabKey = 0)=>{
-    const { dispatch,form } = this.props;
+  tabChange = (_tabKey = 0) => {
+    const { dispatch, form } = this.props;
     const values = form.getFieldsValue();
-    this.setState({timeSag: _tabKey});
+    this.setState({ timeSag: _tabKey });
     form.setFieldsValue({
       timeSag: _tabKey
     })
     const params = {
       ...values,
-      timeSag:_tabKey,
+      timeSag: _tabKey,
     };
     dispatch({
       type: 'selectOrderApportion/getTableInfo',
@@ -324,9 +326,9 @@ class selectOrderApportion extends Component {
   // }
 
   render() {
-    const { from,loading,selectOrderApportion } = this.props;
-    const { showSearchAd, timeSag,selectedRows,visible,dialogHeight,editFormHeight  } = this.state;
-    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail,initFormFields,initDatas} = selectOrderApportion;
+    const { from, loading, selectOrderApportion } = this.props;
+    const { showSearchAd, timeSag, selectedRows, visible, dialogHeight, editFormHeight } = this.state;
+    const { data, columns, infoFields, orderTakerInfoColumns, orderTakerInfoDetail, initFormFields, initDatas } = selectOrderApportion;
     const topTab = [
       {
         groupid: 'all',
@@ -365,65 +367,69 @@ class selectOrderApportion extends Component {
           buttons={this.getBtns()}
           buttonSpace={10}
         >
-        <SearchTab
-          datas = {topTab}
-          keyParam="viewcondition"
-          countParam="groupid"
-          searchType={['base', 'advanced']}
-          selectedKey={timeSag}
-          showSearchAd={showSearchAd}
-          onChange={(v) => {
-            this.tabChange(v)
-          }}
-          buttonsAd={this.getTabButtonsAd()}
-          setShowSearchAd={() => this.setState({showSearchAd: !showSearchAd})}
-          hideSearchAd={() => this.setState({showSearchAd: false})}
-          onSearch={() => {this.getTableInfo();}}
-          searchsAd={this.getFields()}
-          type={'line'}
+          <SearchTab
+            datas={topTab}
+            keyParam="viewcondition"
+            countParam="groupid"
+            searchType={['base', 'advanced']}
+            selectedKey={timeSag}
+            showSearchAd={showSearchAd}
+            onChange={(v) => {
+              this.tabChange(v)
+            }}
+            buttonsAd={this.getTabButtonsAd()}
+            setShowSearchAd={() => this.setState({ showSearchAd: !showSearchAd })}
+            hideSearchAd={() => this.setState({ showSearchAd: false })}
+            onSearch={() => { this.getTableInfo(); }}
+            searchsAd={this.getFields()}
+            type={'line'}
           />
           <Card bordered={false}>
-            {columns.length>0&&<NewTable
-                selectedRows={selectedRows}
-                loading={loading}
-                data={data}
-                columns={this.customColumns()}
-                onSelectRow={this.handleSelectRows}
-                showRowSelect = {true}
-                showTotalList = {true}
-                onChange={this.handleStandardTableChange}
-                scroll={{ y: 500 }}
-              />}
+            {columns.length > 0 && <NewTable
+              selectedRows={selectedRows}
+              loading={loading}
+              data={data}
+              columns={this.customColumns()}
+              onSelectRow={this.handleSelectRows}
+              showRowSelect={true}
+              showTotalList={true}
+              onChange={this.handleStandardTableChange}
+              scroll={{ y: 500 }}
+            />}
           </Card>
           <NewDialog
-          ref='orderTakers_dialog'
-          visible={visible}
-          title={'订单分配'}
-          icon="icon-coms-meeting"
-          iconBgcolor="#f14a2d"
-          className="meetingDialog"
-          buttons={this.getButton()}
-          style={{width: 'calc(100% - 200px)', height: dialogHeight}}
-          onCancel={() => this.onlyClose()}
-          scalable={true}
+            ref='orderTakers_dialog'
+            visible={visible}
+            title={'订单分配'}
+            icon="icon-coms-meeting"
+            iconBgcolor="#f14a2d"
+            className="meetingDialog"
+            buttons={this.getButton()}
+            style={{ width: 'calc(100% - 200px)', height: dialogHeight }}
+            onCancel={() => this.onlyClose()}
+            scalable={true}
           // onScale={() => this.onScale()}
           >
-          <div ref={'formDivRef'}>
-            <NewForm 
-              ref={(form) => {
-                this.selectForm = form;
-              }}
-              datas = {infoFields}
-              col = {6}
-            >
-            </NewForm>
+            <div ref={'formDivRef'}>
+              <NewForm
+                ref={(form) => {
+                  this.selectForm = form;
+                }}
+                datas={infoFields}
+                col={6}
+              >
+              </NewForm>
             </div>
-              <NewScroll height={editFormHeight}>
-                {/* {orderTakerInfoColumns.length>0&&<TableEdit ref={(orderTakerRef)=>{this.orderTakerRef = orderTakerRef}} datas={orderTakerInfoDetail} columns={orderTakerInfoColumns} onChange={(_key,datas)=>this.editChange(_key,datas)}/>} */}
-                <EditForm initFormFields={initFormFields} initDatas={initDatas}/>
-              </NewScroll>
-              
-            
+            <NewScroll height={editFormHeight}>
+              {/* {orderTakerInfoColumns.length>0&&<TableEdit ref={(orderTakerRef)=>{this.orderTakerRef = orderTakerRef}} datas={orderTakerInfoDetail} columns={orderTakerInfoColumns} onChange={(_key,datas)=>this.editChange(_key,datas)}/>} */}
+              <EditForm initFormFields={initFormFields} initDatas={initDatas} resetHeight={() => {
+                const baseInfoHeight = $(this.refs.formDivRef).height();
+                const editFormHeight = dialogHeight - baseInfoHeight;
+                this.setState({ editFormHeight: editFormHeight })
+              }} />
+            </NewScroll>
+
+
           </NewDialog>
         </PageTop>
       </div>
