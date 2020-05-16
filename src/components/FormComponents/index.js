@@ -60,7 +60,7 @@ class NewForm extends Component{
       });
       group.push(
         <SearchGroup
-          col={col}
+          col={c.col || col}
           needTigger={true}
           title={c.title}
           showGroup={c.defaultshow}
