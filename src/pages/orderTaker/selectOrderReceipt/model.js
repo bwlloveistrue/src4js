@@ -1,15 +1,14 @@
 import { 
   getConditionField, 
-  addOrderTaker, 
-  deleteOrderTaker, 
-  updateOrderTaker, 
-  fetch, 
+  deleteOrderReceipt, 
+  updateOrderReceipt, 
   getTableInfoList,
-  getOrderTakersInfoFields } from './service';
+  getOrderReceiptInfoFields,
+  getOrderReceiptDispatchInfo } from './service';
   import { message } from 'antd';
 
 const Model = {
-  namespace: 'selectOrderTakers',
+  namespace: 'selectOrderReceipt',
 
   state: {
     data: {
@@ -19,8 +18,8 @@ const Model = {
     columns: [],//查看列表列
     condition:[],//高级搜索需要
     infoFields:[],//车辆录入主题
-    orderTakerInfoColumns:[],//车辆录入分配列表列
-    orderTakerInfoDetail:[],//车辆录入分配
+    initFormFields:[],//车辆录入分配列表列
+    initDatas:[],//车辆录入分配
   },
 
   effects: {
@@ -39,15 +38,15 @@ const Model = {
       });
       if (callback) callback(response);
     },
-    *getOrderTakersFields({ payload }, { call, put }) {
-      const response = yield call(getOrderTakersInfoFields, payload);
+    *getOrderReceiptDispatch({ payload }, { call, put }) {
+      const response = yield call(getOrderReceiptDispatchInfo, payload);
       yield put({
-        type: 'getOrderTakersInfoFields',
+        type: 'getOrderReceiptInfoFields',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addOrderTaker, payload);
+      const response = yield call(addOrderReceipt, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -55,7 +54,7 @@ const Model = {
       if (callback) callback();
     },
     *update({ payload, callback }, { call, put }) {
-      const response = yield call(updateOrderTaker, payload);
+      const response = yield call(updateOrderReceipt, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -63,7 +62,7 @@ const Model = {
       if (callback) callback();
     },
     *delete({ payload, callback }, { call, put }) {
-      const response = yield call(deleteOrderTaker, payload);
+      const response = yield call(deleteOrderReceipt, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -96,12 +95,12 @@ const Model = {
         condition: action.payload,
       };
     },
-    getOrderTakersInfoFields(state, action) {
+    getOrderReceiptInfoFields(state, action) {
       return {
         ...state,
         infoFields: {data:action.payload.data},
-        orderTakerInfoColumns:action.payload.editcolumns,
-        orderTakerInfoDetail:action.payload.editdatas,
+        initFormFields:action.payload.initFormFields,//车辆录入分配列表列
+        initDatas:action.payload.initDatas,//车辆录入分配
       };
     },
   },

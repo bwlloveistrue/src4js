@@ -20,8 +20,6 @@ const Model = {
     columns: [],//查看列表列
     condition:[],//高级搜索需要
     infoFields:[],//车辆录入主题
-    orderTakerInfoColumns:[],//车辆录入分配列表列
-    orderTakerInfoDetail:[],//车辆录入分配
     initFormFields:[],//车辆录入分配列表列
     initDatas:[],//车辆录入分配
   },
@@ -89,6 +87,9 @@ const Model = {
       }else{
         message.error(action.error || 'This is a error message')
       }
+      return {
+        ...state
+      }
     },
     getTableInfoList(state, action) {
       return {
@@ -107,8 +108,6 @@ const Model = {
       return {
         ...state,
         infoFields: {data:action.payload.data},
-        orderTakerInfoColumns:action.payload.editcolumns,
-        orderTakerInfoDetail:action.payload.editdatas,
         initFormFields:action.payload.initFormFields,//车辆录入分配列表列
         initDatas:action.payload.initDatas,//车辆录入分配
       };

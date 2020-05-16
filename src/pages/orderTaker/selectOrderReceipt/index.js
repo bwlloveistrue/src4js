@@ -13,19 +13,19 @@ import NewDialog from '@/components/NewDialog';
 import TableEdit from '@/components/TableEdit';
 import NewScroll from '@/components/NewScroll';
 import EditForm from '@/components/EditForm';
-import ApportionDialog from './components/apportionDialog';
+import ReceiptDialog from './components/receiptDialog';
 import OrderTakersDialog from '../selectOrderTakers/components/orderTakersDialog';
 import $ from 'jquery'
 
 const FormItem = Form.Item;
 
-@connect(({ selectOrderApportion, loading }) => {
+@connect(({ selectOrderReceipt, loading }) => {
   return {
-    selectOrderApportion,
-    loading: loading.effects['selectOrderApportion/getTableInfo'],
+    selectOrderReceipt,
+    loading: loading.effects['selectOrderReceipt/getTableInfo'],
   }
 })
-class selectOrderApportion extends Component {
+class selectOrderReceipt extends Component {
   constructor() {
     super();
     //设置sate,添加name与age属性
@@ -33,7 +33,7 @@ class selectOrderApportion extends Component {
       showSearchAd: false,
       timeSag: 0,
       selectedRows: [],
-      apportionVisible: false,
+      receiptVisible: false,
       orderTakersVisible: false,
       selectedKey: '',
       dialogHeight: 700,
@@ -72,7 +72,7 @@ class selectOrderApportion extends Component {
   getCondition = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'selectOrderApportion/getCondition',
+      type: 'selectOrderReceipt/getCondition',
     });
   };
 
@@ -80,7 +80,7 @@ class selectOrderApportion extends Component {
     const { dispatch, form } = this.props;
     const values = form.getFieldsValue();
     dispatch({
-      type: 'selectOrderApportion/getTableInfo',
+      type: 'selectOrderReceipt/getTableInfo',
       payload: values,
       callback: (res) => {
         if (res) {
@@ -122,15 +122,15 @@ class selectOrderApportion extends Component {
     this.setState({ orderTakersVisible: true })
   }
 
-  onDispatch = (key = '') => {
-    this.setState({ apportionVisible: true, selectedKey: key })
+  onReceipt = (key = '') => {
+    this.setState({ receiptVisible: true, selectedKey: key })
   }
 
   onDelete = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state
     dispatch({
-      type: 'selectOrderApportion/delete',
+      type: 'selectOrderReceipt/delete',
       payload: {
         id: selectedRows
       },
@@ -139,8 +139,8 @@ class selectOrderApportion extends Component {
   }
 
   getFields = () => {
-    const { form, col, selectOrderApportion } = this.props;
-    const { condition } = selectOrderApportion
+    const { form, col, selectOrderReceipt } = this.props;
+    const { condition } = selectOrderReceipt
     const { getFieldDecorator } = form && form;
     let group = [];
     const formItemLayout = {
@@ -210,13 +210,13 @@ class selectOrderApportion extends Component {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
     dispatch({
-      type: 'selectOrderApportion/getTableInfo',
+      type: 'selectOrderReceipt/getTableInfo',
       payload: params,
     });
   };
 
-  onApportionClose = () => {
-    this.setState({ apportionVisible: false });
+  onReceiptClose = () => {
+    this.setState({ receiptVisible: false });
   }
 
   onOrderTakersClose = () => {
@@ -229,8 +229,8 @@ class selectOrderApportion extends Component {
   }
 
   customColumns = () => {
-    const { selectOrderApportion } = this.props;
-    const { columns } = selectOrderApportion;
+    const { selectOrderReceipt } = this.props;
+    const { columns } = selectOrderReceipt;
     let [...newColumns] = columns;
     newColumns.push({
       dataIndex: "operate",
@@ -239,7 +239,7 @@ class selectOrderApportion extends Component {
       width: '5%',
       render: (text, record) => {
         return (
-          <Button key="doEdit" type="primary" disabled={false} onClick={() => this.onDispatch(record.key)}>{'分配'}</Button>
+          <Button key="doEdit" type="primary" disabled={false} onClick={() => this.onReceipt(record.key)}>{'回执'}</Button>
         )
       }
 
@@ -248,8 +248,8 @@ class selectOrderApportion extends Component {
   }
 
   customListInfo = () => {
-    const { selectOrderApportion } = this.props;
-    const { data } = selectOrderApportion;
+    const { selectOrderReceipt } = this.props;
+    const { data } = selectOrderReceipt;
 
     return columns;
   }
@@ -266,15 +266,15 @@ class selectOrderApportion extends Component {
       timeSag: _tabKey,
     };
     dispatch({
-      type: 'selectOrderApportion/getTableInfo',
+      type: 'selectOrderReceipt/getTableInfo',
       payload: params,
     });
   }
 
   render() {
-    const { from, loading, selectOrderApportion } = this.props;
-    const { showSearchAd, timeSag, selectedRows, apportionVisible, orderTakersVisible, dialogHeight, editFormHeight, selectedKey } = this.state;
-    const { data, columns, infoFields, initFormFields, initDatas } = selectOrderApportion;
+    const { from, loading, selectOrderReceipt } = this.props;
+    const { showSearchAd, timeSag, selectedRows, receiptVisible, orderTakersVisible, dialogHeight, editFormHeight, selectedKey } = this.state;
+    const { data, columns, infoFields, initFormFields, initDatas } = selectOrderReceipt;
     const topTab = [
       {
         groupid: 'all',
@@ -343,10 +343,10 @@ class selectOrderApportion extends Component {
               scroll={{ y: 500 }}
             />}
           </Card>
-          {apportionVisible && <ApportionDialog
-            visible={apportionVisible}
-            apportionId={selectedKey}
-            onCloseBack={() => { this.onApportionClose() }}
+          {receiptVisible && <ReceiptDialog
+            visible={receiptVisible}
+            receiptId={selectedKey}
+            onCloseBack={() => { this.onReceiptClose() }}
           />}
           {
             <OrderTakersDialog
@@ -362,4 +362,4 @@ class selectOrderApportion extends Component {
   }
 }
 
-export default Form.create()(selectOrderApportion);
+export default Form.create()(selectOrderReceipt);

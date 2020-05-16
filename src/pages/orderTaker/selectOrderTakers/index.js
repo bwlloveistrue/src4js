@@ -12,6 +12,7 @@ import NewTable from '@/components/NewTable';
 import NewDialog from '@/components/NewDialog';
 import TableEdit from '@/components/TableEdit';
 import NewScroll from '@/components/NewScroll';
+import OrderTakersDialog from './components/orderTakersDialog';
 
 const FormItem = Form.Item;
 
@@ -34,6 +35,7 @@ class SelectOrderTakers extends Component {
       selectedRows: [],
       visible:false,
       selectedKey:'',
+      type:''
     }
   }
 
@@ -105,23 +107,23 @@ class SelectOrderTakers extends Component {
   }
 
   onAdd = ()=>{
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'selectOrderTakers/getOrderTakersFields',
-      payload: {},
-    });
-    this.setState({visible:true,selectedKey:''})
+    // const { dispatch } = this.props;
+    // dispatch({
+    //   type: 'selectOrderTakers/getOrderTakersFields',
+    //   payload: {},
+    // });
+    this.setState({visible:true,selectedKey:'',type:'add'})
   }
 
   onEdit = (key='')=>{
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'selectOrderTakers/getOrderTakersFields',
-      payload: {
-        id: key
-      },
-    });
-    this.setState({visible:true,selectedKey:key})
+    // const { dispatch } = this.props;
+    // dispatch({
+    //   type: 'selectOrderTakers/getOrderTakersFields',
+    //   payload: {
+    //     id: key
+    //   },
+    // });
+    this.setState({visible:true,selectedKey:key,type:'edit'})
   }
 
   onDelete = ()=>{
@@ -135,7 +137,6 @@ class SelectOrderTakers extends Component {
     });
     this.setState({selectedRows:[]})
   }
-
   getFields = () => {
     const { form,col,selectOrderTakers } = this.props;
     const { condition } = selectOrderTakers
@@ -214,42 +215,6 @@ class SelectOrderTakers extends Component {
     });
   };
 
-  getButton = ()=>{
-    let buttonsCreate =[
-      <Button key="doEdit" type="primary" disabled={false} onClick={this.onSave}>{'保存'}</Button>,
-    ]
-
-    return buttonsCreate;
-  }
-
-  onSave = ()=>{
-    const { dispatch } = this.props;
-    const { selectedKey } = this.state;
-    this.selectForm.validateFields((errors, values) => {
-      if(errors){
-        console.log(errors)
-      }
-    });
-    const values = this.selectForm.getFieldsValue();
-    const orderTakerInfo = this.orderTakerRef.getEditTable()
-    console.log('save  values====',values)
-    console.log('save  orderTakerInfo====',orderTakerInfo)
-    this.orderTakerRef.validateFields((errors, values) => {
-      if(errors){
-        console.log(errors)
-      }
-    });
-    const type = selectedKey == ''?'selectOrderTakers/add':'selectOrderTakers/update';
-    
-    dispatch({
-      type: type,
-      payload: {
-        orderTakerInfo:JSON.stringify(orderTakerInfo),
-        mainInfo:JSON.stringify(values)},
-      
-    });
-  }
-
   onlyClose = () => {
     this.setState({visible:false});
   }
@@ -313,7 +278,7 @@ class SelectOrderTakers extends Component {
 
   render() {
     const { from,loading,selectOrderTakers } = this.props;
-    const { showSearchAd, timeSag,selectedRows,visible  } = this.state;
+    const { showSearchAd, timeSag,selectedRows,visible , selectedKey,type } = this.state;
     const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectOrderTakers;
     const topTab = [
       {
@@ -383,7 +348,13 @@ class SelectOrderTakers extends Component {
                 scroll={{ y: 500 }}
               />}
           </Card>
-          <NewDialog
+          {visible&&<OrderTakersDialog
+            visible={visible}
+            orderTakersId={selectedKey}
+            type={type}
+            onCloseBack={()=>{this.onlyClose()}}
+          />}
+          {/* <NewDialog
           ref='orderTakers_dialog'
           visible={visible}
           title={'订单录入'}
@@ -407,7 +378,7 @@ class SelectOrderTakers extends Component {
                 {orderTakerInfoColumns.length>0&&<TableEdit ref={(orderTakerRef)=>{this.orderTakerRef = orderTakerRef}} datas={orderTakerInfoDetail} columns={orderTakerInfoColumns} onChange={(_key,datas)=>this.editChange(_key,datas)}/>}
               </NewScroll>
             </NewForm>
-          </NewDialog>
+          </NewDialog> */}
         </PageTop>
       </div>
     );

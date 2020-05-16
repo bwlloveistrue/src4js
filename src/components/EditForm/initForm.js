@@ -17,12 +17,13 @@ class InitForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showGroup: props.showGroup ? props.showGroup : false
+      showGroup: props.showGroup ? props.showGroup : false,
+      isInit:false,
     };
   }
 
   componentDidMount(){
-
+    this.setState({isInit:false})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,6 +35,7 @@ class InitForm extends React.Component {
   }
 
   render(){
+    const { isInit } = this.props;
     const { form,datas,initDatas } = this.props;
     const { getFieldDecorator } = form&&form;
     const formItemLayout = {
@@ -44,7 +46,10 @@ class InitForm extends React.Component {
       labelCol: { span: 6 },
       wrapperCol: { span: 11 },
     };
-    const values = form.getFieldsValue();
+    let values = form.getFieldsValue();
+    if(isInit){
+      values = initDatas || {}
+    }
     console.log(values)
     return (
       <div className={'initFormContent'}>

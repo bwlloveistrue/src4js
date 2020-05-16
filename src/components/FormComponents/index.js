@@ -35,6 +35,9 @@ class NewForm extends Component{
 
   getFields = () => {
     const { datas,form,col } = this.props;
+    if(typeof datas == 'function'){
+      return datas();
+    }
     const { getFieldDecorator } = form&&form;
     let group = [];
     const formItemLayout = {
