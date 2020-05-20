@@ -372,6 +372,7 @@ export default {
       {
         title: '费用计算',
         defaultshow: true,
+        col:3,
         items: [
           {
             labelcol: 6,
