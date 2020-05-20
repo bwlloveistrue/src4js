@@ -4,7 +4,7 @@ export function getPageQuery() {
   return parse(window.location.href.split('?')[1]);
 }
 
-export function setAuthority(authority: string | string[]) {
+export function setAuthority(authority) {
   const proAuthority = typeof authority === 'string' ? [authority] : authority;
   return localStorage.setItem('antd-pro-authority', JSON.stringify(proAuthority));
 }

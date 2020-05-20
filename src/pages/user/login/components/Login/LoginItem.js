@@ -7,52 +7,18 @@ import ItemMap from './map';
 import LoginContext, { LoginContextProps } from './LoginContext';
 import styles from './index.less';
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-
-export type WrappedLoginItemProps = Omit<LoginItemProps, 'form' | 'type' | 'updateActive'>;
-// export type LoginItemKeyType = keyof typeof ItemMap;
-export interface LoginItemType {
-  UserName: React.FC<WrappedLoginItemProps>;
-  Password: React.FC<WrappedLoginItemProps>;
-  Mobile: React.FC<WrappedLoginItemProps>;
-  Captcha: React.FC<WrappedLoginItemProps>;
-}
-
-export interface LoginItemProps {
-  name?: string;
-  rules?: any[];
-  style?: React.CSSProperties;
-  onGetCaptcha?: (event?: MouseEvent) => void | Promise<any> | false;
-  placeholder?: string;
-  buttonText?: React.ReactNode;
-  onPressEnter?: (e: any) => void;
-  countDown?: number;
-  getCaptchaButtonText?: string;
-  getCaptchaSecondText?: string;
-  updateActive?: LoginContextProps['updateActive'];
-  type?: string;
-  defaultValue?: string;
-  form?: FormComponentProps['form'];
-  customProps?: { [key: string]: any };
-  onChange?: (e: any) => void;
-  tabUtil?: any;
-}
-
-interface LoginItemState {
-  count: number;
-}
 
 const FormItem = Form.Item;
 
-class WrapFormItem extends Component<LoginItemProps, LoginItemState> {
+class WrapFormItem extends Component {
   static defaultProps = {
     getCaptchaButtonText: 'captcha',
     getCaptchaSecondText: 'second',
   };
 
-  interval: number | undefined = undefined;
+  interval = undefined;
 
-  constructor(props: LoginItemProps) {
+  constructor(props) {
     super(props);
     this.state = {
       count: 0,
@@ -83,12 +49,8 @@ class WrapFormItem extends Component<LoginItemProps, LoginItemState> {
     }
   };
 
-  getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules }: LoginItemProps) => {
-    const options: {
-      rules?: any[];
-      onChange?: LoginItemProps['onChange'];
-      initialValue?: LoginItemProps['defaultValue'];
-    } = {
+  getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules }) => {
+    const options= {
       rules: rules || customProps.rules,
     };
     if (onChange) {
@@ -173,11 +135,11 @@ class WrapFormItem extends Component<LoginItemProps, LoginItemState> {
   }
 }
 
-const LoginItem: Partial<LoginItemType> = {};
+const LoginItem = {};
 
 Object.keys(ItemMap).forEach(key => {
   const item = ItemMap[key];
-  LoginItem[key] = (props: LoginItemProps) => (
+  LoginItem[key] = (props) => (
     <LoginContext.Consumer>
       {context => (
         <WrapFormItem
@@ -193,4 +155,4 @@ Object.keys(ItemMap).forEach(key => {
   );
 });
 
-export default LoginItem as LoginItemType;
+export default LoginItem;

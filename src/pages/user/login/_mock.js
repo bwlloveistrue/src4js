@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
 
-function getFakeCaptcha(req: Request, res: Response) {
+function getFakeCaptcha(req, res) {
   return res.json('captcha-xxx');
 }
 
 export default {
-  'POST  /api/login/account': (req: Request, res: Response) => {
+  'POST  /api/login/account': (req, res) => {
     const { password, userName, type } = req.body;
     if (password === '1' && userName === 'admin') {
       res.send({
-        status: 'ok',
+        status: '0',
         type,
         currentAuthority: 'admin',
       });
@@ -17,7 +17,7 @@ export default {
     }
     if (password === '1' && userName === 'user') {
       res.send({
-        status: 'ok',
+        status: '0',
         type,
         currentAuthority: 'user',
       });

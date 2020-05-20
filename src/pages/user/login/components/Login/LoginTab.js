@@ -14,14 +14,11 @@ const generateId = (() => {
   };
 })();
 
-interface LoginTabProps extends TabPaneProps {
-  tabUtil: LoginContextProps['tabUtil'];
-}
 
-class LoginTab extends Component<LoginTabProps> {
-  uniqueId: string = '';
+class LoginTab extends Component {
+  uniqueId = '';
 
-  constructor(props: LoginTabProps) {
+  constructor(props) {
     super(props);
     this.uniqueId = generateId('login-tab-');
   }
@@ -39,9 +36,7 @@ class LoginTab extends Component<LoginTabProps> {
   }
 }
 
-const WrapContext: React.FC<TabPaneProps> & {
-  typeName: string;
-} = props => (
+const WrapContext = props => (
   <LoginContext.Consumer>
     {value => <LoginTab tabUtil={value.tabUtil} {...props} />}
   </LoginContext.Consumer>

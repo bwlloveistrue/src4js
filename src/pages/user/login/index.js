@@ -13,53 +13,31 @@ import styles from './style.less';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginComponents;
 
-interface LoginProps {
-  dispatch: Dispatch<any>;
-  userAndlogin: StateType;
-  submitting: boolean;
-}
-interface LoginState {
-  type: string;
-  autoLogin: boolean;
-}
-export interface FormDataType {
-  userName: string;
-  password: string;
-  mobile: string;
-  captcha: string;
-}
 
 @connect(
   ({
     userAndlogin,
     loading,
-  }: {
-    userAndlogin: StateType;
-    loading: {
-      effects: {
-        [key: string]: string;
-      };
-    };
   }) => ({
     userAndlogin,
     submitting: loading.effects['userAndlogin/login'],
   }),
 )
-class Login extends Component<LoginProps, LoginState> {
-  loginForm: FormComponentProps['form'] | undefined | null = undefined;
+class Login extends Component {
+  loginForm = undefined;
 
-  state: LoginState = {
+  state = {
     type: 'account',
     autoLogin: true,
   };
 
-  changeAutoLogin = (e: CheckboxChangeEvent) => {
+  changeAutoLogin = (e) => {
     this.setState({
       autoLogin: e.target.checked,
     });
   };
 
-  handleSubmit = (err: any, values: FormDataType) => {
+  handleSubmit = (err, values) => {
     const { type } = this.state;
     if (!err) {
       const { dispatch } = this.props;
@@ -73,7 +51,7 @@ class Login extends Component<LoginProps, LoginState> {
     }
   };
 
-  onTabChange = (type: string) => {
+  onTabChange = (type) => {
     this.setState({ type });
   };
 
@@ -82,22 +60,22 @@ class Login extends Component<LoginProps, LoginState> {
       if (!this.loginForm) {
         return;
       }
-      this.loginForm.validateFields(['mobile'], {}, (err: any, values: FormDataType) => {
+      this.loginForm.validateFields(['mobile'], {}, (err, values) => {
         if (err) {
           reject(err);
         } else {
           const { dispatch } = this.props;
-          ((dispatch({
+          dispatch({
             type: 'userAndlogin/getCaptcha',
             payload: values.mobile,
-          }) as any) as Promise<any>)
+          }) 
             .then(resolve)
             .catch(reject);
         }
       });
     });
 
-  renderMessage = (content: string) => (
+  renderMessage = (content) => (
     <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
   );
 
@@ -111,7 +89,7 @@ class Login extends Component<LoginProps, LoginState> {
           defaultActiveKey={type}
           onTabChange={this.onTabChange}
           onSubmit={this.handleSubmit}
-          ref={(form: any) => {
+          ref={(form) => {
             console.log('form>>>>', form);
             this.loginForm = form;
           }}

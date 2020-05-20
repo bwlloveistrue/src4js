@@ -4,30 +4,7 @@ import { routerRedux } from 'dva/router';
 import { fakeAccountLogin, getFakeCaptcha } from './service';
 import { getPageQuery, setAuthority } from './utils/utils';
 
-export interface StateType {
-  status?: 'ok' | 'error';
-  type?: string;
-  currentAuthority?: 'user' | 'guest' | 'admin';
-}
-
-export type Effect = (
-  action: AnyAction,
-  effects: EffectsCommandMap & { select: <T>(func: (state: StateType) => T) => T },
-) => void;
-
-export interface ModelType {
-  namespace: string;
-  state: StateType;
-  effects: {
-    login: Effect;
-    getCaptcha: Effect;
-  };
-  reducers: {
-    changeLoginStatus: Reducer<StateType>;
-  };
-}
-
-const Model: ModelType = {
+const Model = {
   namespace: 'userAndlogin',
 
   state: {
@@ -42,10 +19,10 @@ const Model: ModelType = {
         payload: response,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (response.status === '0') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
-        let { redirect } = params as { redirect: string };
+        let { redirect } = params ;
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
           if (redirectUrlParams.origin === urlParams.origin) {

@@ -7,6 +7,7 @@ const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
+console.log('process',process)
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
 const plugins: IPlugin[] = [
   [
@@ -24,11 +25,11 @@ const plugins: IPlugin[] = [
         // default true, when it is true, will use `navigator.language` overwrite default
         baseNavigator: true,
       },
-      // dynamicImport: {
-      //   loadingComponent: './components/PageLoading/index',
-      //   webpackChunkName: true,
-      //   level: 3,
-      // },
+      dynamicImport: {
+        loadingComponent: './components/PageLoading/index',
+        webpackChunkName: true,
+        level: 3,
+      },
       pwa: pwa
         ? {
             workboxPluginMode: 'InjectManifest',
@@ -75,7 +76,8 @@ export default {
   targets: {
     ie: 11,
   },
-  devtool: isAntDesignProPreview ? 'source-map' : false,
+  // publicPath:'/logisticsCenter/',
+  devtool: 'source-map',
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {

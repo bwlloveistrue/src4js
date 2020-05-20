@@ -81,7 +81,7 @@ export default {
     const { password, userName, type } = req.body;
     if (password === '1' && userName === 'admin') {
       res.send({
-        status: 'ok',
+        status: '0',
         type,
         currentAuthority: 'admin',
       });
@@ -89,7 +89,7 @@ export default {
     }
     if (password === '1' && userName === 'user') {
       res.send({
-        status: 'ok',
+        status: '0',
         type,
         currentAuthority: 'user',
       });
