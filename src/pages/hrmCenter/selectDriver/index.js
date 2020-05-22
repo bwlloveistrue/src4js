@@ -11,15 +11,15 @@ import Switch from '@/components/Switch/index';
 import NewTable from '@/components/NewTable';
 import NewDialog from '@/components/NewDialog';
 import NewScroll from '@/components/NewScroll';
-import AddTruckDialog from './components/addTruckDialog';
+import AddDriverDialog from './components/addDriverDialog';
 
 const FormItem = Form.Item;
 
-@connect(({ selectTruck,loading }) => ({
-  selectTruck,
-  loading: loading.effects['selectTruck/getTableInfo'],
+@connect(({ selectDriver,loading }) => ({
+  selectDriver,
+  loading: loading.effects['selectDriver/getTableInfo'],
 }))
-class SelectTruck extends Component {
+class selectDriver extends Component {
 
   state = {
     selectedRows: [],
@@ -58,7 +58,7 @@ class SelectTruck extends Component {
   getCondition = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'selectTruck/getCondition',
+      type: 'selectDriver/getCondition',
     });
   };
 
@@ -66,7 +66,7 @@ class SelectTruck extends Component {
     const { dispatch,form } = this.props;
     const values = form.getFieldsValue();
     dispatch({
-      type: 'selectTruck/getTableInfo',
+      type: 'selectDriver/getTableInfo',
       payload: values,
       callback: (res) => {
         if (res) {
@@ -100,6 +100,7 @@ class SelectTruck extends Component {
     ];
     
     btns.push(<Button type='primary' disabled={selectedRows.length > 0?false:true} key={'delete'} onClick={()=>this.onDelete()}>{'删除'}</Button>)
+    btns.push(<Button type='primary' key={'exportExcel'} onClick={() => console.log('jiefeng')}>{'导出EXCEL'}</Button>)
     return btns;
   }
 
@@ -115,7 +116,7 @@ class SelectTruck extends Component {
     const { dispatch } = this.props;
     const { selectedRows } = this.state
     dispatch({
-      type: 'selectTruck/delete',
+      type: 'selectDriver/delete',
       payload: {
         id: selectedRows
       },
@@ -123,8 +124,8 @@ class SelectTruck extends Component {
     this.setState({selectedRows:[]})
   }
   getFields = () => {
-    const { form,col,selectTruck } = this.props;
-    const { condition } = selectTruck
+    const { form,col,selectDriver } = this.props;
+    const { condition } = selectDriver
     const { getFieldDecorator } = form&&form;
     let group = [];
     const formItemLayout = {
@@ -195,7 +196,7 @@ class SelectTruck extends Component {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
     dispatch({
-      type: 'selectTruck/getTableInfo',
+      type: 'selectDriver/getTableInfo',
       payload: params,
     });
   };
@@ -205,8 +206,8 @@ class SelectTruck extends Component {
   }
 
   customColumns = ()=>{
-    const { selectTruck } = this.props;
-    const {columns} = selectTruck;
+    const { selectDriver } = this.props;
+    const {columns} = selectDriver;
     let [...newColumns] = columns;
     newColumns.push({
       dataIndex: "operate",
@@ -224,16 +225,16 @@ class SelectTruck extends Component {
   }
 
   customListInfo = () =>{
-    const { selectTruck } = this.props;
-    const {data} = selectTruck;
+    const { selectDriver } = this.props;
+    const {data} = selectDriver;
     
     return columns;
   }
 
   render() {
-    const { from,loading,selectTruck } = this.props;
+    const { from,loading,selectDriver } = this.props;
     const { showSearchAd, selectedRows,visible , selectedKey,type } = this.state;
-    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectTruck;
+    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectDriver;
     return (
       <div>
         <PageTop
@@ -265,9 +266,9 @@ class SelectTruck extends Component {
                 scroll={{ y: 500 }}
               />}
           </Card>
-          {visible&&<AddTruckDialog
+          {visible&&<AddDriverDialog
             visible={visible}
-            truckId={selectedKey}
+            driverId={selectedKey}
             type={type}
             onCloseBack={()=>{this.onlyClose()}}
           />}
@@ -277,4 +278,4 @@ class SelectTruck extends Component {
   }
 }
 
-export default Form.create()(SelectTruck);
+export default Form.create()(selectDriver);

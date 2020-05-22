@@ -1,15 +1,15 @@
 import { 
   getConditionField, 
-  addTruckInfo, 
-  deleteTruckInfo, 
-  updateTruckInfo, 
+  addClientInfo, 
+  deleteClientInfo, 
+  updateClientInfo, 
   fetch, 
   getTableInfoList,
-  getTruckInfoFields } from './service';
+  getClientInfoFields } from './service';
   import { message } from 'antd';
 
 const Model = {
-  namespace: 'selectTruck',
+  namespace: 'selectClient',
 
   state: {
     data: {
@@ -18,7 +18,7 @@ const Model = {
     },//查看列表数据
     columns: [],//查看列表列
     condition:[],//高级搜索需要
-    infoFields:[],//
+    infoFields:[],//车辆录入主题
   },
 
   effects: {
@@ -37,15 +37,15 @@ const Model = {
       });
       if (callback) callback(response);
     },
-    *getTruckFields({ payload }, { call, put }) {
-      const response = yield call(getTruckInfoFields, payload);
+    *getClientFields({ payload }, { call, put }) {
+      const response = yield call(getClientInfoFields, payload);
       yield put({
-        type: 'getTruckInfoFields',
+        type: 'getClientInfoFields',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addTruckInfo, payload);
+      const response = yield call(addClientInfo, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -53,7 +53,7 @@ const Model = {
       if (callback) callback();
     },
     *update({ payload, callback }, { call, put }) {
-      const response = yield call(updateTruckInfo, payload);
+      const response = yield call(updateClientInfo, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -61,7 +61,7 @@ const Model = {
       if (callback) callback();
     },
     *delete({ payload, callback }, { call, put }) {
-      const response = yield call(deleteTruckInfo, payload);
+      const response = yield call(deleteClientInfo, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -94,7 +94,7 @@ const Model = {
         condition: action.payload,
       };
     },
-    getTruckInfoFields(state, action) {
+    getClientInfoFields(state, action) {
       return {
         ...state,
         infoFields: {data:action.payload.data},

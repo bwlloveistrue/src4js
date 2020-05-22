@@ -1,7 +1,8 @@
 import request from '@/utils/request';
 
 export async function getConditionField() {
-  return request('/api/truckInfo/getCondition', {
+  console.log('getCondition api----')
+  return request('/api/driverInfo/getCondition', {
     method: 'POST',
     data: {
       method: 'post',
@@ -9,8 +10,8 @@ export async function getConditionField() {
   });
 }
 
-export async function addTruckInfo(params) {
-  return request('/api/truckInfo/addTruckInfo', {
+export async function addDriverInfo(params) {
+  return request('/api/driverInfo/addDriverInfo', {
     method: 'POST',
     data: {
       ...params,
@@ -20,7 +21,7 @@ export async function addTruckInfo(params) {
 }
 
 export async function getTableInfoList(params) {
-  return request('/api/truckInfo/getTableInfoList', {
+  return request('/api/driverInfo/getTableInfoList', {
     method: 'POST',
     data: {
       ...params,
@@ -29,8 +30,8 @@ export async function getTableInfoList(params) {
   });
 }
 
-export async function deleteTruckInfo(params) {
-  return request('/api/truckInfo/deleteTruckInfo', {
+export async function deleteDriverInfo(params) {
+  return request('/api/driverInfo/deleteDriverInfo', {
     method: 'POST',
     data: {
       ...params,
@@ -39,8 +40,8 @@ export async function deleteTruckInfo(params) {
   });
 }
 
-export async function updateTruckInfo(params) {
-  return request('/api/truckInfo/updateTruckInfo', {
+export async function updateDriverInfo(params) {
+  return request('/api/driverInfo/updateDriverInfo', {
     method: 'POST',
     data: {
       ...params,
@@ -50,12 +51,12 @@ export async function updateTruckInfo(params) {
 }
 
 export async function fetch() {
-  return request('/api/truckInfo/fetch', {
+  return request('/api/driverInfo/fetch', {
   });
 }
 
-export async function getTruckInfoFields(params){
-  return request('/api/truckInfo/getTruckInfoFields', {
+export async function getDriverInfoFields(params){
+  return request('/api/driverInfo/getDriverInfoFields', {
     method: 'POST',
     data: {
       ...params,

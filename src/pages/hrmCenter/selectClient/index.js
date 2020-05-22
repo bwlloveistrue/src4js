@@ -11,15 +11,15 @@ import Switch from '@/components/Switch/index';
 import NewTable from '@/components/NewTable';
 import NewDialog from '@/components/NewDialog';
 import NewScroll from '@/components/NewScroll';
-import AddTruckDialog from './components/addTruckDialog';
+import AddClientDialog from './components/addClientDialog';
 
 const FormItem = Form.Item;
 
-@connect(({ selectTruck,loading }) => ({
-  selectTruck,
-  loading: loading.effects['selectTruck/getTableInfo'],
+@connect(({ selectClient,loading }) => ({
+  selectClient,
+  loading: loading.effects['selectClient/getTableInfo'],
 }))
-class SelectTruck extends Component {
+class selectClient extends Component {
 
   state = {
     selectedRows: [],
@@ -58,7 +58,7 @@ class SelectTruck extends Component {
   getCondition = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'selectTruck/getCondition',
+      type: 'selectClient/getCondition',
     });
   };
 
@@ -66,7 +66,7 @@ class SelectTruck extends Component {
     const { dispatch,form } = this.props;
     const values = form.getFieldsValue();
     dispatch({
-      type: 'selectTruck/getTableInfo',
+      type: 'selectClient/getTableInfo',
       payload: values,
       callback: (res) => {
         if (res) {
@@ -115,7 +115,7 @@ class SelectTruck extends Component {
     const { dispatch } = this.props;
     const { selectedRows } = this.state
     dispatch({
-      type: 'selectTruck/delete',
+      type: 'selectClient/delete',
       payload: {
         id: selectedRows
       },
@@ -123,8 +123,8 @@ class SelectTruck extends Component {
     this.setState({selectedRows:[]})
   }
   getFields = () => {
-    const { form,col,selectTruck } = this.props;
-    const { condition } = selectTruck
+    const { form,col,selectClient } = this.props;
+    const { condition } = selectClient
     const { getFieldDecorator } = form&&form;
     let group = [];
     const formItemLayout = {
@@ -195,7 +195,7 @@ class SelectTruck extends Component {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
     dispatch({
-      type: 'selectTruck/getTableInfo',
+      type: 'selectClient/getTableInfo',
       payload: params,
     });
   };
@@ -205,8 +205,8 @@ class SelectTruck extends Component {
   }
 
   customColumns = ()=>{
-    const { selectTruck } = this.props;
-    const {columns} = selectTruck;
+    const { selectClient } = this.props;
+    const {columns} = selectClient;
     let [...newColumns] = columns;
     newColumns.push({
       dataIndex: "operate",
@@ -224,16 +224,16 @@ class SelectTruck extends Component {
   }
 
   customListInfo = () =>{
-    const { selectTruck } = this.props;
-    const {data} = selectTruck;
+    const { selectClient } = this.props;
+    const {data} = selectClient;
     
     return columns;
   }
 
   render() {
-    const { from,loading,selectTruck } = this.props;
+    const { from,loading,selectClient } = this.props;
     const { showSearchAd, selectedRows,visible , selectedKey,type } = this.state;
-    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectTruck;
+    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectClient;
     return (
       <div>
         <PageTop
@@ -265,9 +265,9 @@ class SelectTruck extends Component {
                 scroll={{ y: 500 }}
               />}
           </Card>
-          {visible&&<AddTruckDialog
+          {visible&&<AddClientDialog
             visible={visible}
-            truckId={selectedKey}
+            clientId={selectedKey}
             type={type}
             onCloseBack={()=>{this.onlyClose()}}
           />}
@@ -277,4 +277,4 @@ class SelectTruck extends Component {
   }
 }
 
-export default Form.create()(SelectTruck);
+export default Form.create()(selectClient);

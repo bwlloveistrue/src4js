@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 export async function getConditionField() {
-  return request('/api/truckInfo/getCondition', {
+  return request('/api/clientInfo/getCondition', {
     method: 'POST',
     data: {
       method: 'post',
@@ -9,8 +9,8 @@ export async function getConditionField() {
   });
 }
 
-export async function addTruckInfo(params) {
-  return request('/api/truckInfo/addTruckInfo', {
+export async function addClientInfo(params) {
+  return request('/api/clientInfo/addClientInfo', {
     method: 'POST',
     data: {
       ...params,
@@ -20,7 +20,7 @@ export async function addTruckInfo(params) {
 }
 
 export async function getTableInfoList(params) {
-  return request('/api/truckInfo/getTableInfoList', {
+  return request('/api/clientInfo/getTableInfoList', {
     method: 'POST',
     data: {
       ...params,
@@ -29,8 +29,8 @@ export async function getTableInfoList(params) {
   });
 }
 
-export async function deleteTruckInfo(params) {
-  return request('/api/truckInfo/deleteTruckInfo', {
+export async function deleteClientInfo(params) {
+  return request('/api/clientInfo/deleteClientInfo', {
     method: 'POST',
     data: {
       ...params,
@@ -39,8 +39,8 @@ export async function deleteTruckInfo(params) {
   });
 }
 
-export async function updateTruckInfo(params) {
-  return request('/api/truckInfo/updateTruckInfo', {
+export async function updateClientInfo(params) {
+  return request('/api/clientInfo/updateClientInfo', {
     method: 'POST',
     data: {
       ...params,
@@ -50,12 +50,12 @@ export async function updateTruckInfo(params) {
 }
 
 export async function fetch() {
-  return request('/api/truckInfo/fetch', {
+  return request('/api/clientInfo/fetch', {
   });
 }
 
-export async function getTruckInfoFields(params){
-  return request('/api/truckInfo/getTruckInfoFields', {
+export async function getClientInfoFields(params){
+  return request('/api/clientInfo/getClientInfoFields', {
     method: 'POST',
     data: {
       ...params,
