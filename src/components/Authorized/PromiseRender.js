@@ -4,21 +4,8 @@ import isEqual from 'lodash/isEqual';
 import { isComponentClass } from './Secured';
 // eslint-disable-next-line import/no-cycle
 
-interface PromiseRenderProps<T, K> {
-  ok: T;
-  error: K;
-  promise: Promise<boolean>;
-}
-
-interface PromiseRenderState {
-  component: React.ComponentClass | React.FunctionComponent;
-}
-
-export default class PromiseRender<T, K> extends React.Component<
-  PromiseRenderProps<T, K>,
-  PromiseRenderState
-> {
-  state: PromiseRenderState = {
+export default class PromiseRender extends React.Component {
+  state = {
     component: () => null,
   };
 
@@ -26,7 +13,7 @@ export default class PromiseRender<T, K> extends React.Component<
     this.setRenderComponent(this.props);
   }
 
-  shouldComponentUpdate = (nextProps: PromiseRenderProps<T, K>, nextState: PromiseRenderState) => {
+  shouldComponentUpdate = (nextProps, nextState) => {
     const { component } = this.state;
     if (!isEqual(nextProps, this.props)) {
       this.setRenderComponent(nextProps);
@@ -36,7 +23,7 @@ export default class PromiseRender<T, K> extends React.Component<
   };
 
   // set render Component : ok or error
-  setRenderComponent(props: PromiseRenderProps<T, K>) {
+  setRenderComponent(props) {
     const ok = this.checkIsInstantiation(props.ok);
     const error = this.checkIsInstantiation(props.error);
     props.promise
@@ -58,16 +45,16 @@ export default class PromiseRender<T, K> extends React.Component<
   // Authorized  render is already instantiated, children is no instantiated
   // Secured is not instantiated
   checkIsInstantiation = (
-    target: React.ReactNode | React.ComponentClass,
-  ): React.FunctionComponent => {
+    target,
+  ) => {
     if (isComponentClass(target)) {
-      const Target = target as React.ComponentClass;
-      return (props: any) => <Target {...props} />;
+      const Target = target;
+      return (props) => <Target {...props} />;
     }
     if (React.isValidElement(target)) {
-      return (props: any) => React.cloneElement(target, props);
+      return (props) => React.cloneElement(target, props);
     }
-    return () => target as (React.ReactNode & null);
+    return () => target;
   };
 
   render() {

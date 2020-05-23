@@ -3,13 +3,6 @@ import { CURRENT } from './renderAuthorize';
 // eslint-disable-next-line import/no-cycle
 import PromiseRender from './PromiseRender';
 
-export type IAuthorityType =
-  | undefined
-  | string
-  | string[]
-  | Promise<boolean>
-  | ((currentAuthority: string | string[]) => IAuthorityType);
-
 /**
  * 通用权限检查方法
  * Common check permissions method
@@ -18,12 +11,12 @@ export type IAuthorityType =
  * @param { 通过的组件 | Passing components } target
  * @param { 未通过的组件 | no pass components } Exception
  */
-const checkPermissions = <T, K>(
-  authority: IAuthorityType,
-  currentAuthority: string | string[],
-  target: T,
-  Exception: K,
-): T | K | React.ReactNode => {
+const checkPermissions = (
+  authority,
+  currentAuthority,
+  target,
+  Exception,
+) => {
   // 没有判定权限.默认查看所有
   // Retirement authority, return target;
   if (!authority) {
@@ -53,7 +46,7 @@ const checkPermissions = <T, K>(
   }
   // Promise 处理
   if (authority instanceof Promise) {
-    return <PromiseRender<T, K> ok={target} error={Exception} promise={authority} />;
+    return <PromiseRender ok={target} error={Exception} promise={authority} />;
   }
   // Function 处理
   if (typeof authority === 'function') {
@@ -61,7 +54,7 @@ const checkPermissions = <T, K>(
       const bool = authority(currentAuthority);
       // 函数执行后返回值是 Promise
       if (bool instanceof Promise) {
-        return <PromiseRender<T, K> ok={target} error={Exception} promise={bool} />;
+        return <PromiseRender ok={target} error={Exception} promise={bool} />;
       }
       if (bool) {
         return target;
@@ -76,8 +69,8 @@ const checkPermissions = <T, K>(
 
 export { checkPermissions };
 
-function check<T, K>(authority: IAuthorityType, target: T, Exception: K): T | K | React.ReactNode {
-  return checkPermissions<T, K>(authority, CURRENT, target, Exception);
+function check(authority, target, Exception) {
+  return checkPermissions(authority, CURRENT, target, Exception);
 }
 
 export default check;

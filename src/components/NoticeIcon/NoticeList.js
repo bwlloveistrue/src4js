@@ -5,24 +5,7 @@ import classNames from 'classnames';
 import { NoticeIconData } from './index';
 import styles from './NoticeList.less';
 
-export interface NoticeIconTabProps {
-  count?: number;
-  name?: string;
-  showClear?: boolean;
-  showViewMore?: boolean;
-  style?: React.CSSProperties;
-  title: string;
-  tabKey: string;
-  data?: NoticeIconData[];
-  onClick?: (item: NoticeIconData) => void;
-  onClear?: () => void;
-  emptyText?: string;
-  clearText?: string;
-  viewMoreText?: string;
-  list: NoticeIconData[];
-  onViewMore?: (e: any) => void;
-}
-const NoticeList: React.SFC<NoticeIconTabProps> = ({
+const NoticeList = ({
   data = [],
   onClick,
   onClear,
@@ -47,7 +30,7 @@ const NoticeList: React.SFC<NoticeIconTabProps> = ({
   }
   return (
     <div>
-      <List<NoticeIconData>
+      <List
         className={styles.list}
         dataSource={data}
         renderItem={(item, i) => {

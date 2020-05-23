@@ -5,53 +5,42 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
 
-import { NoticeItem } from '@/models/global';
 import NoticeIcon from '../NoticeIcon';
-import { CurrentUser } from '@/models/user';
-import { ConnectProps, ConnectState } from '@/models/connect';
 import styles from './index.less';
 
-export interface GlobalHeaderRightProps extends ConnectProps {
-  notices?: NoticeItem[];
-  currentUser?: CurrentUser;
-  fetchingNotices?: boolean;
-  onNoticeVisibleChange?: (visible: boolean) => void;
-  onNoticeClear?: (tabName?: string) => void;
-}
-
-class GlobalHeaderRight extends Component<GlobalHeaderRightProps> {
+class GlobalHeaderRight extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     if (dispatch) {
       dispatch({
-        type: 'global/fetchNotices',
+        type: 'notices/fetchNotices',
       });
     }
   }
 
-  changeReadState = (clickedItem: NoticeItem): void => {
+  changeReadState = (clickedItem) => {
     const { id } = clickedItem;
     const { dispatch } = this.props;
     if (dispatch) {
       dispatch({
-        type: 'global/changeNoticeReadState',
+        type: 'notices/changeNoticeReadState',
         payload: id,
       });
     }
   };
 
-  handleNoticeClear = (title: string, key: string) => {
+  handleNoticeClear = (title, key) => {
     const { dispatch } = this.props;
     message.success(`${formatMessage({ id: 'component.noticeIcon.cleared' })} ${title}`);
     if (dispatch) {
       dispatch({
-        type: 'global/clearNotices',
+        type: 'notices/clearNotices',
         payload: key,
       });
     }
   };
 
-  getNoticeData = (): { [key: string]: NoticeItem[] } => {
+  getNoticeData = () => {
     const { notices = [] } = this.props;
     if (notices.length === 0) {
       return {};
@@ -59,7 +48,7 @@ class GlobalHeaderRight extends Component<GlobalHeaderRightProps> {
     const newNotices = notices.map(notice => {
       const newNotice = { ...notice };
       if (newNotice.datetime) {
-        newNotice.datetime = moment(notice.datetime as string).fromNow();
+        newNotice.datetime = moment(notice.datetime).fromNow();
       }
       if (newNotice.id) {
         newNotice.key = newNotice.id;
@@ -82,8 +71,8 @@ class GlobalHeaderRight extends Component<GlobalHeaderRightProps> {
     return groupBy(newNotices, 'type');
   };
 
-  getUnreadData = (noticeData: { [key: string]: NoticeItem[] }) => {
-    const unreadMsg: { [key: string]: number } = {};
+  getUnreadData = (noticeData) => {
+    const unreadMsg = {};
     Object.keys(noticeData).forEach(key => {
       const value = noticeData[key];
       if (!unreadMsg[key]) {
@@ -97,16 +86,16 @@ class GlobalHeaderRight extends Component<GlobalHeaderRightProps> {
   };
 
   render() {
-    const { currentUser, fetchingNotices, onNoticeVisibleChange } = this.props;
+    const { fetchingNotices, onNoticeVisibleChange, unreadCount } = this.props;
     const noticeData = this.getNoticeData();
     const unreadMsg = this.getUnreadData(noticeData);
 
     return (
       <NoticeIcon
         className={styles.action}
-        count={currentUser && currentUser.unreadCount}
+        count={unreadCount}
         onItemClick={item => {
-          this.changeReadState(item as NoticeItem);
+          this.changeReadState(item);
         }}
         loading={fetchingNotices}
         clearText={formatMessage({ id: 'component.noticeIcon.clear' })}
@@ -145,10 +134,10 @@ class GlobalHeaderRight extends Component<GlobalHeaderRightProps> {
   }
 }
 
-export default connect(({ user, global, loading }: ConnectState) => ({
-  currentUser: user.currentUser,
-  collapsed: global.collapsed,
-  fetchingMoreNotices: loading.effects['global/fetchMoreNotices'],
-  fetchingNotices: loading.effects['global/fetchNotices'],
-  notices: global.notices,
+export default connect(({ user, notices, loading }) => ({
+  unreadCount: notices.unreadCount,
+  collapsed: notices.collapsed,
+  fetchingMoreNotices: loading.effects['notices/fetchMoreNotices'],
+  fetchingNotices: loading.effects['notices/fetchNotices'],
+  notices: notices.notices,
 }))(GlobalHeaderRight);

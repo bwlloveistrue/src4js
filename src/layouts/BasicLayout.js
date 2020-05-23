@@ -18,8 +18,7 @@ import { Icon, Result, Button } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
-import { ConnectState } from '@/models/connect';
-import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
+import {  getAuthorityFromRouter } from '@/utils/utils';
 import logo from '../assets/logo.svg';
 
 const noMatch = (
@@ -34,29 +33,11 @@ const noMatch = (
     }
   />
 );
-export interface BasicLayoutProps extends ProLayoutProps {
-  breadcrumbNameMap: {
-    [path: string]: MenuDataItem;
-  };
-  route: ProLayoutProps['route'] & {
-    authority: string[];
-  };
-  settings: Settings;
-  dispatch: Dispatch;
-}
-export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
-  breadcrumbNameMap: {
-    [path: string]: MenuDataItem;
-  };
-};
-/**
- * use Authorized check all menu item
- */
 
-const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] => {
+const menuDataRender = (menuList) => {
   const renderMenuList = menuList.map(item => {
     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
-    return Authorized.check(item.authority, localItem, null) as MenuDataItem;
+    return Authorized.check(item.authority, localItem, null) ;
   });
   return renderMenuList;
 };
@@ -87,7 +68,7 @@ const defaultFooterDom = (
   />
 );
 
-const footerRender: BasicLayoutProps['footerRender'] = () => {
+const footerRender = () => {
   // if (!isAntDesignPro()) {
   //   return defaultFooterDom;
   // }
@@ -114,7 +95,7 @@ const footerRender: BasicLayoutProps['footerRender'] = () => {
   );
 };
 
-const BasicLayout: React.FC<BasicLayoutProps> = props => {
+const BasicLayout = props => {
   const {
     dispatch,
     children,
@@ -141,7 +122,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
    * init variables
    */
 
-  const handleMenuCollapse = (payload: boolean): void => {
+  const handleMenuCollapse = (payload) => {
     if (dispatch) {
       dispatch({
         type: 'global/changeLayoutCollapsed',
@@ -190,9 +171,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         {...props}
         {...settings}
       >
-        <Authorized authority={authorized!.authority} noMatch={noMatch}>
-          {children}
-        </Authorized>
       </ProLayout>
       <SettingDrawer
         settings={settings}
@@ -207,7 +185,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   );
 };
 
-export default connect(({ global, settings }: ConnectState) => ({
-  collapsed: global.collapsed,
+export default connect(({ notices, settings }) => ({
+  collapsed: notices.collapsed,
   settings,
 }))(BasicLayout);

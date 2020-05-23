@@ -1,27 +1,26 @@
-import { 
-  getConditionField, 
-  addOrderTaker, 
-  deleteOrderTaker, 
-  updateOrderTaker, 
-  fetch, 
+import {
+  getConditionField,
+  addOrderTaker,
+  deleteOrderTaker,
+  updateOrderTaker,
+  fetch,
   getTableInfoList,
-  getOrderTakersInfoFields,
-  getorderTakersDispatchInfo } from './service';
-  import { message } from 'antd';
+  getOrderTakersInfoFields
+} from '@/services/selectOrderTakersS';
+import { message } from 'antd';
 
 const Model = {
-  namespace: 'selectOrderApportion',
-
+  namespace: 'selectOrderTakers',
   state: {
     data: {
       list: [],
       pagination: {},
     },//查看列表数据
     columns: [],//查看列表列
-    condition:[],//高级搜索需要
-    infoFields:[],//车辆录入主题
-    initFormFields:[],//车辆录入分配列表列
-    initDatas:[],//车辆录入分配
+    condition: [],//高级搜索需要
+    infoFields: [],//车辆录入主题
+    orderTakerInfoColumns: [],//车辆录入分配列表列
+    orderTakerInfoDetail: [],//车辆录入分配
   },
 
   effects: {
@@ -33,6 +32,7 @@ const Model = {
       });
     },
     *getTableInfo({ payload, callback }, { call, put }) {
+      console.log(payload)
       const response = yield call(getTableInfoList, payload);
       yield put({
         type: 'getTableInfoList',
@@ -42,13 +42,6 @@ const Model = {
     },
     *getOrderTakersFields({ payload }, { call, put }) {
       const response = yield call(getOrderTakersInfoFields, payload);
-      yield put({
-        type: 'getOrderTakersInfoFields',
-        payload: response,
-      });
-    },
-    *getorderTakersDispatch({ payload }, { call, put }) {
-      const response = yield call(getorderTakersDispatchInfo, payload);
       yield put({
         type: 'getOrderTakersInfoFields',
         payload: response,
@@ -82,9 +75,9 @@ const Model = {
 
   reducers: {
     save(state, action) {
-      if(action.payload.status){
+      if (action.payload.status) {
         message.success(action.message || 'This is a success message')
-      }else{
+      } else {
         message.error(action.error || 'This is a error message')
       }
       return {
@@ -107,9 +100,9 @@ const Model = {
     getOrderTakersInfoFields(state, action) {
       return {
         ...state,
-        infoFields: {data:action.payload.data},
-        initFormFields:action.payload.initFormFields,//车辆录入分配列表列
-        initDatas:action.payload.initDatas,//车辆录入分配
+        infoFields: { data: action.payload.data },
+        orderTakerInfoColumns: action.payload.editcolumns,
+        orderTakerInfoDetail: action.payload.editdatas,
       };
     },
   },

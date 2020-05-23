@@ -7,7 +7,7 @@ import CheckPermissions from './CheckPermissions';
  */
 const Exception403 = () => 403;
 
-export const isComponentClass = (component: React.ComponentClass | React.ReactNode): boolean => {
+export const isComponentClass = (component) => {
   if (!component) return false;
   const proto = Object.getPrototypeOf(component);
   if (proto === React.Component || proto === Function.prototype) return true;
@@ -18,13 +18,13 @@ export const isComponentClass = (component: React.ComponentClass | React.ReactNo
 // AuthorizedRoute is already instantiated
 // Authorized  render is already instantiated, children is no instantiated
 // Secured is not instantiated
-const checkIsInstantiation = (target: React.ComponentClass | React.ReactNode) => {
+const checkIsInstantiation = (target) => {
   if (isComponentClass(target)) {
-    const Target = target as React.ComponentClass;
-    return (props: any) => <Target {...props} />;
+    const Target = target;
+    return (props) => <Target {...props} />;
   }
   if (React.isValidElement(target)) {
-    return (props: any) => React.cloneElement(target, props);
+    return (props) => React.cloneElement(target, props);
   }
   return () => target;
 };
@@ -44,20 +44,20 @@ const checkIsInstantiation = (target: React.ComponentClass | React.ReactNode) =>
  * @param {string | function | Promise} authority
  * @param {ReactNode} error 非必需参数
  */
-const authorize = (authority: string, error?: React.ReactNode) => {
+const authorize = (authority, error) => {
   /**
    * conversion into a class
    * 防止传入字符串时找不到staticContext造成报错
    * String parameters can cause staticContext not found error
    */
-  let classError: boolean | React.FunctionComponent = false;
+  let classError  = false;
   if (error) {
-    classError = (() => error) as React.FunctionComponent;
+    classError = (() => error) ;
   }
   if (!authority) {
     throw new Error('authority is required');
   }
-  return function decideAuthority(target: React.ComponentClass | React.ReactNode) {
+  return function decideAuthority(target) {
     const component = CheckPermissions(authority, target, classError || Exception403);
     return checkIsInstantiation(component);
   };

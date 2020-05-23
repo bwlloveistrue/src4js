@@ -7,26 +7,7 @@ import { fakeAccountLogin, getFakeCaptcha } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 
-export interface StateType {
-  status?: 'ok' | 'error';
-  type?: string;
-  currentAuthority?: 'user' | 'guest' | 'admin';
-}
-
-export interface LoginModelType {
-  namespace: string;
-  state: StateType;
-  effects: {
-    login: Effect;
-    getCaptcha: Effect;
-    logout: Effect;
-  };
-  reducers: {
-    changeLoginStatus: Reducer<StateType>;
-  };
-}
-
-const Model: LoginModelType = {
+const Model = {
   namespace: 'login',
 
   state: {
@@ -44,7 +25,7 @@ const Model: LoginModelType = {
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
-        let { redirect } = params as { redirect: string };
+        let { redirect } = params;
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
           if (redirectUrlParams.origin === urlParams.origin) {

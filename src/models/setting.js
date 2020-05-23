@@ -3,16 +3,7 @@ import { message } from 'antd';
 import defaultSettings, { DefaultSettings } from '../../config/defaultSettings';
 import themeColorClient from '../components/SettingDrawer/themeColorClient';
 
-export interface SettingModelType {
-  namespace: 'settings';
-  state: DefaultSettings;
-  reducers: {
-    getSetting: Reducer<DefaultSettings>;
-    changeSetting: Reducer<DefaultSettings>;
-  };
-}
-
-const updateTheme = (newPrimaryColor?: string) => {
+const updateTheme = (newPrimaryColor) => {
   if (newPrimaryColor) {
     const timeOut = 0;
     const hideMessage = message.loading('正在切换主题！', timeOut);
@@ -20,19 +11,19 @@ const updateTheme = (newPrimaryColor?: string) => {
   }
 };
 
-const updateColorWeak: (colorWeak: boolean) => void = colorWeak => {
+const updateColorWeak = colorWeak => {
   const root = document.getElementById('root');
   if (root) {
     root.className = colorWeak ? 'colorWeak' : '';
   }
 };
 
-const SettingModel: SettingModelType = {
+const SettingModel = {
   namespace: 'settings',
   state: defaultSettings,
   reducers: {
     getSetting(state = defaultSettings) {
-      const setting: Partial<DefaultSettings> = {};
+      const setting = {};
       const urlParams = new URL(window.location.href);
       Object.keys(state).forEach(key => {
         if (urlParams.searchParams.has(key)) {

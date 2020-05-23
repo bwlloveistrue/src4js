@@ -5,11 +5,12 @@ import {
   updateOrderTaker, 
   fetch, 
   getTableInfoList,
-  getOrderTakersInfoFields } from './service';
+  getOrderTakersInfoFields,
+  getorderTakersDispatchInfo } from '@/services/selectOrderReceiptS';;
   import { message } from 'antd';
 
 const Model = {
-  namespace: 'selectOrderTakers',
+  namespace: 'selectOrderApportion',
 
   state: {
     data: {
@@ -19,8 +20,8 @@ const Model = {
     columns: [],//查看列表列
     condition:[],//高级搜索需要
     infoFields:[],//车辆录入主题
-    orderTakerInfoColumns:[],//车辆录入分配列表列
-    orderTakerInfoDetail:[],//车辆录入分配
+    initFormFields:[],//车辆录入分配列表列
+    initDatas:[],//车辆录入分配
   },
 
   effects: {
@@ -41,6 +42,13 @@ const Model = {
     },
     *getOrderTakersFields({ payload }, { call, put }) {
       const response = yield call(getOrderTakersInfoFields, payload);
+      yield put({
+        type: 'getOrderTakersInfoFields',
+        payload: response,
+      });
+    },
+    *getorderTakersDispatch({ payload }, { call, put }) {
+      const response = yield call(getorderTakersDispatchInfo, payload);
       yield put({
         type: 'getOrderTakersInfoFields',
         payload: response,
@@ -100,8 +108,8 @@ const Model = {
       return {
         ...state,
         infoFields: {data:action.payload.data},
-        orderTakerInfoColumns:action.payload.editcolumns,
-        orderTakerInfoDetail:action.payload.editdatas,
+        initFormFields:action.payload.initFormFields,//车辆录入分配列表列
+        initDatas:action.payload.initDatas,//车辆录入分配
       };
     },
   },

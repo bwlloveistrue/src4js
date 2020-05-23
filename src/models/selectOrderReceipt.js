@@ -4,7 +4,7 @@ import {
   updateOrderReceipt, 
   getTableInfoList,
   getOrderReceiptInfoFields,
-  getOrderReceiptDispatchInfo } from './service';
+  getOrderReceiptDispatchInfo } from '@/services/selectOrderReceiptS';;
   import { message } from 'antd';
 
 const Model = {

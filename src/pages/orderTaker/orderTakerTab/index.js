@@ -8,6 +8,7 @@ import SelectOrderReceipt from '../selectOrderReceipt';
 import SelectOrderTakers from '../selectOrderTakers';
 import styles from './orderTakerTab.less';
 
+
 const operationTabList = [
   {
     key: 'selectOrderTakers',

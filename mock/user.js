@@ -5,7 +5,7 @@ function getFakeCaptcha(req, res) {
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 export default {
   // 支持值为 Object 和 Array
-  'GET /api/currentUser': {
+  'GET /api/user/getCurrentUser': {
     name: 'Serati Ma',
     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
     userid: '00000001',
@@ -39,8 +39,6 @@ export default {
         label: '海纳百川',
       },
     ],
-    notifyCount: 12,
-    unreadCount: 11,
     country: 'China',
     geographic: {
       province: {
@@ -56,7 +54,7 @@ export default {
     phone: '0752-268888888',
   },
   // GET POST 可省略
-  'GET /api/users': [
+  'GET /api/user/getUsers': [
     {
       key: '1',
       name: 'John Brown',

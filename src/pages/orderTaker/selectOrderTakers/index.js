@@ -16,8 +16,9 @@ import OrderTakersDialog from './components/orderTakersDialog';
 
 const FormItem = Form.Item;
 
-@connect(({ selectOrderTakers,loading }) => ({
+@connect(({ selectOrderTakers,selectTruck,loading }) => ({
   selectOrderTakers,
+  selectTruck,
   loading: loading.effects['selectOrderTakers/getTableInfo'],
 }))
 class SelectOrderTakers extends Component {
@@ -176,7 +177,6 @@ class SelectOrderTakers extends Component {
   };
 
   handleSelectRows = (keys,rows) => {
-    console.log(keys)
     this.setState({
       selectedRows: keys,
     });
@@ -280,6 +280,7 @@ class SelectOrderTakers extends Component {
     const { from,loading,selectOrderTakers } = this.props;
     const { showSearchAd, timeSag,selectedRows,visible , selectedKey,type } = this.state;
     const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectOrderTakers;
+    
     const topTab = [
       {
         groupid: 'all',
@@ -354,31 +355,6 @@ class SelectOrderTakers extends Component {
             type={type}
             onCloseBack={()=>{this.onlyClose()}}
           />}
-          {/* <NewDialog
-          ref='orderTakers_dialog'
-          visible={visible}
-          title={'订单录入'}
-          icon="icon-coms-meeting"
-          iconBgcolor="#f14a2d"
-          className="meetingDialog"
-          buttons={this.getButton()}
-          style={{width: 'calc(100% - 200px)', height: '700px'}}
-          onCancel={() => this.onlyClose()}
-          scalable={true}
-          // onScale={() => this.onScale()}
-          >
-            <NewForm 
-              ref={(form) => {
-                this.selectForm = form;
-              }}
-              datas = {infoFields}
-              col = {6}
-            >
-              <NewScroll height={'600px'}>
-                {orderTakerInfoColumns.length>0&&<TableEdit ref={(orderTakerRef)=>{this.orderTakerRef = orderTakerRef}} datas={orderTakerInfoDetail} columns={orderTakerInfoColumns} onChange={(_key,datas)=>this.editChange(_key,datas)}/>}
-              </NewScroll>
-            </NewForm>
-          </NewDialog> */}
         </PageTop>
       </div>
     );

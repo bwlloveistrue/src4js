@@ -5,18 +5,13 @@ import React from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 
-import { ConnectProps, ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
-export interface GlobalHeaderRightProps extends ConnectProps {
-  currentUser?: CurrentUser;
-  menu?: boolean;
-}
 
-class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
-  onMenuClick = (event: ClickParam) => {
+class AvatarDropdown extends React.Component {
+  onMenuClick = (event) => {
     const { key } = event;
 
     if (key === 'logout') {
@@ -32,7 +27,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
     router.push(`/account/${key}`);
   };
 
-  render(): React.ReactNode {
+  render() {
     const { currentUser = { avatar: '', name: '' }, menu } = this.props;
 
     const menuHeaderDropdown = (
@@ -70,6 +65,6 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
     );
   }
 }
-export default connect(({ user }: ConnectState) => ({
+export default connect(({ user }) => ({
   currentUser: user.currentUser,
 }))(AvatarDropdown);
