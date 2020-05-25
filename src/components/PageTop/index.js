@@ -56,7 +56,7 @@ class PageTop extends React.Component {
       const scrollheigth =
         document.documentElement.clientHeight -
         top -
-        heightOther;
+        heightOther - 24;
       const { height } = this.state;
       if (height !== scrollheigth) {
         this.setState({ height: scrollheigth });

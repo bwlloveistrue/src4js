@@ -47,6 +47,7 @@ const onChange = (value, args, callback) => {
 }
 const formSwitch = {
     renderComs: (form, c, callback, initialValue) => {
+        console.log(c)
         const type = c.conditionType.toUpperCase();
         const { getFieldDecorator } = form && form;
         const values = form.getFieldsValue();

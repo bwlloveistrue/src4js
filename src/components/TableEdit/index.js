@@ -76,13 +76,15 @@ class EditableTable extends React.Component {
   }
 
   validateFields = ()=>{
+    let canPass = true;
     formList&&Object.keys(formList).forEach((_key,index)=>{
       formList[_key].validateFields((error, values) => {
         if (error) {
-          console.log(error,values)
+          canPass = false;
         }
       });
     })
+    return canPass;
   }
 
   

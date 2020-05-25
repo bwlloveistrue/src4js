@@ -125,7 +125,7 @@ class OrderTakersDialog extends Component {
 
   getButton = ()=>{
     let buttonsCreate =[
-      <Button key="doEdit" type="primary" disabled={false} onClick={this.onSave}>{'保存'}</Button>,
+      <Button key="doEdit" type="primary" disabled={false} onClick={()=>{this.onSave()}}>{'保存'}</Button>,
     ]
     return buttonsCreate;
   }
@@ -136,28 +136,25 @@ class OrderTakersDialog extends Component {
       if(errors){
         console.log(errors)
       }else{
-        this.orderTakerRef.validateFields((errors, values) => {
-          if(errors){
-            console.log(errors)
-          }else{
-            const values = this.selectForm.getFieldsValue();
-            const orderTakerInfo = this.orderTakerRef.getEditTable()
-            
-            const type = orderTakersId == ''?'selectOrderTakers/add':'selectOrderTakers/update';
-            console.log('save  values====',values)
-            console.log('save  orderTakerInfo====',orderTakerInfo)
-            dispatch({
-              type: type,
-              payload: {
-                orderTakerInfo:JSON.stringify(orderTakerInfo),
-                mainInfo:JSON.stringify(values)
-              },
-              callback:()=>{
-                this.onClose();
-              }
-            });
-          }
-        });
+        const canPass = this.orderTakerRef.validateFields();
+        if(canPass){
+          const values = this.selectForm.getFieldsValue();
+          const orderTakerInfo = this.orderTakerRef.getEditTable()
+          
+          const type = orderTakersId == ''?'selectOrderTakers/add':'selectOrderTakers/update';
+          console.log('save  values====',values)
+          console.log('save  orderTakerInfo====',orderTakerInfo)
+          dispatch({
+            type: type,
+            payload: {
+              orderTakerInfo:JSON.stringify(orderTakerInfo),
+              mainInfo:JSON.stringify(values)
+            },
+            callback:()=>{
+              this.onClose();
+            }
+          });
+        }
       }
     });
     
