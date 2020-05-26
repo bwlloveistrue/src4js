@@ -133,7 +133,7 @@ class SelectOrderTakers extends Component {
     dispatch({
       type: 'selectOrderTakers/delete',
       payload: {
-        id: selectedRows
+        delIds: selectedRows
       },
     });
     this.setState({selectedRows:[]})

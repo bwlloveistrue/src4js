@@ -142,8 +142,6 @@ class OrderTakersDialog extends Component {
           const orderTakerInfo = this.orderTakerRef.getEditTable()
           
           const type = orderTakersId == ''?'selectOrderTakers/add':'selectOrderTakers/update';
-          console.log('save  values====',values)
-          console.log('save  orderTakerInfo====',orderTakerInfo)
           dispatch({
             type: type,
             payload: {
