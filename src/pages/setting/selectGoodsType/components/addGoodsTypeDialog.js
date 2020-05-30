@@ -14,11 +14,11 @@ import NewScroll from '@/components/NewScroll';
 
 const FormItem = Form.Item;
 
-@connect(({ selectTruck, loading }) => ({
-  selectTruck,
-  loading: loading.effects['selectTruck/getTruckFields'],
+@connect(({ selectGoodsType, loading }) => ({
+  selectGoodsType,
+  loading: loading.effects['selectGoodsType/getGoodsTypeFields'],
 }))
-class AddTruckDialog extends Component {
+class AddGoodsTypeDialog extends Component {
 
   state = {
     selectedRows: [],
@@ -28,7 +28,7 @@ class AddTruckDialog extends Component {
     super();
     this.state = {
       visible: false,
-      truckId: ''
+      goodsTypeId: ''
     }
   }
 
@@ -43,20 +43,20 @@ class AddTruckDialog extends Component {
   selectForm = undefined;
 
   componentDidMount() {
-    const { type, truckId } = this.props
+    const { type, goodsTypeId } = this.props
     if (type == 'add') {
       this.onAdd();
     }
     if (type == 'edit') {
-      this.onEdit(truckId);
+      this.onEdit(goodsTypeId);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { visible } = this.state
-    const { truckId } = this.props
+    const { goodsTypeId } = this.props
     if (nextProps.visible != visible && nextProps.visible) {
-      this.setState({ visible: nextProps.visible, truckId: truckId })
+      this.setState({ visible: nextProps.visible, goodsTypeId: goodsTypeId })
     } else if (!nextProps.visible) {
       this.setState({ visible: nextProps.visible })
     }
@@ -67,26 +67,26 @@ class AddTruckDialog extends Component {
   onAdd = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'selectTruck/getTruckFields',
+      type: 'selectGoodsType/getGoodsTypeFields',
       payload: {},
     });
-    this.setState({ visible: true, truckId: '' })
+    this.setState({ visible: true, goodsTypeId: '' })
   }
 
   onEdit = (key = '') => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'selectTruck/getTruckFields',
+      type: 'selectGoodsType/getGoodsTypeFields',
       payload: {
         id: key
       },
     });
-    this.setState({ visible: true, truckId: key, type: 'edit' })
+    this.setState({ visible: true, goodsTypeId: key, type: 'edit' })
   }
 
   getFields = () => {
-    const { form, col, selectTruck } = this.props;
-    const { condition } = selectTruck
+    const { form, col, selectGoodsType } = this.props;
+    const { condition } = selectGoodsType
     const { getFieldDecorator } = form && form;
     let group = [];
     const formItemLayout = {
@@ -130,14 +130,14 @@ class AddTruckDialog extends Component {
   }
 
   onSave = () => {
-    const { dispatch, truckId, type } = this.props;
+    const { dispatch, goodsTypeId, type } = this.props;
     this.selectForm.validateFields((errors, values) => {
       if (errors) {
         console.log(errors)
       } else {
         let params = this.selectForm.getFieldsValue();
-        params = {...params,id:truckId}
-        const dispatchType = type=='add'?'selectTruck/add':'selectTruck/update'
+        params = {...params,id:goodsTypeId}
+        const dispatchType = type=='add'?'selectGoodsType/add':'selectGoodsType/update'
         dispatch({
           type: dispatchType,
           payload: {
@@ -158,10 +158,10 @@ class AddTruckDialog extends Component {
   }
 
   render() {
-    const { loading, selectTruck, truckId } = this.props;
+    const { loading, selectGoodsType, goodsTypeId } = this.props;
     const { showSearchAd, timeSag, selectedRows, visible } = this.state;
-    const { data, columns, infoFields, orderTakerInfoColumns, orderTakerInfoDetail } = selectTruck;
-    const title = truckId == '' ? '新增车辆' : '编辑车辆'
+    const { data, columns, infoFields, orderTakerInfoColumns, orderTakerInfoDetail } = selectGoodsType;
+    const title = goodsTypeId == '' ? '新增车辆' : '编辑车辆'
     return (
       <div>
         <NewDialog
@@ -190,4 +190,4 @@ class AddTruckDialog extends Component {
   }
 }
 
-export default Form.create()(AddTruckDialog);
+export default Form.create()(AddGoodsTypeDialog);

@@ -132,7 +132,7 @@ class selectOrderApportion extends Component {
     dispatch({
       type: 'selectOrderApportion/delete',
       payload: {
-        id: selectedRows
+        id: selectedRows.join(',')
       },
     });
     this.setState({ selectedRows: [] })

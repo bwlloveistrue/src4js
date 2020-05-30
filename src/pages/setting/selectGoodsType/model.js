@@ -1,15 +1,15 @@
 import { 
   getConditionField, 
-  addClientInfo, 
-  deleteClientInfo, 
-  updateClientInfo, 
+  addGoodsTypeInfo, 
+  deleteGoodsTypeInfo, 
+  updateGoodsTypeInfo, 
   fetch, 
   getTableInfoList,
-  getClientInfoFields } from './service';
+  getGoodsTypeInfoFields } from './service';
   import { message } from 'antd';
 
 const Model = {
-  namespace: 'selectClient',
+  namespace: 'selectGoodsType',
 
   state: {
     data: {
@@ -37,15 +37,15 @@ const Model = {
       });
       if (callback) callback(response);
     },
-    *getClientFields({ payload }, { call, put }) {
-      const response = yield call(getClientInfoFields, payload);
+    *getGoodsTypeFields({ payload }, { call, put }) {
+      const response = yield call(getGoodsTypeInfoFields, payload);
       yield put({
-        type: 'getClientInfoFields',
+        type: 'getGoodsTypeInfoFields',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addClientInfo, payload);
+      const response = yield call(addGoodsTypeInfo, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -53,7 +53,7 @@ const Model = {
       if (callback) callback();
     },
     *update({ payload, callback }, { call, put }) {
-      const response = yield call(updateClientInfo, payload);
+      const response = yield call(updateGoodsTypeInfo, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -61,7 +61,7 @@ const Model = {
       if (callback) callback();
     },
     *delete({ payload, callback }, { call, put }) {
-      const response = yield call(deleteClientInfo, payload);
+      const response = yield call(deleteGoodsTypeInfo, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -94,7 +94,7 @@ const Model = {
         condition: action.payload,
       };
     },
-    getClientInfoFields(state, action) {
+    getGoodsTypeInfoFields(state, action) {
       return {
         ...state,
         infoFields: {data:action.payload.data},

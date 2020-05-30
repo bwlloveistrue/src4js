@@ -14,7 +14,7 @@ import NewScroll from '@/components/NewScroll';
 
 const FormItem = Form.Item;
 
-@connect(({ selectClient,loading }) => ({
+@connect(({ selectClient, loading }) => ({
   selectClient,
   loading: loading.effects['selectClient/getClientFields'],
 }))
@@ -24,56 +24,56 @@ class AddClientDialog extends Component {
     selectedRows: [],
   }
 
-  constructor(){
+  constructor() {
     super();
-    this.state={
-      visible:false,
-      clientId:''
+    this.state = {
+      visible: false,
+      clientId: ''
     }
   }
 
   static defaultProps = {
-    
+
   };
 
   static defaultStates = {
-    
+
   }
 
   selectForm = undefined;
 
   componentDidMount() {
-    const {type , clientId } = this.props
-    if(type == 'add'){
+    const { type, clientId } = this.props
+    if (type == 'add') {
       this.onAdd();
     }
-    if(type == 'edit'){
+    if (type == 'edit') {
       this.onEdit(clientId);
     }
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const { visible } = this.state
-    const {type , clientId } = this.props
-    if(nextProps.visible != visible && nextProps.visible){
-      this.setState({visible:nextProps.visible,clientId:clientId})
-    }else if(!nextProps.visible){
-      this.setState({visible:nextProps.visible})
+    const { clientId } = this.props
+    if (nextProps.visible != visible && nextProps.visible) {
+      this.setState({ visible: nextProps.visible, clientId: clientId })
+    } else if (!nextProps.visible) {
+      this.setState({ visible: nextProps.visible })
     }
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
-  onAdd = ()=>{
+  onAdd = () => {
     const { dispatch } = this.props;
     dispatch({
       type: 'selectClient/getClientFields',
       payload: {},
     });
-    this.setState({visible:true,clientId:''})
+    this.setState({ visible: true, clientId: '' })
   }
 
-  onEdit = (key='')=>{
+  onEdit = (key = '') => {
     const { dispatch } = this.props;
     dispatch({
       type: 'selectClient/getClientFields',
@@ -81,100 +81,90 @@ class AddClientDialog extends Component {
         id: key
       },
     });
-    this.setState({visible:true,clientId:key,type:'edit'})
+    this.setState({ visible: true, clientId: key, type: 'edit' })
   }
 
   getFields = () => {
-    const { form,col,selectClient } = this.props;
+    const { form, col, selectClient } = this.props;
     const { condition } = selectClient
-    const { getFieldDecorator } = form&&form;
+    const { getFieldDecorator } = form && form;
     let group = [];
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 11 },
     };
-    condition&&condition.data&&condition.data.map((c, index) => {
-        let items = [];
-        c.items.map((fields) => {
-          items.push({
-            com: (
-              <FormItem {...formItemLayout} label={`${fields.label}`}>
-                {Switch.renderComs(form,fields)}
-              </FormItem>
-            ),
-            colSpan: 2,
-            hide: false,
-            key: fields.domkey[0],
-          });
+    condition && condition.data && condition.data.map((c, index) => {
+      let items = [];
+      c.items.map((fields) => {
+        items.push({
+          com: (
+            <FormItem {...formItemLayout} label={`${fields.label}`}>
+              {Switch.renderComs(form, fields)}
+            </FormItem>
+          ),
+          colSpan: 2,
+          hide: false,
+          key: fields.domkey[0],
         });
-        group.push(
-          <SearchGroup
-            col={col}
-            needTigger={true}
-            title={c.title}
-            showGroup={c.defaultshow}
-            items={items}
-            key={index}
-          />,
-        );
       });
-      
+      group.push(
+        <SearchGroup
+          col={col}
+          needTigger={true}
+          title={c.title}
+          showGroup={c.defaultshow}
+          items={items}
+          key={index}
+        />,
+      );
+    });
+
     return group;
   };
 
-  getButton = ()=>{
-    let buttonsCreate =[
+  getButton = () => {
+    let buttonsCreate = [
       <Button key="doEdit" type="primary" disabled={false} onClick={this.onSave}>{'保存'}</Button>,
     ]
     return buttonsCreate;
   }
 
-  onSave = ()=>{
-    const { dispatch , clientId} = this.props;
+  onSave = () => {
+    const { dispatch, clientId, type } = this.props;
     this.selectForm.validateFields((errors, values) => {
-      if(errors){
+      if (errors) {
         console.log(errors)
-      }else{
-        this.orderTakerRef.validateFields((errors, values) => {
-          if(errors){
-            console.log(errors)
-          }else{
-            const values = this.selectForm.getFieldsValue();
-            const orderTakerInfo = this.orderTakerRef.getEditTable()
-            
-            const type = clientId == ''?'selectClient/add':'selectClient/update';
-            console.log('save  values====',values)
-            console.log('save  orderTakerInfo====',orderTakerInfo)
-            dispatch({
-              type: type,
-              payload: {
-                orderTakerInfo:JSON.stringify(orderTakerInfo),
-                mainInfo:JSON.stringify(values)
-              },
-              callback:()=>{
-                this.onClose();
-              }
-            });
+      } else {
+        let params = this.selectForm.getFieldsValue();
+        params = {...params,id:clientId}
+        const dispatchType = type=='add'?'selectClient/add':'selectClient/update'
+        dispatch({
+          type: dispatchType,
+          payload: {
+            ...params
+          },
+          callback: () => {
+            this.onClose();
           }
         });
       }
     });
-    
+
   }
 
   onClose = () => {
-    this.setState({visible:false});
-    this.props.onCloseBack&&this.props.onCloseBack();
+    this.setState({ visible: false });
+    this.props.onCloseBack && this.props.onCloseBack();
   }
 
   render() {
-    const { loading,selectClient } = this.props;
-    const { showSearchAd, timeSag,selectedRows,visible  } = this.state;
-    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectClient;
-    const title = clientId == ''?'新增客户':'编辑客户'
+    const { loading, selectClient, clientId } = this.props;
+    const { showSearchAd, timeSag, selectedRows, visible } = this.state;
+    const { data, columns, infoFields, orderTakerInfoColumns, orderTakerInfoDetail } = selectClient;
+    const title = clientId == '' ? '新增车辆' : '编辑车辆'
     return (
       <div>
-          <NewDialog
+        <NewDialog
           ref='orderTakers_dialog'
           visible={visible}
           title={title}
@@ -182,19 +172,19 @@ class AddClientDialog extends Component {
           iconBgcolor="#f14a2d"
           className="meetingDialog"
           buttons={this.getButton()}
-          style={{width: 'calc(100% - 200px)', height: '700px'}}
+          style={{ width: 'calc(100% - 200px)', height: '700px' }}
           onCancel={() => this.onClose()}
           scalable={true}
+        >
+          <NewForm
+            ref={(form) => {
+              this.selectForm = form;
+            }}
+            datas={infoFields}
+            col={6}
           >
-            <NewForm 
-              ref={(form) => {
-                this.selectForm = form;
-              }}
-              datas = {infoFields}
-              col = {6}
-            >
-            </NewForm>
-          </NewDialog>
+          </NewForm>
+        </NewDialog>
       </div>
     );
   }

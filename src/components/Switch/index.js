@@ -2,6 +2,7 @@ import React from "react";
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import NewCheckbox from '../NewCheckbox/index'
+import NewSwitch from '../NewSwitch/index'
 import NewSelect from '../NewSelect/index'
 import NewDatePicker from '../NewDatePicker/index'
 import NewCheckboxGroup from '../NewCheckboxGroup/index'
@@ -41,17 +42,15 @@ const types = {
     DESCRIPTION: "DESCRIPTION"
 }
 const onChange = (value, args, callback) => {
-    console.log('value', value)
     typeof callback == 'function' && callback(value, args);
     // this.props.onChange && this.props.onChange(value, args);
 }
 const formSwitch = {
     renderComs: (form, c, callback, initialValue) => {
-        console.log(c)
         const type = c.conditionType.toUpperCase();
         const { getFieldDecorator } = form && form;
         const values = form.getFieldsValue();
-        initialValue = c.values || initialValue
+        initialValue = c.value || initialValue
         if (getFieldDecorator) {
             if (type === types.INPUT) {
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
@@ -94,6 +93,9 @@ const formSwitch = {
                 </div>
                 )
             } else if (type === types.CHECKBOX) {
+                if(!initialValue || initialValue == ''){
+                    initialValue = '0';
+                }
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
                     {c.viewAttr == 1 ?
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
@@ -168,7 +170,7 @@ const formSwitch = {
                             })(
                                 <NewSelect
                                     allowClear={true}
-                                    mode="multiple"
+                                    mode={c.multiple? "multiple":'tag'}
                                     dropdownMatchSelectWidth={true}
                                     placeholder={c.placeholder}
                                     {...c.otherParams}
@@ -181,6 +183,9 @@ const formSwitch = {
                 </div>
                 )
             } else if (type === types.DATEPICKER) {
+                if(!initialValue || initialValue == ''){
+                    initialValue = moment().format(c.format || 'YYYY-MM-DD')
+                }
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
                     {c.viewAttr == 1 ?
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
@@ -352,6 +357,9 @@ const formSwitch = {
                 </div>
                 )
             } else if (type === types.INPUTNUMBER) {
+                if(parseInt(initialValue, 10) < 0){
+                    initialValue = 0;
+                }
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
                     {c.viewAttr == 1 ?
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
@@ -386,6 +394,29 @@ const formSwitch = {
                             onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
                         />,
                     )}
+                </div>
+                )
+            }else if(type === types.SWITCH){
+                if(!initialValue || initialValue == ''){
+                    initialValue = '0';
+                }
+                return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
+                    {c.viewAttr == 1 ?
+                        <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
+                            <span className="wea-field-readonly">
+                                {initialValue == '1' ? '是' : '否'}
+                            </span>
+                        </div>
+                        :
+                        getFieldDecorator(`${c.domkey[0]}`, {
+                            initialValue: initialValue,
+                            rules: c.rules || [],
+                        })(
+                            <NewSwitch
+                                onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
+                                {...c.otherParams}
+                            />,
+                        )}
                 </div>
                 )
             }

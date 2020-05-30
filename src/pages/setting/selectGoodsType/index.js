@@ -11,15 +11,15 @@ import Switch from '@/components/Switch/index';
 import NewTable from '@/components/NewTable';
 import NewDialog from '@/components/NewDialog';
 import NewScroll from '@/components/NewScroll';
-import AddDriverDialog from './components/addDriverDialog';
+import AddGoodsTypeDialog from './components/addGoodsTypeDialog';
 
 const FormItem = Form.Item;
 
-@connect(({ selectDriver,loading }) => ({
-  selectDriver,
-  loading: loading.effects['selectDriver/getTableInfo'],
+@connect(({ selectGoodsType,loading }) => ({
+  selectGoodsType,
+  loading: loading.effects['selectGoodsType/getTableInfo'],
 }))
-class SelectDriver extends Component {
+class SelectGoodsType extends Component {
 
   state = {
     selectedRows: [],
@@ -58,7 +58,7 @@ class SelectDriver extends Component {
   getCondition = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'selectDriver/getCondition',
+      type: 'selectGoodsType/getCondition',
     });
   };
 
@@ -66,7 +66,7 @@ class SelectDriver extends Component {
     const { dispatch,form } = this.props;
     const values = form.getFieldsValue();
     dispatch({
-      type: 'selectDriver/getTableInfo',
+      type: 'selectGoodsType/getTableInfo',
       payload: values,
       callback: (res) => {
         if (res) {
@@ -115,7 +115,7 @@ class SelectDriver extends Component {
     const { dispatch } = this.props;
     const { selectedRows } = this.state
     dispatch({
-      type: 'selectDriver/delete',
+      type: 'selectGoodsType/delete',
       payload: {
         delIds: selectedRows.join(','),
       },
@@ -124,8 +124,8 @@ class SelectDriver extends Component {
     this.setState({selectedRows:[]})
   }
   getFields = () => {
-    const { form,col,selectDriver } = this.props;
-    const { condition } = selectDriver
+    const { form,col,selectGoodsType } = this.props;
+    const { condition } = selectGoodsType
     const { getFieldDecorator } = form&&form;
     let group = [];
     const formItemLayout = {
@@ -196,7 +196,7 @@ class SelectDriver extends Component {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
     dispatch({
-      type: 'selectDriver/getTableInfo',
+      type: 'selectGoodsType/getTableInfo',
       payload: params,
     });
   };
@@ -211,8 +211,8 @@ class SelectDriver extends Component {
   }
 
   customColumns = ()=>{
-    const { selectDriver } = this.props;
-    const {columns} = selectDriver;
+    const { selectGoodsType } = this.props;
+    const {columns} = selectGoodsType;
     let [...newColumns] = columns;
     newColumns.push({
       dataIndex: "operate",
@@ -230,16 +230,16 @@ class SelectDriver extends Component {
   }
 
   customListInfo = () =>{
-    const { selectDriver } = this.props;
-    const {data} = selectDriver;
+    const { selectGoodsType } = this.props;
+    const {data} = selectGoodsType;
     
     return columns;
   }
 
   render() {
-    const { from,loading,selectDriver } = this.props;
+    const { from,loading,selectGoodsType } = this.props;
     const { showSearchAd, selectedRows,visible , selectedKey,type } = this.state;
-    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectDriver;
+    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectGoodsType;
     return (
       <div>
         <PageTop
@@ -271,9 +271,9 @@ class SelectDriver extends Component {
                 scroll={{ y: 500 }}
               />}
           </Card>
-          {visible&&<AddDriverDialog
+          {visible&&<AddGoodsTypeDialog
             visible={visible}
-            driverId={selectedKey}
+            goodsTypeId={selectedKey}
             type={type}
             onCloseBack={()=>{this.closeAndRefresh()}}
           />}
@@ -283,4 +283,4 @@ class SelectDriver extends Component {
   }
 }
 
-export default Form.create()(SelectDriver);
+export default Form.create()(SelectGoodsType);

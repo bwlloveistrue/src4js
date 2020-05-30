@@ -117,8 +117,9 @@ class SelectTruck extends Component {
     dispatch({
       type: 'selectTruck/delete',
       payload: {
-        id: selectedRows
+        delIds: selectedRows.join(','),
       },
+      callback:()=>{this.closeAndRefresh()}
     });
     this.setState({selectedRows:[]})
   }
@@ -204,6 +205,11 @@ class SelectTruck extends Component {
     this.setState({visible:false});
   }
 
+  closeAndRefresh = () => {
+    this.setState({visible:false});
+    this.getTableInfo();
+  }
+
   customColumns = ()=>{
     const { selectTruck } = this.props;
     const {columns} = selectTruck;
@@ -269,7 +275,7 @@ class SelectTruck extends Component {
             visible={visible}
             truckId={selectedKey}
             type={type}
-            onCloseBack={()=>{this.onlyClose()}}
+            onCloseBack={()=>{this.closeAndRefresh()}}
           />}
         </PageTop>
       </div>

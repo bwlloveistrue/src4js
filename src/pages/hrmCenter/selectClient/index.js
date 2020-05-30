@@ -19,7 +19,7 @@ const FormItem = Form.Item;
   selectClient,
   loading: loading.effects['selectClient/getTableInfo'],
 }))
-class selectClient extends Component {
+class SelectClient extends Component {
 
   state = {
     selectedRows: [],
@@ -117,8 +117,9 @@ class selectClient extends Component {
     dispatch({
       type: 'selectClient/delete',
       payload: {
-        id: selectedRows
+        delIds: selectedRows.join(','),
       },
+      callback:()=>{this.closeAndRefresh()}
     });
     this.setState({selectedRows:[]})
   }
@@ -204,6 +205,11 @@ class selectClient extends Component {
     this.setState({visible:false});
   }
 
+  closeAndRefresh = () => {
+    this.setState({visible:false});
+    this.getTableInfo();
+  }
+
   customColumns = ()=>{
     const { selectClient } = this.props;
     const {columns} = selectClient;
@@ -269,7 +275,7 @@ class selectClient extends Component {
             visible={visible}
             clientId={selectedKey}
             type={type}
-            onCloseBack={()=>{this.onlyClose()}}
+            onCloseBack={()=>{this.closeAndRefresh()}}
           />}
         </PageTop>
       </div>
@@ -277,4 +283,4 @@ class selectClient extends Component {
   }
 }
 
-export default Form.create()(selectClient);
+export default Form.create()(SelectClient);

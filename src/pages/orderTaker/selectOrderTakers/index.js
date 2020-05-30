@@ -93,7 +93,7 @@ class SelectOrderTakers extends Component {
 
   resetFormFields = ()=>{
     const { form } = this.props;
-    form.resetFormFields();
+    form.resetFields();
   }
 
   getBtns = () => {
@@ -133,7 +133,7 @@ class SelectOrderTakers extends Component {
     dispatch({
       type: 'selectOrderTakers/delete',
       payload: {
-        delIds: selectedRows
+        delIds: selectedRows.join(',')
       },
     });
     this.setState({selectedRows:[]})

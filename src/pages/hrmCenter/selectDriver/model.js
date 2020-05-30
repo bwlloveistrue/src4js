@@ -18,7 +18,7 @@ const Model = {
     },//查看列表数据
     columns: [],//查看列表列
     condition:[],//高级搜索需要
-    infoFields:[],//车辆录入主题
+    infoFields:[],//
   },
 
   effects: {
@@ -37,7 +37,7 @@ const Model = {
       });
       if (callback) callback(response);
     },
-    *getTruckFields({ payload }, { call, put }) {
+    *getDriverFields({ payload }, { call, put }) {
       const response = yield call(getDriverInfoFields, payload);
       yield put({
         type: 'getDriverInfoFields',

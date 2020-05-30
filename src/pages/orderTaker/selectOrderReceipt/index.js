@@ -132,7 +132,7 @@ class selectOrderReceipt extends Component {
     dispatch({
       type: 'selectOrderReceipt/delete',
       payload: {
-        id: selectedRows
+        id: selectedRows.join(',')
       },
     });
     this.setState({ selectedRows: [] })

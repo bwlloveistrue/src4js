@@ -162,13 +162,7 @@ export default {
                   icon: 'smile',
                   path: '/truckCenter/selectTruck',
                   component: './truckCenter/selectTruck',
-                },
-                {
-                  name: 'addTruck',
-                  icon: 'smile',
-                  path: '/truckCenter/addTruck',
-                  component: './truckCenter/addTruck',
-                },
+                }
               ],
             },
             {
@@ -176,18 +170,7 @@ export default {
               icon: 'form',
               name: 'hrmCenter',
               routes: [
-                {
-                  name: 'addClient',
-                  icon: 'smile',
-                  path: '/hrmCenter/addClient',
-                  component: './hrmCenter/addClient',
-                },
-                {
-                  name: 'addDriver',
-                  icon: 'smile',
-                  path: '/hrmCenter/addDriver',
-                  component: './hrmCenter/addDriver',
-                },
+                
                 {
                   name: 'selectClient',
                   icon: 'smile',
