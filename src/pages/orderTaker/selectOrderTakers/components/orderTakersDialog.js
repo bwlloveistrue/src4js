@@ -85,44 +85,6 @@ class OrderTakersDialog extends Component {
     this.setState({visible:true,selectedKey:key,type:'edit'})
   }
 
-  getFields = () => {
-    const { form,col,selectOrderTakers } = this.props;
-    const { condition } = selectOrderTakers
-    const { getFieldDecorator } = form&&form;
-    let group = [];
-    const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 11 },
-    };
-    condition&&condition.data&&condition.data.map((c, index) => {
-        let items = [];
-        c.items.map((fields) => {
-          items.push({
-            com: (
-              <FormItem {...formItemLayout} label={`${fields.label}`}>
-                {Switch.renderComs(form,fields)}
-              </FormItem>
-            ),
-            colSpan: 2,
-            hide: false,
-            key: fields.domkey[0],
-          });
-        });
-        group.push(
-          <SearchGroup
-            col={col}
-            needTigger={true}
-            title={c.title}
-            showGroup={c.defaultshow}
-            items={items}
-            key={index}
-          />,
-        );
-      });
-      
-    return group;
-  };
-
   getButton = ()=>{
     let buttonsCreate =[
       <Button key="doEdit" type="primary" disabled={false} onClick={()=>{this.onSave()}}>{'保存'}</Button>,
@@ -146,7 +108,8 @@ class OrderTakersDialog extends Component {
             type: type,
             payload: {
               orderTakerInfo:JSON.stringify(orderTakerInfo),
-              mainInfo:JSON.stringify(values)
+              mainInfo:JSON.stringify(values),
+              id:orderTakersId
             },
             callback:()=>{
               this.onClose();
@@ -169,7 +132,7 @@ class OrderTakersDialog extends Component {
   }
 
   render() {
-    const { from,loading,selectOrderTakers } = this.props;
+    const { loading,selectOrderTakers } = this.props;
     const { showSearchAd, timeSag,selectedRows,visible  } = this.state;
     const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectOrderTakers;
     return (

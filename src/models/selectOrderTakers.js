@@ -24,15 +24,15 @@ const Model = {
   },
 
   effects: {
-    *getCondition({ payload }, { call, put }) {
+    *getCondition({ payload,callback }, { call, put }) {
       const response = yield call(getConditionField, payload);
       yield put({
         type: 'getConditionField',
         payload: response,
       });
+      callback&&callback();
     },
     *getTableInfo({ payload, callback }, { call, put }) {
-      console.log(payload)
       const response = yield call(getTableInfoList, payload);
       yield put({
         type: 'getTableInfoList',

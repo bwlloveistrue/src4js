@@ -53,7 +53,7 @@ class SelectOrderTakers extends Component {
 
   componentDidMount() {
     this.getCondition();
-    this.getTableInfo();
+    // this.getTableInfo();
   }
 
   componentWillUnmount() {}
@@ -62,6 +62,7 @@ class SelectOrderTakers extends Component {
     const { dispatch } = this.props;
     dispatch({
       type: 'selectOrderTakers/getCondition',
+      callback:()=>{this.getTableInfo()}
     });
   };
 
@@ -84,6 +85,7 @@ class SelectOrderTakers extends Component {
     let btns=[
       <Button type='primary' onClick={() => {
         this.getTableInfo();
+        this.setState({showSearchAd: false})
       }}>{'搜索'}</Button>,
       <Button type="ghost" onClick={() => this.resetFormFields()}>{'重置'}</Button>,
       <Button type="ghost" onClick={() => this.setState({showSearchAd:false})}>{'取消'}</Button>,
@@ -217,6 +219,11 @@ class SelectOrderTakers extends Component {
 
   onlyClose = () => {
     this.setState({visible:false});
+  }
+
+  closeAndRefresh = () => {
+    this.setState({visible:false});
+    this.getTableInfo();
   }
 
   editChange = (_key, datas)=>{
@@ -353,7 +360,7 @@ class SelectOrderTakers extends Component {
             visible={visible}
             orderTakersId={selectedKey}
             type={type}
-            onCloseBack={()=>{this.onlyClose()}}
+            onCloseBack={()=>{this.closeAndRefresh()}}
           />}
         </PageTop>
       </div>
