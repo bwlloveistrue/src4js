@@ -4,7 +4,7 @@ import {
   updateOrderReceipt, 
   getTableInfoList,
   getOrderReceiptInfoFields,
-  getOrderReceiptDispatchInfo } from '@/services/selectOrderReceiptS';;
+  addOrderReceipt } from '@/services/selectOrderReceiptS';;
   import { message } from 'antd';
 
 const Model = {
@@ -39,7 +39,7 @@ const Model = {
       if (callback) callback(response);
     },
     *getOrderReceiptDispatch({ payload }, { call, put }) {
-      const response = yield call(getOrderReceiptDispatchInfo, payload);
+      const response = yield call(getOrderReceiptInfoFields, payload);
       yield put({
         type: 'getOrderReceiptInfoFields',
         payload: response,

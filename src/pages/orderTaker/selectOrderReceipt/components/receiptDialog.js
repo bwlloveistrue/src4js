@@ -70,7 +70,7 @@ class ReceiptDialog extends Component {
                 id: key
             },
         });
-        this.setState({ apportionVisible: true, selectedKey: key })
+        this.setState({ visible: true, selectedKey: key })
     }
 
     componentWillUnmount() { }

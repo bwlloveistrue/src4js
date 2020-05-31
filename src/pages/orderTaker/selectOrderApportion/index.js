@@ -54,7 +54,7 @@ class selectOrderApportion extends Component {
 
   componentDidMount() {
     this.getCondition();
-    this.getTableInfo();
+    // this.getTableInfo();
 
   }
 
@@ -73,6 +73,7 @@ class selectOrderApportion extends Component {
     const { dispatch } = this.props;
     dispatch({
       type: 'selectOrderApportion/getCondition',
+      callback:()=>{this.getTableInfo()}
     });
   };
 
@@ -95,6 +96,7 @@ class selectOrderApportion extends Component {
     let btns = [
       <Button type='primary' onClick={() => {
         this.getTableInfo();
+        this.setState({showSearchAd: false})
       }}>{'搜索'}</Button>,
       <Button type="ghost" onClick={() => this.resetFormFields()}>{'重置'}</Button>,
       <Button type="ghost" onClick={() => this.setState({ showSearchAd: false })}>{'取消'}</Button>,
@@ -217,10 +219,12 @@ class selectOrderApportion extends Component {
 
   onApportionClose = () => {
     this.setState({ apportionVisible: false });
+    this.getTableInfo();
   }
 
   onOrderTakersClose = () => {
     this.setState({ orderTakersVisible: false });
+    this.getTableInfo();
   }
 
   editChange = (_key, datas) => {
@@ -348,7 +352,7 @@ class selectOrderApportion extends Component {
             apportionId={selectedKey}
             onCloseBack={() => { this.onApportionClose() }}
           />}
-          {
+          {orderTakersVisible&&
             <OrderTakersDialog
               visible={orderTakersVisible}
               orderTakersId={''}

@@ -18,7 +18,7 @@ for (let i = 0; i < 20; i += 1) {
 
 export default {
 
-  'POST  /api/orderTaker/getorderTakersDispatchInfo':  {
+  'POST  /api/orderApportion/getOrderApportionFields':  {
     data: [
       {
         title: '基本信息',
@@ -64,7 +64,7 @@ export default {
             rules: [{ required: true, message: '请填写客户' }],
             label: '客户',
             domkey: ['client'],
-            values:'0'
+            value:'0'
           },
           {
             formItemType: 'DATEPICKER',
@@ -80,7 +80,7 @@ export default {
               showTime: false,
             },
             domkey: ['beginDate'],
-            values:'2020-04-08'
+            value:'2020-04-08'
           },
           {
             formItemType: 'CHECKBOX',
@@ -93,7 +93,7 @@ export default {
             hasBorder: true,
             value: '',
             domkey: ['packageFlg'],
-            values:true
+            value:true
           },
         ],
       },
@@ -141,7 +141,7 @@ export default {
             rules: [{ required: true, message: '请填写客户' }],
             label: '货物类型',
             domkey: ['client_1'],
-            values:'0'
+            value:'0'
           },
           {
             formItemType: 'INPUT',
@@ -154,7 +154,7 @@ export default {
             formItemType: "INPUT",
             rules: [{ required: true, message: '请填写始发地' }],
             label: '始发地',
-            values: '上海_1',
+            value: '上海_1',
           },
           {
             formItemType: 'INPUT',
@@ -167,7 +167,7 @@ export default {
             formItemType: "INPUT",
             rules: [{ required: true, message: '请填目的地' }],
             label: '目的地',
-            values: '苏州_1',
+            value: '苏州_1',
           },
           {
             labelcol: 6,
@@ -178,7 +178,7 @@ export default {
             conditionType: "CHECKBOX",
             formItemType: "CHECKBOX",
             label: '开票',
-            values: true,
+            value: true,
           },
           {
             labelcol: 6,
@@ -189,7 +189,7 @@ export default {
             conditionType: "INPUTNUMBER",
             formItemType: "INPUTNUMBER",
             label: '单价',
-            values: 50,
+            value: 50,
           },
           {
             labelcol: 6,
@@ -200,7 +200,7 @@ export default {
             conditionType: "INPUTNUMBER",
             formItemType: "INPUTNUMBER",
             label: '重量',
-            values: 60,
+            value: 60,
           },
           {
             formItemType: 'SELECT',
@@ -242,7 +242,7 @@ export default {
             rules: [{ required: true, message: '请填写客户' }],
             label: '货物类型',
             domkey: ['client_2'],
-            values:'0'
+            value:'0'
           },
           {
             formItemType: 'INPUT',
@@ -255,7 +255,7 @@ export default {
             formItemType: "INPUT",
             rules: [{ required: true, message: '请填写始发地' }],
             label: '始发地',
-            values: '上海_1',
+            value: '上海_1',
           },
           {
             formItemType: 'INPUT',
@@ -268,7 +268,7 @@ export default {
             formItemType: "INPUT",
             rules: [{ required: true, message: '请填目的地' }],
             label: '目的地',
-            values: '苏州_1',
+            value: '苏州_1',
           },
           {
             labelcol: 6,
@@ -279,7 +279,7 @@ export default {
             conditionType: "CHECKBOX",
             formItemType: "CHECKBOX",
             label: '开票',
-            values: true,
+            value: true,
           },
           {
             labelcol: 6,
@@ -290,7 +290,7 @@ export default {
             conditionType: "INPUTNUMBER",
             formItemType: "INPUTNUMBER",
             label: '单价',
-            values: 50,
+            value: 50,
           },
           {
             labelcol: 6,
@@ -301,7 +301,7 @@ export default {
             conditionType: "INPUTNUMBER",
             formItemType: "INPUTNUMBER",
             label: '重量',
-            values: 60,
+            value: 60,
           },
         ],
       },
@@ -504,7 +504,7 @@ export default {
     ]
   },
 
-  'POST  /api/orderTaker/getCondition':  {
+  'POST  /api/orderApportion/getCondition':  {
     data: [
       {
         title: '基本信息',
@@ -653,7 +653,7 @@ export default {
   
   },
 
-  'POST  /api/orderTaker/getTableInfoList':  {
+  'POST  /api/orderApportion/getTableInfoList':  {
     columns: [
       {
         title: '客户',
@@ -726,17 +726,17 @@ export default {
     }
   },
 
-  'POST  /api/orderTaker/addOrderTaker':  {
+  'POST  /api/orderApportion/addOrderTaker':  {
     status:true,
     id:1
   },
 
-  'POST  /api/orderTaker/updateOrderTaker':  {
+  'POST  /api/orderApportion/updateOrderTaker':  {
     status:true,
     id:1
   },
 
-  'POST  /api/orderTaker/deleteOrderTaker':  {
+  'POST  /api/orderApportion/deleteOrderTaker':  {
     status:true,
   },
   

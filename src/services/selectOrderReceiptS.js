@@ -30,6 +30,16 @@ export async function deleteOrderReceipt(params) {
   });
 }
 
+export async function addOrderReceipt(params) {
+  return request('/api/orderReceipt/addOrderReceipt', {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'post',
+    },
+  })
+}
+
 export async function updateOrderReceipt(params) {
   return request('/api/orderReceipt/updateOrderReceipt', {
     method: 'POST',
@@ -40,8 +50,8 @@ export async function updateOrderReceipt(params) {
   })
 }
 
-export async function getOrderReceiptDispatchInfo(params){
-  return request('/api/orderReceipt/getOrderReceiptDispatchInfo', {
+export async function getOrderReceiptInfoFields(params){
+  return request('/api/orderReceipt/getOrderReceiptFields', {
     method: 'POST',
     data: {
       ...params,

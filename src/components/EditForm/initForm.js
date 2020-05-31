@@ -50,7 +50,6 @@ class InitForm extends React.Component {
     if(isInit){
       values = initDatas || {}
     }
-    console.log(values)
     return (
       <div className={'initFormContent'}>
         {datas&&<div className={'initFormInfo'}>

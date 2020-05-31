@@ -71,6 +71,12 @@ const Model = {
       });
       if (callback) callback();
     },
+    *cleanEditTable({ payload, callback }, { call, put }) {
+      yield put({
+        type: 'cleanEditTableInfo',
+      });
+      if (callback) callback();
+    },
   },
 
   reducers: {
@@ -105,6 +111,13 @@ const Model = {
         orderTakerInfoDetail: action.payload.editdatas,
       };
     },
+    cleanEditTableInfo(state, action) {
+      return {
+        ...state,
+        orderTakerInfoColumns: [],
+        orderTakerInfoDetail: [],
+      };
+    }
   },
 };
 

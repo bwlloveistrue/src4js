@@ -10,13 +10,15 @@ class NewCheckbox extends React.Component {
       }
 
     componentDidMount(){
-
+        const { value } = this.props
+        this.setState({newV:value})
     }
 
     componentWillReceiveProps(nextProps){
         const {newV} = this.state;
         if(nextProps.value != newV){
             this.setState({newV:nextProps.value})
+            console.log('nextProps',nextProps.value)
         }
     }
 
@@ -33,7 +35,7 @@ class NewCheckbox extends React.Component {
         let checkedStatus = ( newV === 1 || newV === "1")?true:false
         return (
             <Checkbox
-                defaultChecked={checkedStatus}
+                checked={checkedStatus}
                 {...this.props}
                 onChange={(e)=>this.onChange(e)}
                 >

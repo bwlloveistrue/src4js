@@ -95,6 +95,7 @@ class selectOrderReceipt extends Component {
     let btns = [
       <Button type='primary' onClick={() => {
         this.getTableInfo();
+        this.setState({showSearchAd: false})
       }}>{'搜索'}</Button>,
       <Button type="ghost" onClick={() => this.resetFormFields()}>{'重置'}</Button>,
       <Button type="ghost" onClick={() => this.setState({ showSearchAd: false })}>{'取消'}</Button>,
@@ -348,7 +349,7 @@ class selectOrderReceipt extends Component {
             receiptId={selectedKey}
             onCloseBack={() => { this.onReceiptClose() }}
           />}
-          {
+          {orderTakersVisible&&
             <OrderTakersDialog
               visible={orderTakersVisible}
               orderTakersId={''}

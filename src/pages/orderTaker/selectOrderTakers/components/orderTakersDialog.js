@@ -123,7 +123,12 @@ class OrderTakersDialog extends Component {
 
   onClose = () => {
     this.setState({visible:false});
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'selectOrderTakers/getOrderTakersFields',
+    });
     this.props.onCloseBack&&this.props.onCloseBack();
+    
   }
 
   editChange = (_key, datas)=>{
@@ -156,7 +161,7 @@ class OrderTakersDialog extends Component {
               datas = {infoFields}
               col = {6}
             >
-              <NewScroll height={'600px'}>
+              <NewScroll height={'500px'}>
                 {orderTakerInfoColumns.length>0&&<TableEdit ref={(orderTakerRef)=>{this.orderTakerRef = orderTakerRef}} datas={orderTakerInfoDetail} columns={orderTakerInfoColumns} onChange={(_key,datas)=>this.editChange(_key,datas)}/>}
               </NewScroll>
             </NewForm>

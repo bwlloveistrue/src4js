@@ -96,6 +96,7 @@ const formSwitch = {
                 if(!initialValue || initialValue == ''){
                     initialValue = '0';
                 }
+                initialValue = parseInt(initialValue,10)
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
                     {c.viewAttr == 1 ?
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
@@ -118,7 +119,6 @@ const formSwitch = {
             } else if (type === types.CHECKBOXGROUP) {
                 let initialValueTemp = [];
                 initialValueTemp = typeof initialValue == 'string' ? initialValue.split(',') : initialValue
-                console.log(initialValueTemp)
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
                     {c.viewAttr == 1 ?
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
@@ -149,13 +149,18 @@ const formSwitch = {
             } else if (type === types.SELECT) {
                 let initialValueTemp = [];
                 initialValueTemp = typeof initialValue == 'string' ? initialValue.split(',') : initialValue
+                if(initialValue && typeof initialValue == 'number'){
+                    initialValue = initialValue +''
+                }
+                //判断当前初始值是否存在于option内，不存在强制置为空
+
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
                     {
                         c.viewAttr == 1 ?
                             <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                                 <span className="wea-field-readonly">
                                     {c.options.map(op => {
-                                        if (initialValueTemp.indexOf(op.key) > -1) {
+                                        if (initialValueTemp&&initialValueTemp.indexOf(op.key) > -1) {
                                             return op.showname + " "
                                         } else {
                                             return ''

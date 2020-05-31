@@ -19,7 +19,7 @@ const FormItem = Form.Item;
 
 @connect(({ selectOrderApportion, loading }) => ({
     selectOrderApportion,
-    loading: loading.effects['selectOrderApportion/getorderTakersDispatch'],
+    loading: loading.effects['selectOrderApportion/getOrderTakersApportion'],
 }))
 class ApportionDialog extends Component {
 
@@ -57,24 +57,26 @@ class ApportionDialog extends Component {
 
     componentWillReceiveProps(nextProps) {
         const { dialogHeight, visible } = this.state
+        const {type , apportionId } = this.props
         const baseInfoHeight = $(this.refs.formDivRef).height()
         const editFormHeight = dialogHeight - baseInfoHeight;
         this.setState({ editFormHeight: editFormHeight })
-        const { apportionId } = this.props
-        if (nextProps.visible != visible) {
-            this.setState({ visible: nextProps.visible, apportionId: apportionId })
+        if(nextProps.visible != visible && nextProps.visible){
+            this.setState({visible:nextProps.visible,apportionId:apportionId})
+        }else if(!nextProps.visible){
+            this.setState({visible:nextProps.visible})
         }
     }
 
     onDispatch = (key = '') => {
         const { dispatch } = this.props;
         dispatch({
-            type: 'selectOrderApportion/getorderTakersDispatch',
+            type: 'selectOrderApportion/getOrderTakersApportion',
             payload: {
                 id: key
             },
         });
-        this.setState({ apportionVisible: true, selectedKey: key })
+        this.setState({ visible: true, selectedKey: key })
     }
 
     componentWillUnmount() { }
@@ -101,7 +103,6 @@ class ApportionDialog extends Component {
         if(isPass){
             const type = 'selectOrderApportion/update';
             const orderTakerInfo = this.refs.editFormRef.getFormsValues();
-            console.log(orderTakerInfo)
             dispatch({
                 type: type,
                 payload: {
@@ -121,10 +122,10 @@ class ApportionDialog extends Component {
     render() {
         const { from, loading, selectOrderApportion } = this.props;
         const { showSearchAd, timeSag, selectedRows, visible, dialogHeight, editFormHeight } = this.state;
+        console.log('editFormHeight',editFormHeight)
         const { data, columns, infoFields, initFormFields, initDatas } = selectOrderApportion;
         return (
             <div>
-
                 <NewDialog
                     ref='orderTakers_dialog'
                     visible={visible}

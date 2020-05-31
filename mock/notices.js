@@ -103,5 +103,5 @@
 
 
 export default {
-  'GET /api/notices/getNotices': datas,
+  'POST /api/notices/getNotices': {...datas},
 };

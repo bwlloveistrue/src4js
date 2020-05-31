@@ -3,6 +3,7 @@ import Switch from "../Switch";
 import EditableContext from "./EdittableContext"
 import EditableFormRow from "./EditableFormRow"
 import EditableCell from "./EditableCell"
+import Tools from "../Tools/index";
 
 const formList = {}
 
@@ -11,13 +12,12 @@ class EditableTable extends React.Component {
     super(props);
 
     this.state = {
-      selectedRowKeys: '',
+      selectedRowKeys: [],
       selectedData: [],
       datas: [
       ],
       columns : [
       ],
-      count: 2,
     };
   }
 
@@ -34,7 +34,10 @@ class EditableTable extends React.Component {
         columns :columns,
       };
     }
-    this.setState(newState)
+    Object.keys(formList).forEach((_key)=>{
+      delete formList[_key]
+    })
+    this.setState({...newState})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,7 +53,7 @@ class EditableTable extends React.Component {
         columns:columns,
       };
     }
-    this.setState({newState})
+    this.setState({...newState})
   }
 
   onChange(_key,datas) {
@@ -87,7 +90,12 @@ class EditableTable extends React.Component {
     return canPass;
   }
 
-  
+  removeArr = (arr,_key)=>{
+    const _idx = arr.indexOf(_key)
+    if(_idx > -1){
+      arr.splice(_idx,1);
+    }
+  }
 
   handleDelete = () => {
     const { selectedRowKeys } = this.state;
@@ -96,12 +104,14 @@ class EditableTable extends React.Component {
     selectedRowKeys.forEach((_rowKey)=>{
       delete formList[_rowKey]
     })
+    this.setState({selectedRowKeys:[]})
   };
 
   handleAdd = () => {
-    const { count, datas,columns } = this.state;
+    const { datas,columns } = this.state;
+    const _key = Tools.gethashcode();
     const newData = {
-      key: count,
+      key: _key,
     };
     columns.forEach((_c)=>{
       _c.cell&&Object.keys(_c.cell).forEach((_k)=>{
@@ -129,7 +139,6 @@ class EditableTable extends React.Component {
     })
     this.setState({
       datas: [...datas, newData],
-      count: count + 1,
     });
   };
 

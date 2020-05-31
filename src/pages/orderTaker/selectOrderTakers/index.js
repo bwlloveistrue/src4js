@@ -137,8 +137,12 @@ class SelectOrderTakers extends Component {
       payload: {
         delIds: selectedRows.join(',')
       },
+      callback:()=>{
+        this.getTableInfo();
+      }
     });
     this.setState({selectedRows:[]})
+    
   }
   getFields = () => {
     const { form,col,selectOrderTakers } = this.props;

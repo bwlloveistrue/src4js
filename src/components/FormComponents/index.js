@@ -23,7 +23,6 @@ class NewForm extends Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps',nextProps)
     if (this.props.showGroup !== nextProps.showGroup) {
       this.setState({ showGroup: nextProps.showGroup });
     }

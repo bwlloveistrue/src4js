@@ -1,12 +1,10 @@
 import { 
   getConditionField, 
-  addOrderTaker, 
-  deleteOrderTaker, 
-  updateOrderTaker, 
-  fetch, 
+  addOrderApportion, 
+  deleteOrderApportion, 
+  updateOrderApportion, 
   getTableInfoList,
-  getOrderTakersInfoFields,
-  getorderTakersDispatchInfo } from '@/services/selectOrderReceiptS';;
+  getOrderTakersApportionInfo } from '@/services/selectOrderApportionS';;
   import { message } from 'antd';
 
 const Model = {
@@ -25,12 +23,13 @@ const Model = {
   },
 
   effects: {
-    *getCondition({ payload }, { call, put }) {
+    *getCondition({ payload, callback }, { call, put }) {
       const response = yield call(getConditionField, payload);
       yield put({
         type: 'getConditionField',
         payload: response,
       });
+      if (callback) callback(response);
     },
     *getTableInfo({ payload, callback }, { call, put }) {
       const response = yield call(getTableInfoList, payload);
@@ -40,22 +39,15 @@ const Model = {
       });
       if (callback) callback(response);
     },
-    *getOrderTakersFields({ payload }, { call, put }) {
-      const response = yield call(getOrderTakersInfoFields, payload);
-      yield put({
-        type: 'getOrderTakersInfoFields',
-        payload: response,
-      });
-    },
-    *getorderTakersDispatch({ payload }, { call, put }) {
-      const response = yield call(getorderTakersDispatchInfo, payload);
+    *getOrderTakersApportion({ payload }, { call, put }) {
+      const response = yield call(getOrderTakersApportionInfo, payload);
       yield put({
         type: 'getOrderTakersInfoFields',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addOrderTaker, payload);
+      const response = yield call(addOrderApportion, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -63,7 +55,7 @@ const Model = {
       if (callback) callback();
     },
     *update({ payload, callback }, { call, put }) {
-      const response = yield call(updateOrderTaker, payload);
+      const response = yield call(updateOrderApportion, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -71,7 +63,7 @@ const Model = {
       if (callback) callback();
     },
     *delete({ payload, callback }, { call, put }) {
-      const response = yield call(deleteOrderTaker, payload);
+      const response = yield call(deleteOrderApportion, payload);
       yield put({
         type: 'save',
         payload: response,

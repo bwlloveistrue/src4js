@@ -2,26 +2,16 @@ import request from '@/utils/request';
 
 export async function getConditionField() {
   console.log('getCondition api----')
-  return request('/api/orderTaker/getCondition', {
+  return request('/api/orderApportion/getCondition', {
     method: 'POST',
     data: {
-      method: 'post',
-    },
-  });
-}
-
-export async function addOrderTaker(params) {
-  return request('/api/orderTaker/addOrderTaker', {
-    method: 'POST',
-    data: {
-      ...params,
       method: 'post',
     },
   });
 }
 
 export async function getTableInfoList(params) {
-  return request('/api/orderTaker/getTableInfoList', {
+  return request('/api/orderApportion/getTableInfoList', {
     method: 'POST',
     data: {
       ...params,
@@ -30,8 +20,8 @@ export async function getTableInfoList(params) {
   });
 }
 
-export async function deleteOrderTaker(params) {
-  return request('/api/orderTaker/deleteOrderTaker', {
+export async function deleteOrderApportion(params) {
+  return request('/api/orderApportion/deleteOrderApportion', {
     method: 'POST',
     data: {
       ...params,
@@ -40,8 +30,8 @@ export async function deleteOrderTaker(params) {
   });
 }
 
-export async function updateOrderTaker(params) {
-  return request('/api/orderTaker/updateOrderTaker', {
+export async function addOrderApportion(params) {
+  return request('/api/orderApportion/addOrderApportion', {
     method: 'POST',
     data: {
       ...params,
@@ -50,23 +40,18 @@ export async function updateOrderTaker(params) {
   })
 }
 
-export async function fetch() {
-  return request('/api/orderTaker/fetch', {
-  });
-}
-
-export async function getOrderTakersInfoFields(params){
-  return request('/api/orderTaker/getOrderTakersInfoFields', {
+export async function updateOrderApportion(params) {
+  return request('/api/orderApportion/updateOrderApportion', {
     method: 'POST',
     data: {
       ...params,
       method: 'post',
     },
-  });
+  })
 }
 
-export async function getorderTakersDispatchInfo(params){
-  return request('/api/orderTaker/getorderTakersDispatchInfo', {
+export async function getOrderTakersApportionInfo(params){
+  return request('/api/orderApportion/getOrderApportionFields', {
     method: 'POST',
     data: {
       ...params,

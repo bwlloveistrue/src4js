@@ -28,7 +28,7 @@ for (let i = 0; i < 20; i += 1) {
 
 export default {
 
-  'POST  /api/orderReceipt/getOrderReceiptDispatchInfo':  {
+  'POST  /api/orderReceipt/getOrderReceiptFields':  {
     data: [
       {
         title: '基本信息',
