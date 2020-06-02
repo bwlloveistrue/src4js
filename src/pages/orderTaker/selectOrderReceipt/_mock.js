@@ -506,7 +506,7 @@ export default {
             colSpan: 1,
             fieldcol: 11,
             viewAttr: 3,
-            domkey: ['other'],
+            domkey: ['otherFee'],
             conditionType: "INPUTNUMBER",
             formItemType: "INPUTNUMBER",
             label: '其他',
