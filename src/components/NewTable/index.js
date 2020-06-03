@@ -1,6 +1,7 @@
 import { Alert, Table } from 'antd';
 import { ColumnProps, TableRowSelection, TableProps } from 'antd/es/table';
 import React, { Component, Fragment } from 'react';
+import $ from 'jquery'
 
 import styles from './style.less';
 
@@ -92,13 +93,19 @@ class NewTable extends Component {
     }
   };
 
+  cleanFirstCleanDom = ()=>{
+    $($(".ant-table-row-level-1").children(':first')).html('')
+    $($(".ant-table-row-level-1").children(':last')).html('')
+  }
+
   render() {
     const { selectedRowKeys, needTotalList } = this.state;
-    const { data, rowKey, size,showRowSelect,showTotalList, ...rest } = this.props;
+    const { data, rowKey, size,showRowSelect,showTotalList,expandAllRows, ...rest } = this.props;
     const { list = [], pagination = false } = data || {};
-
+    this.cleanFirstCleanDom();
     const paginationProps = pagination
       ? {
+          size:"small",
           showSizeChanger: true,
           showQuickJumper: true,
           pageSizeOptions: ['10', '20', '50', '100'],
@@ -108,7 +115,6 @@ class NewTable extends Component {
           ...pagination,
         }
       : false;
-
     const rowSelection = {
       selectedRowKeys,
       onChange: this.handleRowSelectChange,
@@ -116,7 +122,6 @@ class NewTable extends Component {
         disabled: record.disabled,
       }),
     };
-
     return (
       <div className={styles.standardTable}>
         {showTotalList&&<div className={styles.tableAlert}>
@@ -148,9 +153,12 @@ class NewTable extends Component {
           rowKey={rowKey || 'key'}
           rowSelection={showRowSelect&&rowSelection}
           dataSource={list}
+          // columns={list.columns}
           pagination={paginationProps}
           onChange={this.handleTableChange}
           size={size || 'small'}
+          defaultExpandAllRows={true}
+          expandedRowKeys={expandAllRows?list?list.map(item=>item.key):[]:[]}
           {...rest}
         />
       </div>

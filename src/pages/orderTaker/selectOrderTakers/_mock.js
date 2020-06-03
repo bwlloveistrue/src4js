@@ -5,7 +5,7 @@ for (let i = 0; i < 20; i += 1) {
   tableListDataSource.push({
     key: i,
     goodsTypeShow: '我是货物类型'+i,
-    client: '我是客户'+i,
+    client: '我是客户a'+i,
     startPlace: '始发地'+i,
     endPlace: '目的地'+i,
     price: '150'+i,
@@ -13,6 +13,20 @@ for (let i = 0; i < 20; i += 1) {
     beginDate: '2020-04-11',
     packageFlg: '是',
     createDate: '2020-04-10 15:08',
+    children:[
+      {
+        key: 100+i,
+      
+      
+      startPlace: '始发地'+i,
+      endPlace: '目的地'+i,
+      price: '150'+i,
+      realCarry: '45'+i,
+      beginDate: '2020-04-11',
+      packageFlg: '是',
+      createDate: '2020-04-10 15:08',
+      }
+    ]
   });
 }
 

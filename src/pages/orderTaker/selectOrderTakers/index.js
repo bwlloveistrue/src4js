@@ -355,6 +355,7 @@ class SelectOrderTakers extends Component {
                 columns={this.customColumns()}
                 showRowSelect = {true}
                 showTotalList = {true}
+                expandAllRows = {true}
                 onSelectRow={this.handleSelectRows}
                 onChange={this.handleStandardTableChange}
                 scroll={{ y: 500 }}

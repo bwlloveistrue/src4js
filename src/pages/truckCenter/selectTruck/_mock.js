@@ -363,7 +363,7 @@ export default {
   
   },
 
-  'POST  /api/orderTaker/getTableInfoList':  {
+  'POST  /api/truckInfo/getTableInfoList':  {
     columns: [
       {
         title: '客户',
