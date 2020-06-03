@@ -111,7 +111,7 @@ class NewTable extends Component {
           pageSizeOptions: ['10', '20', '50', '100'],
           locale: defaultLocale,
           total: 297,
-          showTotal: (total)=>{`共${total}条`},
+          showTotal(total){`共${total}条`},
           ...pagination,
         }
       : false;
