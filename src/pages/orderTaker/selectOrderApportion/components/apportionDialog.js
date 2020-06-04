@@ -106,8 +106,8 @@ class ApportionDialog extends Component {
             dispatch({
                 type: type,
                 payload: {
-                    // orderTakerInfo:JSON.stringify(orderTakerInfo),
-                    mainInfo: JSON.stringify(values)
+                    orderTakerInfo:JSON.stringify(orderTakerInfo),
+                    // mainInfo: JSON.stringify(values)
                 },
     
             });

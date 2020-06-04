@@ -94,8 +94,7 @@ class NewTable extends Component {
   };
 
   cleanFirstCleanDom = ()=>{
-    $($(".ant-table-row-level-1").children(':first')).html('')
-    $($(".ant-table-row-level-1").children(':last')).html('')
+   
   }
 
   render() {
@@ -158,7 +157,8 @@ class NewTable extends Component {
           onChange={this.handleTableChange}
           size={size || 'small'}
           defaultExpandAllRows={true}
-          expandedRowKeys={expandAllRows?list?list.map(item=>item.key):[]:[]}
+          // expandedRowKeys={expandAllRows?list?list.map(item=>item.key):[]:[]}
+          defaultExpandAllRows={expandAllRows}
           {...rest}
         />
       </div>
