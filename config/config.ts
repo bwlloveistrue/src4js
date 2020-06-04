@@ -289,12 +289,19 @@ export default {
                   icon: 'smile',
                   path: '/userCenter/selectUser',
                   component: './userCenter/selectUser',
-                },
+                }
+              ],
+            },
+            {
+              path: '/messageType',
+              icon: 'form',
+              name: 'messageType',
+              routes: [
                 {
-                  name: 'userDetail',
+                  name: 'selectType',
                   icon: 'smile',
-                  path: '/userCenter/userDetail',
-                  component: './userCenter/userDetail',
+                  path: '/messageType/selectType',
+                  component: './messageType/selectType',
                 },
               ],
             },

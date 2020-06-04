@@ -111,9 +111,7 @@ class selectOrderApportion extends Component {
 
   getBtns = () => {
     const { selectedRows } = this.state;
-    let btns = [
-      (<Button type='primary' key={'new'} onClick={this.onAdd}>{'新增'}</Button>)
-    ];
+    let btns = [];
 
     btns.push(<Button type='primary' disabled={selectedRows.length > 0 ? false : true} key={'delete'} onClick={() => this.onDelete()}>{'删除'}</Button>)
     btns.push(<Button type='primary' key={'exportExcel'} onClick={() => console.log('jiefeng')}>{'导出EXCEL'}</Button>)
