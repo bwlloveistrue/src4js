@@ -170,7 +170,6 @@ export default {
               icon: 'form',
               name: 'hrmCenter',
               routes: [
-                
                 {
                   name: 'selectClient',
                   icon: 'smile',
@@ -182,6 +181,12 @@ export default {
                   icon: 'smile',
                   path: '/hrmCenter/selectDriver',
                   component: './hrmCenter/selectDriver',
+                },
+                {
+                  name: 'selectPartner',
+                  icon: 'smile',
+                  path: '/hrmCenter/selectPartner',
+                  component: './hrmCenter/selectPartner',
                 },
               ],
             },

@@ -1,7 +1,7 @@
 import React from "react";
-import { Checkbox } from 'antd';
+import { Radio } from 'antd';
 
-class NewCheckboxGroup extends React.Component {
+class NewRadioGroup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,25 +20,26 @@ class NewCheckboxGroup extends React.Component {
         }
     }
 
-    onChange = (checkedV)=>{
-        let v = checkedV.join(',')
-        this.setState({newV:v})
+    onChange = (e)=>{
+        let v = e.target.value
+        const newV = {newV:v}
+        this.setState({...newV})
         const {onChange} = this.props
         onChange&&onChange(v)
     }
 
     render(){
+        console.log(this.props)
         const {newV} = this.state;
-        let selectV = newV?newV.split(','):[]
         return (
-            <Checkbox.Group 
-                value={selectV}
+            <Radio.Group 
+                defaultValue={newV}
                 {...this.props}
                 onChange={(e)=>this.onChange(e)}
                 >
-            </Checkbox.Group >
+            </Radio.Group >
         );
     }
 }
 
-export default NewCheckboxGroup
+export default NewRadioGroup

@@ -18,7 +18,7 @@ class NewSelect extends React.Component {
 
     componentWillReceiveProps(nextProps){
         let _v = nextProps.value;
-        const v = (typeof _v == 'object'?_v.join(','):typeof _v == 'string'?_v:_v)
+        const v = _v?(typeof _v == 'object'?_v.join(','):typeof _v == 'string'?_v:_v):''
         const {newV} = this.state;
         if(v != newV){
             this.setState({newV:v})

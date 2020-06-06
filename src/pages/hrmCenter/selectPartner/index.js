@@ -10,18 +10,16 @@ import PageTop from '@/components/PageTop';
 import Switch from '@/components/Switch/index';
 import NewTable from '@/components/NewTable';
 import NewDialog from '@/components/NewDialog';
-import TableEdit from '@/components/TableEdit';
 import NewScroll from '@/components/NewScroll';
-import OrderTakersDialog from './components/orderTakersDialog';
+import AddPartnerDialog from './components/addPartnerDialog';
 
 const FormItem = Form.Item;
 
-@connect(({ selectOrderTakers,selectTruck,loading }) => ({
-  selectOrderTakers,
-  selectTruck,
-  loading: loading.effects['selectOrderTakers/getTableInfo'],
+@connect(({ selectPartner,loading }) => ({
+  selectPartner,
+  loading: loading.effects['selectPartner/getTableInfo'],
 }))
-class SelectOrderTakers extends Component {
+class SelectPartner extends Component {
 
   state = {
     selectedRows: [],
@@ -32,7 +30,6 @@ class SelectOrderTakers extends Component {
     //设置sate,添加name与age属性
     this.state={
       showSearchAd: false,
-      timeSag: 0,
       selectedRows: [],
       visible:false,
       selectedKey:'',
@@ -53,7 +50,7 @@ class SelectOrderTakers extends Component {
 
   componentDidMount() {
     this.getCondition();
-    // this.getTableInfo();
+    this.getTableInfo();
   }
 
   componentWillUnmount() {}
@@ -61,8 +58,7 @@ class SelectOrderTakers extends Component {
   getCondition = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'selectOrderTakers/getCondition',
-      callback:()=>{this.getTableInfo()}
+      type: 'selectPartner/getCondition',
     });
   };
 
@@ -70,7 +66,7 @@ class SelectOrderTakers extends Component {
     const { dispatch,form } = this.props;
     const values = form.getFieldsValue();
     dispatch({
-      type: 'selectOrderTakers/getTableInfo',
+      type: 'selectPartner/getTableInfo',
       payload: values,
       callback: (res) => {
         if (res) {
@@ -85,7 +81,6 @@ class SelectOrderTakers extends Component {
     let btns=[
       <Button type='primary' onClick={() => {
         this.getTableInfo();
-        this.setState({showSearchAd: false})
       }}>{'搜索'}</Button>,
       <Button type="ghost" onClick={() => this.resetFormFields()}>{'重置'}</Button>,
       <Button type="ghost" onClick={() => this.setState({showSearchAd:false})}>{'取消'}</Button>,
@@ -95,7 +90,7 @@ class SelectOrderTakers extends Component {
 
   resetFormFields = ()=>{
     const { form } = this.props;
-    form.resetFields();
+    form.resetFormFields();
   }
 
   getBtns = () => {
@@ -105,27 +100,14 @@ class SelectOrderTakers extends Component {
     ];
     
     btns.push(<Button type='primary' disabled={selectedRows.length > 0?false:true} key={'delete'} onClick={()=>this.onDelete()}>{'删除'}</Button>)
-    btns.push(<Button type='primary' key={'exportExcel'} onClick={() => console.log('jiefeng')}>{'导出EXCEL'}</Button>)
     return btns;
   }
 
   onAdd = ()=>{
-    // const { dispatch } = this.props;
-    // dispatch({
-    //   type: 'selectOrderTakers/getOrderTakersFields',
-    //   payload: {},
-    // });
     this.setState({visible:true,selectedKey:'',type:'add'})
   }
 
   onEdit = (key='')=>{
-    // const { dispatch } = this.props;
-    // dispatch({
-    //   type: 'selectOrderTakers/getOrderTakersFields',
-    //   payload: {
-    //     id: key
-    //   },
-    // });
     this.setState({visible:true,selectedKey:key,type:'edit'})
   }
 
@@ -133,20 +115,17 @@ class SelectOrderTakers extends Component {
     const { dispatch } = this.props;
     const { selectedRows } = this.state
     dispatch({
-      type: 'selectOrderTakers/delete',
+      type: 'selectPartner/delete',
       payload: {
-        delIds: selectedRows.join(',')
+        delIds: selectedRows.join(','),
       },
-      callback:()=>{
-        this.getTableInfo();
-      }
+      callback:()=>{this.closeAndRefresh()}
     });
     this.setState({selectedRows:[]})
-    
   }
   getFields = () => {
-    const { form,col,selectOrderTakers } = this.props;
-    const { condition } = selectOrderTakers
+    const { form,col,selectPartner } = this.props;
+    const { condition } = selectPartner
     const { getFieldDecorator } = form&&form;
     let group = [];
     const formItemLayout = {
@@ -169,7 +148,7 @@ class SelectOrderTakers extends Component {
         });
         group.push(
           <SearchGroup
-            col={col}
+            col={c.col || col || 6}
             needTigger={true}
             title={c.title}
             showGroup={c.defaultshow}
@@ -183,6 +162,7 @@ class SelectOrderTakers extends Component {
   };
 
   handleSelectRows = (keys,rows) => {
+    console.log(keys)
     this.setState({
       selectedRows: keys,
     });
@@ -216,7 +196,7 @@ class SelectOrderTakers extends Component {
       params.sorter = `${sorter.field}_${sorter.order}`;
     }
     dispatch({
-      type: 'selectOrderTakers/getTableInfo',
+      type: 'selectPartner/getTableInfo',
       payload: params,
     });
   };
@@ -230,14 +210,9 @@ class SelectOrderTakers extends Component {
     this.getTableInfo();
   }
 
-  editChange = (_key, datas)=>{
-    // console.log('_key',_key)
-    // console.log('datas',datas)
-  }
-
   customColumns = ()=>{
-    const { selectOrderTakers } = this.props;
-    const {columns} = selectOrderTakers;
+    const { selectPartner } = this.props;
+    const {columns} = selectPartner;
     let [...newColumns] = columns;
     newColumns.push({
       dataIndex: "operate",
@@ -255,75 +230,16 @@ class SelectOrderTakers extends Component {
   }
 
   customListInfo = () =>{
-    const { selectOrderTakers } = this.props;
-    const {data} = selectOrderTakers;
+    const { selectPartner } = this.props;
+    const {data} = selectPartner;
     
     return columns;
   }
 
-  tabChange = (_tabKey = 0)=>{
-    const { dispatch,form } = this.props;
-    const values = form.getFieldsValue();
-    this.setState({timeSag: _tabKey});
-    form.setFieldsValue({
-      timeSag: _tabKey
-    })
-    const params = {
-      ...values,
-      timeSag:_tabKey,
-    };
-    dispatch({
-      type: 'selectOrderTakers/getTableInfo',
-      payload: params,
-    });
-  }
-
-  // onScale = () => {
-  //   setTimeout(() => {
-  //     const { setState } = this.props.meetingDialog;
-  //     if(this.refs.weameeting_dialog && this.refs.weameeting_dialog.state ) {
-  //       setState({weaDialogContentHeight: this.refs.weameeting_dialog.state.height});
-  //     }
-  //   }, 250);
-  // }
-
   render() {
-    const { from,loading,selectOrderTakers } = this.props;
-    const { showSearchAd, timeSag,selectedRows,visible , selectedKey,type } = this.state;
-    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectOrderTakers;
-    
-    const topTab = [
-      {
-        groupid: 'all',
-        title: '全部',
-        viewcondition: '0'
-      },
-      {
-        groupid: 'today',
-        title: '今天',
-        viewcondition: '1'
-      },
-      {
-        groupid: 'theWeek',
-        title: '本周',
-        viewcondition: '2'
-      },
-      {
-        groupid: 'theMon',
-        title: '本月',
-        viewcondition: '3'
-      },
-      {
-        groupid: 'local',
-        title: '本季',
-        viewcondition: '4'
-      },
-      {
-        groupid: 'theYear',
-        title: '本年',
-        viewcondition: '5'
-      },
-    ]
+    const { from,loading,selectPartner } = this.props;
+    const { showSearchAd, selectedRows,visible , selectedKey,type } = this.state;
+    const {data,columns,infoFields, orderTakerInfoColumns,orderTakerInfoDetail} = selectPartner;
     return (
       <div>
         <PageTop
@@ -331,15 +247,10 @@ class SelectOrderTakers extends Component {
           buttonSpace={10}
         >
         <SearchTab
-          datas = {topTab}
           keyParam="viewcondition"
           countParam="groupid"
           searchType={['base', 'advanced']}
-          selectedKey={timeSag}
           showSearchAd={showSearchAd}
-          onChange={(v) => {
-            this.tabChange(v)
-          }}
           buttonsAd={this.getTabButtonsAd()}
           setShowSearchAd={() => this.setState({showSearchAd: !showSearchAd})}
           hideSearchAd={() => this.setState({showSearchAd: false})}
@@ -354,17 +265,15 @@ class SelectOrderTakers extends Component {
                 data={data}
                 columns={this.customColumns()}
                 showRowSelect = {true}
-                showTotalList = {true}
-                expandAllRows = {true}
+                showTotalList = {false}
                 onSelectRow={this.handleSelectRows}
                 onChange={this.handleStandardTableChange}
-                showChild={true}
                 scroll={{ y: 500 }}
               />}
           </Card>
-          {visible&&<OrderTakersDialog
+          {visible&&<AddPartnerDialog
             visible={visible}
-            orderTakersId={selectedKey}
+            partnerId={selectedKey}
             type={type}
             onCloseBack={()=>{this.closeAndRefresh()}}
           />}
@@ -374,4 +283,4 @@ class SelectOrderTakers extends Component {
   }
 }
 
-export default Form.create()(SelectOrderTakers);
+export default Form.create()(SelectPartner);

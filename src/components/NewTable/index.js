@@ -44,6 +44,7 @@ class NewTable extends Component {
   static defaultProps = { 
     showRowSelect: false,
     showTotalList: false,
+    showChild:false
   }
 
   constructor(props) {
@@ -93,15 +94,15 @@ class NewTable extends Component {
     }
   };
 
-  cleanFirstCleanDom = ()=>{
-   
+  expandedRowRender = (record,index,indent,expanded)=>{
+   console.log('record==',record)
+   return <Table columns={record.childColumns} dataSource={record.childInfo} pagination={false} />;
   }
 
   render() {
     const { selectedRowKeys, needTotalList } = this.state;
-    const { data, rowKey, size,showRowSelect,showTotalList,expandAllRows, ...rest } = this.props;
+    const { data, rowKey, size,showRowSelect,showTotalList,expandAllRows, showChild,...rest } = this.props;
     const { list = [], pagination = false } = data || {};
-    this.cleanFirstCleanDom();
     const paginationProps = pagination
       ? {
           size:"small",
@@ -121,6 +122,10 @@ class NewTable extends Component {
         disabled: record.disabled,
       }),
     };
+    let expandedRowRender = {};
+    if(showChild){
+      expandedRowRender = {...expandedRowRender,expandedRowRender:this.expandedRowRender}
+    }
     return (
       <div className={styles.standardTable}>
         {showTotalList&&<div className={styles.tableAlert}>
@@ -159,6 +164,7 @@ class NewTable extends Component {
           defaultExpandAllRows={true}
           // expandedRowKeys={expandAllRows?list?list.map(item=>item.key):[]:[]}
           defaultExpandAllRows={expandAllRows}
+          {...expandedRowRender}
           {...rest}
         />
       </div>

@@ -28,7 +28,7 @@ class EditForm extends React.Component {
     const formRefKeys = {};
     initDatas && initDatas.forEach((datas) => {
       const hashcode = Tools.gethashcode();
-      formRefKeys[hashcode] = hashcode;
+      formRefKeys[datas.id] = hashcode;
     })
     this.setState({ formRefKeys, formRefKeys })
   }
@@ -68,7 +68,9 @@ class EditForm extends React.Component {
   getFormsValues = () => {
     const { formRefKeys } = this.state
     return Object.keys(formRefKeys).map(_k => {
-      return formRefKeys[_k].getFieldsValue();
+      let formValues = formRefKeys[_k].getFieldsValue();
+      formValues = {...formValues,id:_k}
+      return formValues;
     })
   }
 

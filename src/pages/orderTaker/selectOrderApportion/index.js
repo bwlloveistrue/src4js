@@ -36,6 +36,7 @@ class selectOrderApportion extends Component {
       apportionVisible: false,
       orderTakersVisible: false,
       selectedKey: '',
+      orderStatus:0,
       dialogHeight: 700,
       editFormHeight: 0,
     }
@@ -122,8 +123,8 @@ class selectOrderApportion extends Component {
     this.setState({ orderTakersVisible: true })
   }
 
-  onDispatch = (key = '') => {
-    this.setState({ apportionVisible: true, selectedKey: key })
+  onDispatch = (key = '',orderStatus=0) => {
+    this.setState({ apportionVisible: true, selectedKey: key,orderStatus:orderStatus })
   }
 
   onDelete = () => {
@@ -241,7 +242,7 @@ class selectOrderApportion extends Component {
       width: '5%',
       render: (text, record) => {
         return (
-          <Button key="doEdit" type="primary" disabled={false} onClick={() => this.onDispatch(record.key)}>{'分配'}</Button>
+          <Button key="doEdit" type="primary" disabled={false} onClick={() => this.onDispatch(record.key,record.orderStatus)}>{record.orderStatus!=1?'分配':'查看'}</Button>
         )
       }
 
@@ -275,7 +276,7 @@ class selectOrderApportion extends Component {
 
   render() {
     const { from, loading, selectOrderApportion } = this.props;
-    const { showSearchAd, timeSag, selectedRows, apportionVisible, orderTakersVisible, dialogHeight, editFormHeight, selectedKey } = this.state;
+    const { showSearchAd, timeSag, selectedRows, apportionVisible, orderTakersVisible, dialogHeight, editFormHeight, selectedKey,orderStatus } = this.state;
     const { data, columns, infoFields, initFormFields, initDatas } = selectOrderApportion;
     const topTab = [
       {
@@ -342,12 +343,14 @@ class selectOrderApportion extends Component {
               showRowSelect={true}
               showTotalList={true}
               onChange={this.handleStandardTableChange}
+              showChild={true}
               scroll={{ y: 500 }}
             />}
           </Card>
           {apportionVisible && <ApportionDialog
             visible={apportionVisible}
-            apportionId={selectedKey}
+            orderTakerId={selectedKey}
+            orderStatus={orderStatus}
             onCloseBack={() => { this.onApportionClose() }}
           />}
           {orderTakersVisible&&

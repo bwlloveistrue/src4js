@@ -339,6 +339,7 @@ class selectOrderReceipt extends Component {
               showRowSelect={true}
               showTotalList={true}
               onChange={this.handleStandardTableChange}
+              showChild={true}
               scroll={{ y: 500 }}
             />}
           </Card>

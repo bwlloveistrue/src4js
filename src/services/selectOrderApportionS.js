@@ -1,7 +1,6 @@
 import request from '@/utils/request';
 
 export async function getConditionField() {
-  console.log('getCondition api----')
   return request('/api/orderApportion/getCondition', {
     method: 'POST',
     data: {
@@ -30,8 +29,8 @@ export async function deleteOrderApportion(params) {
   });
 }
 
-export async function addOrderApportion(params) {
-  return request('/api/orderApportion/addOrderApportion', {
+export async function saveOrderApportion(params) {
+  return request('/api/orderApportion/saveOrderApportion', {
     method: 'POST',
     data: {
       ...params,
@@ -40,8 +39,8 @@ export async function addOrderApportion(params) {
   })
 }
 
-export async function updateOrderApportion(params) {
-  return request('/api/orderApportion/updateOrderApportion', {
+export async function dispatchOrderApportion(params) {
+  return request('/api/orderApportion/dispatchOrderApportion', {
     method: 'POST',
     data: {
       ...params,
@@ -49,6 +48,8 @@ export async function updateOrderApportion(params) {
     },
   })
 }
+
+
 
 export async function getOrderTakersApportionInfo(params){
   return request('/api/orderApportion/getOrderApportionFields', {

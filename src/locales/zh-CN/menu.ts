@@ -59,6 +59,7 @@ export default {
   'menu.hrmCenter': '人力中心',
   'menu.hrmCenter.selectDriver': '司机查询',
   'menu.hrmCenter.selectClient': '客户查询',
+  'menu.hrmCenter.selectPartner': '伙伴查询',
   'menu.hrmCenter.addDriver': '新增司机',
   'menu.hrmCenter.addClient': '新增客户',
   'menu.assetCenter': '资产中心',

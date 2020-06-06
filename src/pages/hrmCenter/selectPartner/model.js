@@ -1,14 +1,15 @@
 import { 
   getConditionField, 
-  saveOrderApportion, 
-  dispatchOrderApportion,
-  deleteOrderApportion, 
+  addPartnerInfo, 
+  deletePartnerInfo, 
+  updatePartnerInfo, 
+  fetch, 
   getTableInfoList,
-  getOrderTakersApportionInfo } from '@/services/selectOrderApportionS';;
+  getPartnerInfoFields } from './service';
   import { message } from 'antd';
 
 const Model = {
-  namespace: 'selectOrderApportion',
+  namespace: 'selectPartner',
 
   state: {
     data: {
@@ -17,21 +18,16 @@ const Model = {
     },//查看列表数据
     columns: [],//查看列表列
     condition:[],//高级搜索需要
-    infoFields:[],//车辆录入主题
-    initFormFields:[],//车辆分配列表列
-    initDatas:[],//车辆分配
-    orderTakerInfoColumns: [],//车辆录入列表列
-    orderTakerInfoDetail: [],//车辆录入
+    infoFields:[],//
   },
 
   effects: {
-    *getCondition({ payload, callback }, { call, put }) {
+    *getCondition({ payload }, { call, put }) {
       const response = yield call(getConditionField, payload);
       yield put({
         type: 'getConditionField',
         payload: response,
       });
-      if (callback) callback(response);
     },
     *getTableInfo({ payload, callback }, { call, put }) {
       const response = yield call(getTableInfoList, payload);
@@ -41,23 +37,23 @@ const Model = {
       });
       if (callback) callback(response);
     },
-    *getOrderTakersApportion({ payload }, { call, put }) {
-      const response = yield call(getOrderTakersApportionInfo, payload);
+    *getPartnerFields({ payload }, { call, put }) {
+      const response = yield call(getPartnerInfoFields, payload);
       yield put({
-        type: 'getOrderTakersInfoFields',
+        type: 'getPartnerInfoFields',
         payload: response,
       });
     },
-    *saveOrderApportionInfo({ payload, callback }, { call, put }) {
-      const response = yield call(saveOrderApportion, payload);
+    *add({ payload, callback }, { call, put }) {
+      const response = yield call(addPartnerInfo, payload);
       yield put({
         type: 'save',
         payload: response,
       });
       if (callback) callback();
     },
-    *dispatchOrderApportionInfo({ payload, callback }, { call, put }) {
-      const response = yield call(dispatchOrderApportion, payload);
+    *update({ payload, callback }, { call, put }) {
+      const response = yield call(updatePartnerInfo, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -65,7 +61,7 @@ const Model = {
       if (callback) callback();
     },
     *delete({ payload, callback }, { call, put }) {
-      const response = yield call(deleteOrderApportion, payload);
+      const response = yield call(deletePartnerInfo, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -98,14 +94,10 @@ const Model = {
         condition: action.payload,
       };
     },
-    getOrderTakersInfoFields(state, action) {
+    getPartnerInfoFields(state, action) {
       return {
         ...state,
         infoFields: {data:action.payload.data},
-        orderTakerInfoColumns: action.payload.editcolumns,
-        orderTakerInfoDetail: action.payload.editdatas,
-        initFormFields:action.payload.initFormFields,//车辆录入分配列表列
-        initDatas:action.payload.initDatas,//车辆录入分配
       };
     },
   },

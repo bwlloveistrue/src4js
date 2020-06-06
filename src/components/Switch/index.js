@@ -6,6 +6,7 @@ import NewSwitch from '../NewSwitch/index'
 import NewSelect from '../NewSelect/index'
 import NewDatePicker from '../NewDatePicker/index'
 import NewCheckboxGroup from '../NewCheckboxGroup/index'
+import NewRadioGroup from '../NewRadioGroup/index'
 moment.locale('zh-cn');
 
 import { Row, Col, Switch, Tag, DatePicker, Tabs, Icon, Form, Input, TimePicker, Button, Checkbox, Select, InputNumber, Upload } from 'antd';
@@ -18,6 +19,7 @@ const types = {
     PASSWORD: "PASSWORD",
     CHECKBOX: "CHECKBOX",
     CHECKBOXGROUP: "CHECKBOXGROUP",
+    RADIOGROUP: "RADIOGROUP",
     DATEPICKER: "DATEPICKER",
     TIMEPICKER: "TIMEPICKER",
     SELECT: "SELECT",
@@ -139,6 +141,40 @@ const formSwitch = {
                             rules: c.rules || [],
                         })(
                             <NewCheckboxGroup
+                                options={c.options}
+                                {...c.otherParams}
+                                onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
+                            />,
+                        )}
+                </div>
+                )
+            } else if (type === types.RADIOGROUP) {
+                console.log('radioGroup == ',initialValue)
+                let initialValueTemp = [];
+                initialValueTemp = typeof initialValue == 'string' ? initialValue.split(',') : initialValue
+                if(typeof initialValue == 'number'){
+                    initialValue = initialValue.toString()
+                }
+                return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
+                    {c.viewAttr == 1 ?
+                        <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
+                            <span className="wea-field-readonly">
+                            {c.options.map(op => {
+                                        if (initialValueTemp.indexOf(op.value) > -1) {
+                                            return op.label + " "
+                                        } else {
+                                            return ''
+                                        }
+                                    })}
+                            </span>
+                        </div>
+                        :
+                        getFieldDecorator(`${c.domkey[0]}`, {
+                            // valuePropName: 'defaultValue',
+                            initialValue: initialValue ? initialValue : 0,
+                            rules: c.rules || [],
+                        })(
+                            <NewRadioGroup
                                 options={c.options}
                                 {...c.otherParams}
                                 onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}

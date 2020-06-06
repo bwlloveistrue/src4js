@@ -8,21 +8,33 @@ import Tools from "../Tools/index";
 const formList = {}
 
 class EditableTable extends React.Component {
+
+  static defaultProps ={
+    showAdd:true,
+    showDelete:true,
+    showSelect:true,
+    showHead:true,
+    className:'',
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       selectedRowKeys: [],
       selectedData: [],
-      datas: [
-      ],
-      columns : [
-      ],
+      datas: [],
+      columns : [],
+      showAdd:true,
+      showDelete:true,
+      showSelect:true,
+      showHead:true,
+      className:'',
     };
   }
 
   componentDidMount() {
-    const { datas, columns,  selectedData } = this.props;
+    const { datas, columns,  selectedData, showAdd, showDelete, showSelect, showHead,className } = this.props;
     let newState = {};
     if (datas !== undefined && datas.length === 0) {
       newState.datas = [{}];
@@ -32,6 +44,11 @@ class EditableTable extends React.Component {
         ...newState,
         datas:datas,
         columns :columns,
+        showAdd:showAdd,
+        showDelete:showDelete,
+        showSelect:showSelect,
+        showHead:showHead,
+        className:className
       };
     }
     Object.keys(formList).forEach((_key)=>{
@@ -41,16 +58,23 @@ class EditableTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { datas, columns,  selectedData } = nextProps;
+    const { datas, columns,  selectedData, showAdd, showDelete, showSelect, showHead, className } = nextProps;
     let newState = {};
     if (datas !== undefined && datas.length === 0) {
       newState.datas = [{}];
     }
-    if (columns !== undefined && datas !== undefined && columns.length > 0) {
+    if((columns !== undefined && datas !== undefined && columns.length > 0) ||
+    showAdd != this.state.showAdd || showDelete != this.state.showDelete || showSelect != this.state.showSelect || showHead != this.state.showHead 
+  ) {
       newState = {
         ...newState,
         datas:datas,
         columns:columns,
+        showAdd:showAdd,
+        showDelete:showDelete,
+        showSelect:showSelect,
+        showHead:showHead,
+        className:className
       };
     }
     this.setState({...newState})
@@ -173,7 +197,8 @@ class EditableTable extends React.Component {
   
 
   render() {
-    const { datas, columns} = this.state;
+    const { datas, columns, showAdd, showDelete, showSelect, showHead,className} = this.state;
+    console.log('showAdd',showAdd)
     const components = {
       body: {
         // row: ()=> {return <EditableFormRow />},
@@ -200,7 +225,7 @@ class EditableTable extends React.Component {
     });
     return (
       <div className="wea-table-edit">
-        <Row className="wea-table-edit-title">
+        {(showAdd||showDelete)&&<Row className="wea-table-edit-title">
           <Col>
             <div
               className={`wea-drop-down-brn-select `}
@@ -212,7 +237,7 @@ class EditableTable extends React.Component {
                 float:'right',
               }}
             >
-              <Button
+              {showAdd==true?<Button
                 style={{ display:  "block" }}
                 type="primary"
                 disabled={false}
@@ -221,8 +246,8 @@ class EditableTable extends React.Component {
                 onClick={this.handleAdd}
               >
                 <span className="icon-coms-Add-to-hot" />
-              </Button>
-              <Button
+              </Button>:''}
+              {showDelete==true?<Button
                 style={{ display:  "block" }}
                 type="primary"
                 disabled={false}
@@ -231,10 +256,10 @@ class EditableTable extends React.Component {
                 onClick={this.handleDelete}
               >
                 <span className="icon-coms-form-delete-hot" />
-              </Button>
+              </Button>:''}
             </div>
           </Col>
-          </Row>
+          </Row>}
           <Row className="wea-table-edit-body">
             <Col>
             <Table
@@ -244,7 +269,9 @@ class EditableTable extends React.Component {
               dataSource={datas}
               columns={columnsRender}
               pagination={false}
-              rowSelection={this.getRowSelection()}
+              showHeader={showHead}
+              rowSelection={showSelect==true?this.getRowSelection():''}
+              className={className}
             />
             </Col>
         </Row>
