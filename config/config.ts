@@ -298,15 +298,21 @@ export default {
               ],
             },
             {
-              path: '/messageType',
+              path: '/weChatMessage',
               icon: 'form',
-              name: 'messageType',
+              name: 'weChatMessage',
               routes: [
                 {
                   name: 'selectType',
                   icon: 'smile',
-                  path: '/messageType/selectType',
-                  component: './messageType/selectType',
+                  path: '/weChatMessage/selectType',
+                  component: './weChatMessage/selectType',
+                },
+                {
+                  name: 'subscribe',
+                  icon: 'smile',
+                  path: '/weChatMessage/subscribe',
+                  component: './weChatMessage/subscribe',
                 },
               ],
             },

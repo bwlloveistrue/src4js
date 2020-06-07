@@ -80,6 +80,7 @@ export default {
   'menu.userCenter.signUp': '用户注册',
   'menu.userCenter.selectUser': '查询用户',
   'menu.userCenter.userDetail': '个人信息',
-  'menu.messageType': '消息',
-  'menu.messageType.selectType': '消息维护',
+  'menu.weChatMessage': '消息',
+  'menu.weChatMessage.selectType': '消息维护',
+  'menu.weChatMessage.subscribe': '关注者',
 };

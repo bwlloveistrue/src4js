@@ -349,7 +349,7 @@ export default {
             labelcol: 6,
             colSpan: 1,
             fieldcol: 11,
-            viewAttr: 1,
+            viewAttr: 3,
             domkey: ['price_1'],
             conditionType: "INPUTNUMBER",
             formItemType: "INPUTNUMBER",
@@ -592,7 +592,47 @@ export default {
         ],
       },
       {
-        title: '回执单',
+        title: '装车费用',
+        defaultshow: true,
+        col:3,
+        items: [
+          {
+            labelcol: 6,
+            colSpan: 1,
+            fieldcol: 11,
+            viewAttr: 3,
+            domkey: ['lifitingCost'],
+            conditionType: "INPUTNUMBER",
+            formItemType: "INPUTNUMBER",
+            label: '吊费',
+            values: 5000,
+          },
+          {
+            labelcol: 6,
+            colSpan: 1,
+            fieldcol: 11,
+            viewAttr: 3,
+            domkey: ['processingFee'],
+            conditionType: "INPUTNUMBER",
+            formItemType: "INPUTNUMBER",
+            label: '加工费',
+            values: 5000,
+          },
+          {
+            labelcol: 6,
+            colSpan: 1,
+            fieldcol: 11,
+            viewAttr: 3,
+            domkey: ['loadIsSettle'],
+            conditionType: "CHECKBOX",
+            formItemType: "CHECKBOX",
+            label: '是否结算',
+            values: 5000,
+          },
+        ],
+      },
+      {
+        title: '缴费单',
         defaultshow: true,
         items: [
           {
@@ -602,12 +642,52 @@ export default {
             fieldcol: 11,
             viewAttr: 3,
             conditionType: 'UPLOAD',
-            label: '回执单',
+            label: '缴费单',
             value: '',
             otherParams:{
               showTime: false,
             },
-            domkey: ['receiptPic'],
+            domkey: ['payAccessory'],
+          }
+        ]
+      },
+      {
+        title: '签收单',
+        defaultshow: true,
+        items: [
+          {
+            formItemType: 'UPLOAD',
+            labelcol: 6,
+            colSpan: 1,
+            fieldcol: 11,
+            viewAttr: 3,
+            conditionType: 'UPLOAD',
+            label: '签收单',
+            value: '',
+            otherParams:{
+              showTime: false,
+            },
+            domkey: ['SignAccessory'],
+          }
+        ]
+      },
+      {
+        title: '出库单',
+        defaultshow: true,
+        items: [
+          {
+            formItemType: 'UPLOAD',
+            labelcol: 6,
+            colSpan: 1,
+            fieldcol: 11,
+            viewAttr: 3,
+            conditionType: 'UPLOAD',
+            label: '出库单',
+            value: '',
+            otherParams:{
+              showTime: false,
+            },
+            domkey: ['checkOutAccessory'],
           }
         ]
       },

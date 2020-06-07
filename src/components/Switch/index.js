@@ -121,11 +121,12 @@ const formSwitch = {
             } else if (type === types.CHECKBOXGROUP) {
                 let initialValueTemp = [];
                 initialValueTemp = typeof initialValue == 'string' ? initialValue.split(',') : initialValue
+                console.log(initialValueTemp)
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
                     {c.viewAttr == 1 ?
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
-                            {c.options.map(op => {
+                            {initialValueTemp&&c.options.map(op => {
                                         if (initialValueTemp.indexOf(op.value) > -1) {
                                             return op.label + " "
                                         } else {
@@ -159,7 +160,7 @@ const formSwitch = {
                     {c.viewAttr == 1 ?
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
-                            {c.options.map(op => {
+                            {initialValueTemp&&c.options.map(op => {
                                         if (initialValueTemp.indexOf(op.value) > -1) {
                                             return op.label + " "
                                         } else {
