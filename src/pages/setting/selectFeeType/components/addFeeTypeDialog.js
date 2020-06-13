@@ -14,11 +14,11 @@ import NewScroll from '@/components/NewScroll';
 
 const FormItem = Form.Item;
 
-@connect(({ selectGoodsType, loading }) => ({
-  selectGoodsType,
-  loading: loading.effects['selectGoodsType/getGoodsTypeFields'],
+@connect(({ selectFeeType, loading }) => ({
+  selectFeeType,
+  loading: loading.effects['selectFeeType/getFeeTypeFields'],
 }))
-class AddGoodsTypeDialog extends Component {
+class AddFeeTypeDialog extends Component {
 
   state = {
     selectedRows: [],
@@ -28,7 +28,7 @@ class AddGoodsTypeDialog extends Component {
     super();
     this.state = {
       visible: false,
-      goodsTypeId: ''
+      feeTypeId: ''
     }
   }
 
@@ -43,20 +43,20 @@ class AddGoodsTypeDialog extends Component {
   selectForm = undefined;
 
   componentDidMount() {
-    const { type, goodsTypeId } = this.props
+    const { type, feeTypeId } = this.props
     if (type == 'add') {
       this.onAdd();
     }
     if (type == 'edit') {
-      this.onEdit(goodsTypeId);
+      this.onEdit(feeTypeId);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { visible } = this.state
-    const { goodsTypeId } = this.props
+    const { feeTypeId } = this.props
     if (nextProps.visible != visible && nextProps.visible) {
-      this.setState({ visible: nextProps.visible, goodsTypeId: goodsTypeId })
+      this.setState({ visible: nextProps.visible, feeTypeId: feeTypeId })
     } else if (!nextProps.visible) {
       this.setState({ visible: nextProps.visible })
     }
@@ -67,26 +67,26 @@ class AddGoodsTypeDialog extends Component {
   onAdd = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'selectGoodsType/getGoodsTypeFields',
+      type: 'selectFeeType/getFeeTypeFields',
       payload: {},
     });
-    this.setState({ visible: true, goodsTypeId: '' })
+    this.setState({ visible: true, feeTypeId: '' })
   }
 
   onEdit = (key = '') => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'selectGoodsType/getGoodsTypeFields',
+      type: 'selectFeeType/getFeeTypeFields',
       payload: {
         id: key
       },
     });
-    this.setState({ visible: true, goodsTypeId: key, type: 'edit' })
+    this.setState({ visible: true, feeTypeId: key, type: 'edit' })
   }
 
   getFields = () => {
-    const { form, col, selectGoodsType } = this.props;
-    const { condition } = selectGoodsType
+    const { form, col, selectFeeType } = this.props;
+    const { condition } = selectFeeType
     const { getFieldDecorator } = form && form;
     let group = [];
     const formItemLayout = {
@@ -130,14 +130,14 @@ class AddGoodsTypeDialog extends Component {
   }
 
   onSave = () => {
-    const { dispatch, goodsTypeId, type } = this.props;
+    const { dispatch, feeTypeId, type } = this.props;
     this.selectForm.validateFields((errors, values) => {
       if (errors) {
         console.log(errors)
       } else {
         let params = this.selectForm.getFieldsValue();
-        params = {...params,id:goodsTypeId}
-        const dispatchType = type=='add'?'selectGoodsType/add':'selectGoodsType/update'
+        params = {...params,id:feeTypeId}
+        const dispatchType = type=='add'?'selectFeeType/add':'selectFeeType/update'
         dispatch({
           type: dispatchType,
           payload: {
@@ -158,10 +158,10 @@ class AddGoodsTypeDialog extends Component {
   }
 
   render() {
-    const { loading, selectGoodsType, goodsTypeId } = this.props;
+    const { loading, selectFeeType, feeTypeId } = this.props;
     const { showSearchAd, timeSag, selectedRows, visible } = this.state;
-    const { data, columns, infoFields } = selectGoodsType;
-    const title = goodsTypeId == '' ? '新增车辆' : '编辑车辆'
+    const { data, columns, infoFields } = selectFeeType;
+    const title = feeTypeId == '' ? '新增费用' : '编辑费用'
     return (
       <div>
         <NewDialog
@@ -190,4 +190,4 @@ class AddGoodsTypeDialog extends Component {
   }
 }
 
-export default Form.create()(AddGoodsTypeDialog);
+export default Form.create()(AddFeeTypeDialog);

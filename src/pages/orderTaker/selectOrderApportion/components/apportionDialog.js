@@ -61,13 +61,18 @@ class ApportionDialog extends Component {
     componentDidMount() {
         const { orderTakerId,orderStatus } = this.props
         this.getOrderTakersApportion(orderTakerId)
-        if(orderStatus == 1){
-            this.setState({ orderStatus: orderStatus,
-                showAdd: false,
-                showDelete: false,
-                showSelect: false,
-                showHead: true })
-        }
+        this.setState({ orderStatus: orderStatus,
+            showAdd: false,
+            showDelete: false,
+            showSelect: false,
+            showHead: true })
+        // if(orderStatus == 1){
+        //     this.setState({ orderStatus: orderStatus,
+        //         showAdd: false,
+        //         showDelete: false,
+        //         showSelect: false,
+        //         showHead: true })
+        // }
         this.setState({ orderStatus: orderStatus })
         window.addEventListener("resize", this.onWindowResize);
     }

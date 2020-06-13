@@ -53,6 +53,10 @@ const formSwitch = {
         const { getFieldDecorator } = form && form;
         const values = form.getFieldsValue();
         initialValue = c.value || initialValue
+        if(values && values[c.domkey[0]]){
+            initialValue = values[c.domkey[0]]
+        }
+        
         if (getFieldDecorator) {
             if (type === types.INPUT) {
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
@@ -95,124 +99,138 @@ const formSwitch = {
                 </div>
                 )
             } else if (type === types.CHECKBOX) {
-                if(!initialValue || initialValue == ''){
+                if (!initialValue || initialValue == '') {
                     initialValue = '0';
                 }
-                initialValue = parseInt(initialValue,10)
+                initialValue = parseInt(initialValue, 10)
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
-                    {c.viewAttr == 1 ?
+                    {c.viewAttr == 1 &&
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
                                 {initialValue == '1' ? '是' : '否'}
                             </span>
                         </div>
-                        :
-                        getFieldDecorator(`${c.domkey[0]}`, {
-                            initialValue: initialValue,
-                            rules: c.rules || [],
-                        })(
-                            <NewCheckbox
-                                onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
-                                {...c.otherParams}
-                            />,
-                        )}
+                    }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
+                            getFieldDecorator(`${c.domkey[0]}`, {
+                                initialValue: initialValue,
+                                rules: c.rules || [],
+                            })(
+                                <NewCheckbox
+                                    onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
+                                    {...c.otherParams}
+                                />,
+                            )}
+                    </div>
                 </div>
                 )
             } else if (type === types.CHECKBOXGROUP) {
                 let initialValueTemp = [];
                 initialValueTemp = typeof initialValue == 'string' ? initialValue.split(',') : initialValue
-                console.log(initialValueTemp)
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
-                    {c.viewAttr == 1 ?
+                    {c.viewAttr == 1 &&
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
-                            {initialValueTemp&&c.options.map(op => {
-                                        if (initialValueTemp.indexOf(op.value) > -1) {
-                                            return op.label + " "
-                                        } else {
-                                            return ''
-                                        }
-                                    })}
+                                {initialValueTemp && c.options.map(op => {
+                                    if (initialValueTemp.indexOf(op.value) > -1) {
+                                        return op.label + " "
+                                    } else {
+                                        return ''
+                                    }
+                                })}
                             </span>
                         </div>
-                        :
-                        getFieldDecorator(`${c.domkey[0]}`, {
-                            valuePropName: 'defaultValue',
-                            initialValue: initialValue ? initialValue : [],
-                            rules: c.rules || [],
-                        })(
-                            <NewCheckboxGroup
-                                options={c.options}
-                                {...c.otherParams}
-                                onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
-                            />,
-                        )}
+                    }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
+                            getFieldDecorator(`${c.domkey[0]}`, {
+                                valuePropName: 'defaultValue',
+                                initialValue: initialValue ? initialValue : [],
+                                rules: c.rules || [],
+                            })(
+                                <NewCheckboxGroup
+                                    options={c.options}
+                                    {...c.otherParams}
+                                    onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
+                                />,
+                            )}
+                    </div>
                 </div>
                 )
             } else if (type === types.RADIOGROUP) {
-                console.log('radioGroup == ',initialValue)
+                console.log('radioGroup == ', initialValue)
                 let initialValueTemp = [];
                 initialValueTemp = typeof initialValue == 'string' ? initialValue.split(',') : initialValue
-                if(typeof initialValue == 'number'){
+                if (typeof initialValue == 'number') {
                     initialValue = initialValue.toString()
                 }
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
-                    {c.viewAttr == 1 ?
+                    {c.viewAttr == 1 &&
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
-                            {initialValueTemp&&c.options.map(op => {
-                                        if (initialValueTemp.indexOf(op.value) > -1) {
-                                            return op.label + " "
-                                        } else {
-                                            return ''
-                                        }
-                                    })}
+                                {initialValueTemp && c.options.map(op => {
+                                    if (initialValueTemp.indexOf(op.value) > -1) {
+                                        return op.label + " "
+                                    } else {
+                                        return ''
+                                    }
+                                })}
                             </span>
                         </div>
-                        :
-                        getFieldDecorator(`${c.domkey[0]}`, {
-                            // valuePropName: 'defaultValue',
-                            initialValue: initialValue ? initialValue : 0,
-                            rules: c.rules || [],
-                        })(
-                            <NewRadioGroup
-                                options={c.options}
-                                {...c.otherParams}
-                                onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
-                            />,
-                        )}
+                    }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
+                            getFieldDecorator(`${c.domkey[0]}`, {
+                                // valuePropName: 'defaultValue',
+                                initialValue: initialValue ? initialValue : 0,
+                                rules: c.rules || [],
+                            })(
+                                <NewRadioGroup
+                                    options={c.options}
+                                    {...c.otherParams}
+                                    onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
+                                />,
+                            )}
+                    </div>
                 </div>
                 )
             } else if (type === types.SELECT) {
                 let initialValueTemp = [];
                 initialValueTemp = typeof initialValue == 'string' ? initialValue.split(',') : initialValue
-                if(initialValue && typeof initialValue == 'number'){
-                    initialValue = initialValue +''
+                if (initialValue && typeof initialValue == 'number') {
+                    initialValue = initialValue + ''
                 }
                 //判断当前初始值是否存在于option内，不存在强制置为空
 
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
                     {
-                        c.viewAttr == 1 ?
-                            <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
-                                <span className="wea-field-readonly">
-                                    {c.options.map(op => {
-                                        if (initialValueTemp&&initialValueTemp.indexOf(op.key) > -1) {
-                                            return op.showname + " "
-                                        } else {
-                                            return ''
-                                        }
-                                    })}
-                                </span>
-                            </div>
-                            :
+                        c.viewAttr == 1 &&
+                        <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
+                            <span className="wea-field-readonly">
+                                {c.options.map(op => {
+                                    if (initialValueTemp && initialValueTemp.indexOf(op.key) > -1) {
+                                        return op.showname + " "
+                                    } else {
+                                        return ''
+                                    }
+                                })}
+                            </span>
+                        </div>
+                    }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
                             getFieldDecorator(`${c.domkey[0]}`, {
                                 rules: c.rules || [],
                                 initialValue: initialValue
                             })(
                                 <NewSelect
                                     allowClear={true}
-                                    mode={c.multiple? "multiple":'tag'}
+                                    mode={c.multiple ? "multiple" : 'tag'}
                                     dropdownMatchSelectWidth={true}
                                     placeholder={c.placeholder}
                                     {...c.otherParams}
@@ -221,63 +239,72 @@ const formSwitch = {
                                 >
                                 </NewSelect>,
                             )}
+                    </div>
 
                 </div>
                 )
             } else if (type === types.DATEPICKER) {
-                if(!initialValue || initialValue == ''){
+                if (!initialValue || initialValue == '') {
                     initialValue = moment().format(c.format || 'YYYY-MM-DD')
                 }
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
-                    {c.viewAttr == 1 ?
+                    {c.viewAttr == 1 &&
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
                                 {initialValue}
                             </span>
                         </div>
-                        :
-                        getFieldDecorator(`${c.domkey[0]}`, {
-                            rules: c.rules || [],
-                            initialValue: initialValue
-                        })(
-                            <NewDatePicker
-                                allowClear={true}
-                                placeholder={c.placeholder}
-                                size={'default'}
-                                showTime={true}
-                                showToday={true}
-                                format={c.format || 'YYYY-MM-DD'}
-                                {...c.otherParams}
-                                onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
-                            />
-                        )
                     }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
+                            getFieldDecorator(`${c.domkey[0]}`, {
+                                rules: c.rules || [],
+                                initialValue: initialValue
+                            })(
+                                <NewDatePicker
+                                    allowClear={true}
+                                    placeholder={c.placeholder}
+                                    size={'default'}
+                                    showTime={true}
+                                    showToday={true}
+                                    format={c.format || 'YYYY-MM-DD'}
+                                    {...c.otherParams}
+                                    onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
+                                />
+                            )
+                        }
+                    </div>
                 </div>
                 )
             } else if (type === types.TIMEPICKER) {
                 initialValue = c.viewAttr == 1 ? initialValue : initialValue ? moment(initialValue) : moment()
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
-                    {c.viewAttr == 1 ?
+                    {c.viewAttr == 1 &&
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
                                 {initialValue}
                             </span>
                         </div>
-                        :
-                        getFieldDecorator(`${c.domkey[0]}`, {
-                            rules: c.rules || [],
-                            initialValue: initialValue
-                        })(
-                            <TimePicker
-                                allowClear={true}
-                                placeholder={c.placeholder}
-                                size={'default'}
-                                showTime={true}
-                                showToday={true}
-                                {...c.otherParams}
-                                onChange={(v, dateString) => onChange({ domkey: c.domkey[0], value: v }, dateString, callback)}
-                            />
-                        )}
+                    }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
+                            getFieldDecorator(`${c.domkey[0]}`, {
+                                rules: c.rules || [],
+                                initialValue: initialValue
+                            })(
+                                <TimePicker
+                                    allowClear={true}
+                                    placeholder={c.placeholder}
+                                    size={'default'}
+                                    showTime={true}
+                                    showToday={true}
+                                    {...c.otherParams}
+                                    onChange={(v, dateString) => onChange({ domkey: c.domkey[0], value: v }, dateString, callback)}
+                                />
+                            )}
+                    </div>
                 </div>
                 )
             } else if (type === types.RANGEPICKER) {
@@ -301,27 +328,31 @@ const formSwitch = {
             } else if (type === types.MONTHPICKER) {
                 initialValue = c.viewAttr == 1 ? initialValue : initialValue ? moment(initialValue) : moment()
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
-                    {c.viewAttr == 1 ?
+                    {c.viewAttr == 1 &&
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
                                 {initialValue}
                             </span>
                         </div>
-                        :
-                        getFieldDecorator(`${c.domkey[0]}`, {
-                            rules: c.rules || [],
-                            initialValue: initialValue
-                        })(
-                            <RangePicker
-                                allowClear={true}
-                                placeholder={c.placeholder}
-                                size={'default'}
-                                showTime={true}
-                                showToday={true}
-                                {...c.otherParams}
-                                onChange={(v, dateString) => onChange({ domkey: c.domkey[0], value: v }, dateString, callback)}
-                            />
-                        )}
+                    }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
+                            getFieldDecorator(`${c.domkey[0]}`, {
+                                rules: c.rules || [],
+                                initialValue: initialValue
+                            })(
+                                <RangePicker
+                                    allowClear={true}
+                                    placeholder={c.placeholder}
+                                    size={'default'}
+                                    showTime={true}
+                                    showToday={true}
+                                    {...c.otherParams}
+                                    onChange={(v, dateString) => onChange({ domkey: c.domkey[0], value: v }, dateString, callback)}
+                                />
+                            )}
+                    </div>
                 </div>
                 )
             } else if (type === types.DATE) {
@@ -376,51 +407,59 @@ const formSwitch = {
                 )
             } else if (type === types.TEXTAREA) {
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
-                    {c.viewAttr == 1 ?
+                    {c.viewAttr == 1 &&
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
                                 {initialValue}
                             </span>
                         </div>
-                        :
-                        getFieldDecorator(`${c.domkey[0]}`, {
-                            rules: c.rules || [],
-                            initialValue: initialValue
-                        })(
-                            <TextArea
-                                size="default"
-                                placeholder={c.placeholder}
-                                autoSize={{ minRows: 3, maxRows: 5 }}
-                                visibilityToggle={true}
-                                {...c.otherParams}
-                                onChange={(v) => onChange({ domkey: c.domkey[0], value: v.target.value }, '', callback)}
-                            />,
-                        )}
+                    }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
+                            getFieldDecorator(`${c.domkey[0]}`, {
+                                rules: c.rules || [],
+                                initialValue: initialValue
+                            })(
+                                <TextArea
+                                    size="default"
+                                    placeholder={c.placeholder}
+                                    autoSize={{ minRows: 3, maxRows: 5 }}
+                                    visibilityToggle={true}
+                                    {...c.otherParams}
+                                    onChange={(v) => onChange({ domkey: c.domkey[0], value: v.target.value }, '', callback)}
+                                />,
+                            )}
+                    </div>
                 </div>
                 )
             } else if (type === types.INPUTNUMBER) {
-                if(parseInt(initialValue, 10) < 0){
+                if (!parseInt(initialValue, 10)) {
                     initialValue = 0;
                 }
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
-                    {c.viewAttr == 1 ?
+                    {c.viewAttr == 1 &&
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
                                 {initialValue}
                             </span>
                         </div>
-                        :
-                        getFieldDecorator(`${c.domkey[0]}`, {
-                            rules: c.rules || [],
-                            initialValue: initialValue ? parseInt(initialValue, 10) : 0
-                        })(
-                            <InputNumber
-                                size="default"
-                                placeholder={c.placeholder}
-                                {...c.otherParams}
-                                onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
-                            />,
-                        )}
+                    }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
+                            getFieldDecorator(`${c.domkey[0]}`, {
+                                rules: c.rules || [],
+                                initialValue: initialValue ? parseInt(initialValue, 10) : 0
+                            })(
+                                <InputNumber
+                                    size="default"
+                                    placeholder={c.placeholder}
+                                    {...c.otherParams}
+                                    onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
+                                />,
+                            )}
+                    </div>
                 </div>
                 )
             } else if (type === types.UPLOAD) {
@@ -438,27 +477,31 @@ const formSwitch = {
                     )}
                 </div>
                 )
-            }else if(type === types.SWITCH){
-                if(!initialValue || initialValue == ''){
+            } else if (type === types.SWITCH) {
+                if (!initialValue || initialValue == '') {
                     initialValue = '0';
                 }
                 return (<div className={'wea-form-item clearfix underline'} key={c.domkey[0]}>
-                    {c.viewAttr == 1 ?
+                    {c.viewAttr == 1 &&
                         <div className="wea-form-item-wrapper" style={{ display: 'table' }}>
                             <span className="wea-field-readonly">
                                 {initialValue == '1' ? '是' : '否'}
                             </span>
                         </div>
-                        :
-                        getFieldDecorator(`${c.domkey[0]}`, {
-                            initialValue: initialValue,
-                            rules: c.rules || [],
-                        })(
-                            <NewSwitch
-                                onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
-                                {...c.otherParams}
-                            />,
-                        )}
+                    }
+
+                    <div style={{ display: c.viewAttr == 1 ? 'none' : '' }}>
+                        {
+                            getFieldDecorator(`${c.domkey[0]}`, {
+                                initialValue: initialValue,
+                                rules: c.rules || [],
+                            })(
+                                <NewSwitch
+                                    onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
+                                    {...c.otherParams}
+                                />,
+                            )}
+                    </div>
                 </div>
                 )
             }

@@ -561,17 +561,6 @@ export default {
             colSpan: 1,
             fieldcol: 11,
             viewAttr: 3,
-            domkey: ['compensate'],
-            conditionType: "INPUTNUMBER",
-            formItemType: "INPUTNUMBER",
-            label: '赔偿',
-            values: 5000,
-          },
-          {
-            labelcol: 6,
-            colSpan: 1,
-            fieldcol: 11,
-            viewAttr: 3,
             domkey: ['remark'],
             conditionType: "INPUT",
             formItemType: "INPUT",
@@ -667,7 +656,7 @@ export default {
             otherParams:{
               showTime: false,
             },
-            domkey: ['SignAccessory'],
+            domkey: ['signAccessory'],
           }
         ]
       },

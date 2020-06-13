@@ -87,7 +87,7 @@ class NewForm extends Component{
     const { children } = this.props;
     return (
     <div>
-      <Form onSubmit={this.submitForm} className={'formComponents'}>
+      <Form onSubmit={this.submitForm} className={'formComponents'} >
         {this.getFields()}
         {children}
       </Form>
@@ -95,4 +95,6 @@ class NewForm extends Component{
   }
 }
 
-export default Form.create()(NewForm);
+export default Form.create({onValuesChange:(props,changedValues,allValues)=>{
+  props.onValuesChange&&props.onValuesChange(changedValues,allValues);
+}})(NewForm);

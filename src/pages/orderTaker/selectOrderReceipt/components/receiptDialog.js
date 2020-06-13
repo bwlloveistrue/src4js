@@ -73,7 +73,14 @@ class ReceiptDialog extends Component {
         this.setState({ visible: true, selectedKey: key })
     }
 
-    componentWillUnmount() { }
+    componentWillUnmount() {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'selectOrderReceipt/initForm',
+        });
+        
+        this.selectForm = undefined;
+     }
 
 
     getButton = () => {
@@ -85,21 +92,24 @@ class ReceiptDialog extends Component {
     }
 
     onSave = () => {
-        const { dispatch } = this.props;
+        const { dispatch,selectOrderReceipt } = this.props;
         const { receiptId } = this.state;
-        this.selectForm.validateFields((errors, values) => {
+        const { receiptDetailIds } = selectOrderReceipt;
+        const _that = this;
+        this.selectForm.props.form.validateFields((errors, values) => {
             if (errors) {
                 console.log(errors)
             } else {
                 const type = 'selectOrderReceipt/update';
-                const orderTakerInfo = this.refs.editFormRef.getFormsValues();
-                console.log(orderTakerInfo)
+                const orderReceiptInfo = _that.selectForm.props.form.getFieldsValue();
                 dispatch({
                     type: type,
                     payload: {
-                        mainInfo: JSON.stringify(values)
+                        id: receiptId,
+                        mainInfo: JSON.stringify(orderReceiptInfo),
+                        receiptDetailIds: receiptDetailIds.join(',')
                     },
-
+                    callback:()=>{this.onlyClose()}
                 });
             }
         });
@@ -112,14 +122,118 @@ class ReceiptDialog extends Component {
         this.props.onCloseBack && this.props.onCloseBack();
     }
 
-    onChange = (value,obj)=>{
-        console.log(this)
-        const formValues = this.selectForm.props.form.getFieldsValue();
-        if(value.domkey=='realCarry_1'){
-            this.selectForm.props.form.setFieldsValue({
-                'profit':10000
-            })
+    onValuesChange = (value,formValues)=>{
+        const { selectOrderReceipt } = this.props;
+        const { receiptDetailIds,feeTypes } = selectOrderReceipt;
+        let domkey = '';
+        for(const domkeyTemp in value){
+            domkey = domkeyTemp;
         }
+        let needSumProfit = false;
+        if(feeTypes.indexOf(domkey) > -1){
+            needSumProfit = true;
+        }
+        if(!needSumProfit){
+            for(let i in receiptDetailIds){
+                if(domkey==`realCarry_${receiptDetailIds[i]}`){
+                    needSumProfit = true;
+                    break;
+                }
+                if(domkey==`price_${receiptDetailIds[i]}`){
+                    needSumProfit = true;
+                    break;
+                }
+            }
+        }
+        if(!needSumProfit && (domkey=='lifitingCost' || domkey=='processingFee')){
+            needSumProfit = true;
+        }
+        if(needSumProfit){
+            let expensens = 0;
+            let cost = 0;
+            let profit = 0;
+            if(formValues.packageFlg == 1){//包车情况下，不计算单价*重量，直接以包车总价为运费总数
+                expensens = formValues.packagePrice;
+    
+            }else{//非包车情况下，计算明细中所有的单价*重量
+                for(let i in receiptDetailIds){
+                    expensens += (formValues[`realCarry_${receiptDetailIds[i]}`] * formValues[`price_${receiptDetailIds[i]}`] )
+                }
+            }
+            feeTypes&&feeTypes.forEach(_v=>{
+                cost += formValues[_v]
+            })
+            if(formValues['lifitingCost']){
+                cost +=formValues['lifitingCost']
+            }
+            if(formValues['processingFee']){
+                cost +=formValues['processingFee']
+            }
+            
+            profit = expensens - cost;
+            // console.log(this.selectForm)
+            this.selectForm.props.form.setFieldsValue({
+                expensens: Math.round(expensens*100)/100,//保留两位小数
+                cost: Math.round(cost*100)/100,//保留两位小数
+                profit: Math.round(profit*100)/100,//保留两位小数
+              });
+        }
+        
+        
+    }
+
+    onChange = (value)=>{
+        // const { selectOrderReceipt } = this.props;
+        // const { detailRow,feeTypes } = selectOrderReceipt;
+        // console.log(value)
+        // const formValues = this.selectForm.props.form.getFieldsValue();
+        // console.log('formValues',formValues)
+        // const domkey = value.domkey;
+        
+        // let needSumProfit = false;
+        // if(feeTypes.indexOf(domkey) > -1){
+        //     needSumProfit = true;
+        // }
+        // if(!needSumProfit){
+        //     for(let i=0;i<detailRow;i++){
+        //         if(domkey==`realCarry_${i}`){
+        //             needSumProfit = true;
+        //             break;
+        //         }
+        //         if(domkey==`price_${i}`){
+        //             needSumProfit = true;
+        //             break;
+        //         }
+        //     }
+        // }
+        // if(needSumProfit){
+        //     let expensens = 0;
+        //     let cost = 0;
+        //     let profit = 0;
+        //     if(formValues.packageFlg == 1){//包车情况下，不计算单价*重量，直接以包车总价为运费总数
+        //         expensens = formValues.packagePrice;
+    
+        //     }else{//非包车情况下，计算明细中所有的单价*重量
+        //         for(let i=0;i<detailRow;i++){
+        //             expensens += (formValues[`realCarry_${i}`] * formValues[`price_${i}`] )
+        //         }
+        //     }
+        //     feeTypes&&feeTypes.forEach(_v=>{
+        //         cost += formValues[_v]
+        //     })
+        //     profit = expensens - cost;
+        //     // console.log(this.selectForm)
+        //     this.selectForm.props.form.setFieldsValue({
+        //         expensens: expensens,
+        //         cost: cost,
+        //         profit: profit,
+        //       });
+        //     console.log('expensens=',expensens)
+        //     console.log('cost=',cost)
+        //     console.log('profit=',profit)
+        // }
+        
+        
     }
 
     render() {
@@ -149,7 +263,8 @@ class ReceiptDialog extends Component {
                                 }}
                                 datas={infoFields}
                                 col={6}
-                                onChange={(v,obj) => { this.onChange(v, obj) }}
+                                onChange={(v) => { this.onChange(v) }}
+                                onValuesChange={(v,formValues) => { this.onValuesChange(v,formValues) }}
                             >
                             </NewForm>
                         </div>

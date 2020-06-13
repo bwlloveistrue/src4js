@@ -58,6 +58,15 @@ class NewTable extends Component {
     };
   }
 
+  componentDidMount(){
+
+  }
+
+  componentWillReceiveProps(nextProps){
+      const { selectedRows } = nextProps;
+      this.setState({selectedRowKeys:selectedRows})
+  }
+
   handleRowSelectChange = (
     selectedRowKeys,
     selectedRows,
@@ -95,7 +104,6 @@ class NewTable extends Component {
   };
 
   expandedRowRender = (record,index,indent,expanded)=>{
-   console.log('record==',record)
    return <Table columns={record.childColumns} dataSource={record.childInfo} pagination={false} />;
   }
 

@@ -131,10 +131,12 @@ class selectOrderReceipt extends Component {
     dispatch({
       type: 'selectOrderReceipt/delete',
       payload: {
-        id: selectedRows.join(',')
+        delIds: selectedRows.join(',')
       },
+      callback:()=>{this.getTableInfo();}
     });
     this.setState({ selectedRows: [] })
+    
   }
 
   getFields = () => {
@@ -216,6 +218,7 @@ class selectOrderReceipt extends Component {
 
   onReceiptClose = () => {
     this.setState({ receiptVisible: false });
+    this.getTableInfo();
   }
 
   onOrderTakersClose = () => {
