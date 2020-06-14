@@ -78,7 +78,6 @@ class ReceiptDialog extends Component {
         dispatch({
             type: 'selectOrderReceipt/initForm',
         });
-        
         this.selectForm = undefined;
      }
 

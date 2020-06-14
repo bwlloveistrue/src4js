@@ -22,6 +22,11 @@ const Model = {
   },
 
   effects: {
+    *initForm({ payload }, { call, put }) {
+      yield put({
+        type: 'initFields',
+      });
+    },
     *getCondition({ payload }, { call, put }) {
       const response = yield call(getConditionField, payload);
       yield put({
@@ -79,6 +84,12 @@ const Model = {
       }
       return {
         ...state
+      }
+    },
+    initFields(state, action) {
+      return {
+        ...state,
+        infoFields:[]
       }
     },
     getTableInfoList(state, action) {

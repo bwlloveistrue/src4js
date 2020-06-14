@@ -63,7 +63,13 @@ class OrderTakersDialog extends Component {
     }
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+        type: 'selectOrderTakers/initForm',
+    });
+    this.selectForm = undefined;
+  }
 
   onAdd = ()=>{
     const { dispatch } = this.props;

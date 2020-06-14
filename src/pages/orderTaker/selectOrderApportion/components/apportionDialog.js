@@ -1,4 +1,4 @@
-import { Button, Form, Input, Card,Modal } from 'antd';
+import { Button, Form, Input, Card, Modal } from 'antd';
 import React, { Component } from 'react';
 import { Dispatch, Action } from 'redux';
 import { connect } from 'dva';
@@ -59,13 +59,15 @@ class ApportionDialog extends Component {
     selectForm = undefined;
 
     componentDidMount() {
-        const { orderTakerId,orderStatus } = this.props
+        const { orderTakerId, orderStatus } = this.props
         this.getOrderTakersApportion(orderTakerId)
-        this.setState({ orderStatus: orderStatus,
+        this.setState({
+            orderStatus: orderStatus,
             showAdd: false,
             showDelete: false,
             showSelect: false,
-            showHead: true })
+            showHead: true
+        })
         // if(orderStatus == 1){
         //     this.setState({ orderStatus: orderStatus,
         //         showAdd: false,
@@ -79,10 +81,10 @@ class ApportionDialog extends Component {
 
     componentWillReceiveProps(nextProps) {
         const { dialogHeight, visible } = this.state
-        const { type, orderTakerId, orderStatus} = this.props
+        const { type, orderTakerId, orderStatus } = this.props
         this.scrollheigth();
         if (nextProps.visible != visible && nextProps.visible) {
-            this.setState({ visible: nextProps.visible, orderTakerId: orderTakerId,orderStatus:orderStatus })
+            this.setState({ visible: nextProps.visible, orderTakerId: orderTakerId, orderStatus: orderStatus })
         } else if (!nextProps.visible) {
             this.setState({ visible: nextProps.visible })
         }
@@ -92,13 +94,18 @@ class ApportionDialog extends Component {
         // 防止节点卸载问题。。。
         window.removeEventListener("resize", this.onWindowResize);
         this.instanceIsMounted = false;
-      }
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'selectOrderApportion/initForm',
+        });
+        this.selectForm = undefined;
+    }
 
     onWindowResize = () => {
         this.instanceIsMounted && this.scrollheigth();
     };
 
-    scrollheigth = ()=>{
+    scrollheigth = () => {
         const { dialogHeight } = this.state
         const baseInfoHeight = $(this.refs.formDivRef).height()
         const editFormHeight = dialogHeight - baseInfoHeight;
@@ -122,8 +129,8 @@ class ApportionDialog extends Component {
     getButton = () => {
         const { orderStatus } = this.state
         let buttonsCreate = [
-            orderStatus!=1&&<Button key="doEdit" type="primary" disabled={false} onClick={this.onSave}>{'保存'}</Button>,
-            orderStatus!=1&&<Button key="doDispatch" type="primary" disabled={false} onClick={this.onDispatch}>{'分配'}</Button>,
+            orderStatus != 1 && <Button key="doEdit" type="primary" disabled={false} onClick={this.onSave}>{'保存'}</Button>,
+            orderStatus != 1 && <Button key="doDispatch" type="primary" disabled={false} onClick={this.onDispatch}>{'分配'}</Button>,
         ]
 
         return buttonsCreate;
@@ -146,14 +153,14 @@ class ApportionDialog extends Component {
                 type: type,
                 payload: {
                     orderApportionInfo: JSON.stringify(orderApportion),
-                    orderTakerId:orderTakerId
+                    orderTakerId: orderTakerId
                 },
-                callback:()=>{this.onlyClose()}
+                callback: () => { this.onlyClose() }
             });
         }
     }
 
-    onDispatch = ()=>{
+    onDispatch = () => {
         const { dispatch } = this.props;
         const { orderTakerId } = this.state;
         this.selectForm.validateFields((errors, values) => {
@@ -165,34 +172,34 @@ class ApportionDialog extends Component {
         const isPass = this.refs.editFormRef.onFormsValidateFields();
         if (isPass) {
             const orderApportion = this.refs.editFormRef.getFormsValues();
-            if(orderApportion.length > 0){
+            if (orderApportion.length > 0) {
                 const _that = this;
                 confirm({
                     title: '系统提示',
                     content: '是否确认分配，分配后将不能修改！',
-                    onOk(){
+                    onOk() {
                         const type = 'selectOrderApportion/dispatchOrderApportionInfo';
                         dispatch({
                             type: type,
                             payload: {
                                 orderApportionInfo: JSON.stringify(orderApportion),
-                                orderTakerId:orderTakerId
+                                orderTakerId: orderTakerId
                             },
-                            callback:()=>{_that.onlyClose()}
+                            callback: () => { _that.onlyClose() }
                         });
                     },
-                    onCancel(){},
-                    width:'400px',
-                    
+                    onCancel() { },
+                    width: '400px',
+
                 })
-            }else{
+            } else {
                 warning({
                     title: '系统提示',
                     content: '请添加分配货物！',
                 })
             }
-            
-            
+
+
         }
     }
 

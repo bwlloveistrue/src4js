@@ -1,4 +1,4 @@
-import { Button, Form, Input, Card } from 'antd';
+import { Button, Form, Input, Card, Spin} from 'antd';
 import React, { Component } from 'react';
 import { Dispatch, Action } from 'redux';
 import { connect } from 'dva';
@@ -62,7 +62,13 @@ class AddDriverDialog extends Component {
     }
   }
 
-  componentWillUnmount() { }
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+        type: 'selectDriver/initForm',
+    });
+    this.selectForm = undefined;
+  }
 
   onAdd = () => {
     const { dispatch } = this.props;
@@ -164,6 +170,7 @@ class AddDriverDialog extends Component {
     const title = driverId == '' ? '新增车辆' : '编辑车辆'
     return (
       <div>
+        
         <NewDialog
           ref='orderTakers_dialog'
           visible={visible}
@@ -176,6 +183,7 @@ class AddDriverDialog extends Component {
           onCancel={() => this.onClose()}
           scalable={true}
         >
+        <Spin spinning={loading} size="large">
           <NewForm
             ref={(form) => {
               this.selectForm = form;
@@ -184,7 +192,9 @@ class AddDriverDialog extends Component {
             col={6}
           >
           </NewForm>
+          </Spin>
         </NewDialog>
+        
       </div>
     );
   }

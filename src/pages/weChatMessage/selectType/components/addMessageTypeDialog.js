@@ -62,7 +62,13 @@ class AddMessageTypeDialog extends Component {
     }
   }
 
-  componentWillUnmount() { }
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+        type: 'selectMessageType/initForm',
+    });
+    this.selectForm = undefined;
+  }
 
   onAdd = () => {
     const { dispatch } = this.props;

@@ -62,7 +62,13 @@ class AddPartnerDialog extends Component {
     }
   }
 
-  componentWillUnmount() { }
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+        type: 'selectPartner/initForm',
+    });
+    this.selectForm = undefined;
+  }
 
   onAdd = () => {
     const { dispatch } = this.props;

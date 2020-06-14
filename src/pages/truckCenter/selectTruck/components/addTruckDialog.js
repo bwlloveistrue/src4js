@@ -62,7 +62,13 @@ class AddTruckDialog extends Component {
     }
   }
 
-  componentWillUnmount() { }
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+        type: 'selectTruck/initForm',
+    });
+    this.selectForm = undefined;
+  }
 
   onAdd = () => {
     const { dispatch } = this.props;

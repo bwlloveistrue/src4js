@@ -62,7 +62,13 @@ class AddFeeTypeDialog extends Component {
     }
   }
 
-  componentWillUnmount() { }
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch({
+        type: 'selectFeeType/initForm',
+    });
+    this.selectForm = undefined;
+  }
 
   onAdd = () => {
     const { dispatch } = this.props;
