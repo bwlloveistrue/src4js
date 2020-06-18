@@ -463,17 +463,24 @@ const formSwitch = {
                 </div>
                 )
             } else if (type === types.UPLOAD) {
+                const uploadButton = (
+                    <div>
+                      <Icon type="plus" />
+                      <div className="ant-upload-text">Upload</div>
+                    </div>
+                  );
                 return (<div>
                     {getFieldDecorator(`${c.domkey[0]}`, {
                         rules: c.rules || [],
                         initialValue: initialValue
                     })(
                         <Upload
-                            action=""
                             listType="picture-card"
                             {...c.otherParams}
                             onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
-                        />,
+                        >
+                        {uploadButton}
+                        </Upload>,
                     )}
                 </div>
                 )
