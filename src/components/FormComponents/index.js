@@ -40,14 +40,15 @@ class NewForm extends Component{
     }
     const { getFieldDecorator } = form&&form;
     let group = [];
-    const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 11 },
-    };
+    
 
     datas&&datas.data&&datas.data.map((c, index) => {
       let items = [];
       c.items.map((fields) => {
+        const formItemLayout = {
+          labelCol: { span: fields.labelcol || 8 },
+          wrapperCol: { span: fields.fieldcol || 11 },
+        };
         items.push({
           com: (
             <FormItem {...formItemLayout} label={`${fields.label}`}>
