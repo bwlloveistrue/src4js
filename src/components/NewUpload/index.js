@@ -9,42 +9,27 @@ function getBase64(file) {
   });
 }
 
-class PicturesWall extends React.Component {
+class NewUpload extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      previewVisible: false,
+      previewImage: '',
+    };
+  }
+
   state = {
-    previewVisible: false,
-    previewImage: '',
-    fileList: [
-      {
-        uid: '-1',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-2',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-3',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-4',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-5',
-        name: 'image.png',
-        status: 'error',
-      },
-    ],
+   
   };
+
+  componentDidMount(){
+
+  }
+
+  componentWillReceiveProps(nextProps){
+    
+  }
 
   handleCancel = () => this.setState({ previewVisible: false });
 
@@ -59,26 +44,31 @@ class PicturesWall extends React.Component {
     });
   };
 
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  handleChange = ({ fileList }) => {
+    const {onChange} = this.props
+    onChange&&onChange(fileList)
+  };
 
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
+    const {value,options,mode,...restProps} = this.props
+    const { previewVisible, previewImage } = this.state;
+    console.log(value)
     const uploadButton = (
       <div>
         <Icon type="plus" />
         <div className="ant-upload-text">Upload</div>
       </div>
     );
+    console.log({...restProps})
     return (
       <div className="clearfix">
         <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          listType="picture-card"
-          fileList={fileList}
+          {...restProps}
+          fileList={value}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
         >
-          {fileList.length >= 8 ? null : uploadButton}
+          {uploadButton}
         </Upload>
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
@@ -87,3 +77,5 @@ class PicturesWall extends React.Component {
     );
   }
 }
+
+export default NewUpload

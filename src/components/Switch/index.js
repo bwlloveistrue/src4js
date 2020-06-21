@@ -7,6 +7,7 @@ import NewSelect from '../NewSelect/index'
 import NewDatePicker from '../NewDatePicker/index'
 import NewCheckboxGroup from '../NewCheckboxGroup/index'
 import NewRadioGroup from '../NewRadioGroup/index'
+import NewUpload from '../NewUpload/index'
 moment.locale('zh-cn');
 
 import { Row, Col, Switch, Tag, DatePicker, Tabs, Icon, Form, Input, TimePicker, Button, Checkbox, Select, InputNumber, Upload } from 'antd';
@@ -47,6 +48,15 @@ const onChange = (value, args, callback) => {
     typeof callback == 'function' && callback(value, args);
     // this.props.onChange && this.props.onChange(value, args);
 }
+
+const normFile = e =>{
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+}
+
 const formSwitch = {
     renderComs: (form, c, callback, initialValue) => {
         const type = c.conditionType.toUpperCase();
@@ -472,15 +482,15 @@ const formSwitch = {
                 return (<div>
                     {getFieldDecorator(`${c.domkey[0]}`, {
                         rules: c.rules || [],
+                        valuePropName: 'value',
                         initialValue: initialValue
                     })(
-                        <Upload
-                            listType="picture-card"
+                        <NewUpload
                             {...c.otherParams}
                             onChange={(v) => onChange({ domkey: c.domkey[0], value: v }, '', callback)}
                         >
                         {uploadButton}
-                        </Upload>,
+                        </NewUpload>,
                     )}
                 </div>
                 )

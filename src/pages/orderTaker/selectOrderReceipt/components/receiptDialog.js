@@ -100,7 +100,26 @@ class ReceiptDialog extends Component {
                 console.log(errors)
             } else {
                 const type = 'selectOrderReceipt/update';
-                const orderReceiptInfo = _that.selectForm.props.form.getFieldsValue();
+                let orderReceiptInfo = _that.selectForm.props.form.getFieldsValue();
+                // 特殊处理上传控件payAccessory，signAccessory，checkOutAccessory
+                if(orderReceiptInfo.payAccessory && Array.isArray(orderReceiptInfo.payAccessory)){
+                    const payAccessory = orderReceiptInfo.payAccessory.map(_item=>{
+                        return _item.response.uid
+                    })
+                    orderReceiptInfo = {...orderReceiptInfo,payAccessory:payAccessory.join(',')}
+                }
+                if(orderReceiptInfo.signAccessory && Array.isArray(orderReceiptInfo.signAccessory)){
+                    const signAccessory = orderReceiptInfo.signAccessory.map(_item=>{
+                        return _item.response.uid
+                    })
+                    orderReceiptInfo = {...orderReceiptInfo,signAccessory:signAccessory.join(',')}
+                }
+                if(orderReceiptInfo.checkOutAccessory && Array.isArray(orderReceiptInfo.checkOutAccessory)){
+                    const checkOutAccessory = orderReceiptInfo.checkOutAccessory.map(_item=>{
+                        return _item.response.uid
+                    })
+                    orderReceiptInfo = {...orderReceiptInfo,checkOutAccessory:checkOutAccessory.join(',')}
+                }
                 dispatch({
                     type: type,
                     payload: {
