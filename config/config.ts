@@ -116,6 +116,26 @@ export default {
           ],
         },
         {
+          path: '/mobile',
+          routes: [
+            {
+              name: 'mobile',
+              icon: 'smile',
+              path: '/mobile',
+              component: './mobile',
+            },
+            {
+              name: 'mobileOrderTaker',
+              icon: 'smile',
+              path: '/mobile/orderTaker',
+              component: './mobile/orderTaker',
+            },
+            {
+              component: '404',
+            },
+          ],
+        },
+        {
           path: '/',
           component: '../layouts/BasicLayout',
           Routes: ['src/pages/Authorized'],

@@ -83,4 +83,6 @@ export default {
   'menu.weChatMessage': '消息',
   'menu.weChatMessage.selectType': '消息维护',
   'menu.weChatMessage.subscribe': '关注者',
+  'menu.mobile': '移动端',
+  'menu.mobile.orderTaker': '订单列表',
 };
