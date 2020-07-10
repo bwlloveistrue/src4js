@@ -9,7 +9,7 @@ import {
   import { message } from 'antd';
 
 const Model = {
-  namespace: 'selectClient',
+  namespace: 'calendarInfo',
 
   state: {
     data: {

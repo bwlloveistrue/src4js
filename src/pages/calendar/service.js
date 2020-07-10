@@ -1,16 +1,7 @@
 import request from '@/utils/request';
 
-export async function getConditionField() {
-  return request('/api/clientInfo/getCondition', {
-    method: 'POST',
-    data: {
-      method: 'post',
-    },
-  });
-}
-
-export async function addClientInfo(params) {
-  return request('/api/clientInfo/addClientInfo', {
+export async function getData() {
+  return request('/api/calendarInfo/getData', {
     method: 'POST',
     data: {
       ...params,
@@ -19,8 +10,8 @@ export async function addClientInfo(params) {
   });
 }
 
-export async function getTableInfoList(params) {
-  return request('/api/clientInfo/getTableInfoList', {
+export async function getClientList(params) {
+  return request('/api/calendarInfo/getClientList', {
     method: 'POST',
     data: {
       ...params,
@@ -29,8 +20,8 @@ export async function getTableInfoList(params) {
   });
 }
 
-export async function deleteClientInfo(params) {
-  return request('/api/clientInfo/deleteClientInfo', {
+export async function getDriverList(params) {
+  return request('/api/calendarInfo/getDriverList', {
     method: 'POST',
     data: {
       ...params,
@@ -39,23 +30,8 @@ export async function deleteClientInfo(params) {
   });
 }
 
-export async function updateClientInfo(params) {
-  return request('/api/clientInfo/updateClientInfo', {
-    method: 'POST',
-    data: {
-      ...params,
-      method: 'post',
-    },
-  })
-}
-
-export async function fetch() {
-  return request('/api/clientInfo/fetch', {
-  });
-}
-
-export async function getClientInfoFields(params){
-  return request('/api/clientInfo/getClientInfoFields', {
+export async function getTruckList(params) {
+  return request('/api/calendarInfo/getTruckList', {
     method: 'POST',
     data: {
       ...params,

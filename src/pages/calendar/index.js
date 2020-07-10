@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { Dispatch, Action } from 'redux';
 import { connect } from 'dva';
 
-@connect(({ selectClient,loading }) => ({
-  selectClient,
-  loading: loading.effects['selectClient/getTableInfo'],
+@connect(({ calendarInfo,loading }) => ({
+  calendarInfo,
+  loading: loading.effects['calendarInfo/getTableInfo'],
 }))
 class SelectClient extends Component {
 
@@ -42,7 +42,7 @@ class SelectClient extends Component {
 
   
   render() {
-    const { from,loading,selectClient } = this.props;
+    const { from,loading,calendarInfo } = this.props;
     return (
       <div>
         <PageTop
